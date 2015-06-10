@@ -9,6 +9,11 @@ import Bus.Business;
 import Pojo.Account;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -162,16 +167,11 @@ public class RegisterForm extends javax.swing.JFrame {
         if(!pass.equals(retypePass))
         {
             lbl_Error.setText("Retype password not match ...");
+            return;
         }
-        else
-        {
-            lbl_Error.setText("");
-        }
-        return;
         
         
-        
-        
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         
     }//GEN-LAST:event_btn_RegisterActionPerformed
 
