@@ -37,6 +37,8 @@ public class MyDocsForm extends javax.swing.JFrame {
         panel_MyDocs.setLocation(350, 5);
         panel_MyDocs.setSize(900, 220); //180-220
         GridLayout grid = new GridLayout();
+        grid.setHgap(5);
+        grid.setVgap(5);
         grid.setColumns(5);
         grid.setRows(1);
         panel_MyDocs.setLayout(grid);
