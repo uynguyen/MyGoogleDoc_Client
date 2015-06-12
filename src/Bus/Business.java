@@ -5,14 +5,11 @@
  */
 package Bus;
 
+import CommunicatePackage.RegisterPackage;
 import GUI.RegisterForm;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,39 +19,41 @@ import java.util.logging.Logger;
  * @author UyNguyen.ITUS
  */
 public class Business {
+    
     public static boolean Register(String username, String password, String email){
         try {
             Socket server = new Socket("localhost",51399);
             
-            InputStream inputStream = server.getInputStream();
-            OutputStream outputStream = server.getOutputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+            System.out.print(server.getPort());
             
+            
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+            
+                        
             //Send user register info
-            bufferedWriter.write("register");
-            bufferedWriter.newLine();
-            bufferedWriter.write(username);
-            bufferedWriter.newLine();
-            bufferedWriter.write(password);
-            bufferedWriter.newLine();
-            bufferedWriter.write(email);
+            objectOutputStream.writeBoolean(false);
+            objectOutputStream.flush();
             
+            RegisterPackage message = new RegisterPackage(username, password, email);
+            
+            objectOutputStream.writeObject(message);
+            objectOutputStream.flush();
             //Receive register result
-            String result = bufferedReader.readLine();
-            if(result.equalsIgnoreCase("true")){
-                return true;
-            }
+            boolean result = objectInputStream.readBoolean();
             
-            bufferedWriter.close();
-            bufferedReader.close();
-            outputStream.flush();
-            outputStream.close();
-            inputStream.close();
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+            
+            return result;
             
         } catch (IOException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);            
         }
         return false;
     }
+    
+    
 }

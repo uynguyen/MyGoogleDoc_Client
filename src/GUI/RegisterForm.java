@@ -6,14 +6,10 @@
 package GUI;
 
 import Bus.Business;
-import Pojo.Account;
+import SwingWorker.RegisterTask;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -160,8 +156,10 @@ public class RegisterForm extends javax.swing.JFrame {
     private void btn_RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegisterActionPerformed
         // TODO add your handling code here:
         
+        String username = txt_userName.getText();
         String pass = txt_password.getText();
         String retypePass = txt_RetypePassword.getText();
+        String email = txt_Email.getText();
         
         
         if(!pass.equals(retypePass))
@@ -170,9 +168,11 @@ public class RegisterForm extends javax.swing.JFrame {
             return;
         }
         
-        
-        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-        
+        btn_Register.setEnabled(false);
+        btn_Back.setEnabled(false);
+        RegisterTask registerTask = new RegisterTask(username, pass, email, lbl_Error);
+        registerTask.run();
+               
     }//GEN-LAST:event_btn_RegisterActionPerformed
 
     /**
