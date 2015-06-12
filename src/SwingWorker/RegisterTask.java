@@ -7,6 +7,7 @@ package SwingWorker;
 
 import Bus.Business;
 import GUI.RegisterForm;
+import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -22,6 +23,7 @@ public class RegisterTask extends SwingWorker<Object, Object>{
     String password;
     String email;
     JLabel errorLabel;
+    boolean result;
     
     public RegisterTask(String username, String password, String email, JLabel errorLabel){
         this.username = username;
@@ -32,18 +34,25 @@ public class RegisterTask extends SwingWorker<Object, Object>{
     
     @Override
     protected  void done(){
-    }
-
-    @Override
-    protected Object doInBackground() throws Exception {
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                errorLabel.setText("wating...");
+                if(result == true){
+                    errorLabel.setText("Success");
+                } else {
+                    errorLabel.setText("Something went wrong");
+                }
+                
             }
         }
         );
-        return Business.Register(username, password, email);
     }
+
+    @Override
+    protected Object doInBackground() throws Exception {
+        result = Business.Register(username, password, email);
+        return result;
+    }
+    
 }

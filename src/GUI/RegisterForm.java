@@ -170,6 +170,7 @@ public class RegisterForm extends javax.swing.JFrame {
         
         btn_Register.setEnabled(false);
         btn_Back.setEnabled(false);
+        lbl_Error.setText("Wating...");
         RegisterTask registerTask = new RegisterTask(username, pass, email, lbl_Error);
         registerTask.run();
                
