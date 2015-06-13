@@ -5,8 +5,10 @@
  */
 package Bus;
 
+import CommunicatePackage.DocumentPackage;
 import CommunicatePackage.RegisterPackage;
 import GUI.RegisterForm;
+import Pojo.EnumUserAction;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -55,5 +57,54 @@ public class Business {
         return false;
     }
     
+    public static boolean CreateDoc(String title, int ID_Owner)
+    {
+        try {
+            Socket server = new Socket("localhost",51399);
+            
+            System.out.print(server.getPort());
+            
+            
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+            
+                        
+            //Send user register info
+            objectOutputStream.writeInt(EnumUserAction.CREATEDOC.getValue());
+            objectOutputStream.flush();
+            
+            DocumentPackage message = new DocumentPackage(title,ID_Owner);
+            
+            objectOutputStream.writeObject(message);
+            objectOutputStream.flush();
+            //Receive register result
+            boolean result = objectInputStream.readBoolean();
+            
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+            
+            return result;
+            
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);            
+        }
+        return false;
+    }
+
+    public static boolean checkValidPassword(String pass) {
+
+       if (pass.matches("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+$") && pass.length() >= 6) {
+           return true;
+       }
+
+       return false;
+    }
+
+    public static boolean checkValidEmail(String email) {
+       String regex = "^(.+)@(.+)$";
+       return email.matches(regex);
+    }
     
 }

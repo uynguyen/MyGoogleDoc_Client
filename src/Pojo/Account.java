@@ -5,6 +5,8 @@
  */
 package Pojo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author UyNguyen.ITUS
@@ -23,6 +25,11 @@ public class Account {
     private String _Avatar;
     private String _EMail;
 
+    
+    private ArrayList<Document> _lstDocs = new ArrayList<>();
+    
+    
+            
     
     
     
@@ -80,6 +87,20 @@ public class Account {
      */
     public void setEMail(String _EMail) {
         this._EMail = _EMail;
+    }
+
+    /**
+     * @return the _lstDocs
+     */
+    public ArrayList<Document> getLstDocs() {
+        return _lstDocs;
+    }
+
+    /**
+     * @param _lstDocs the _lstDocs to set
+     */
+    public void setLstDocs(ArrayList<Document> _lstDocs) {
+        this._lstDocs = _lstDocs;
     }
            
 }

@@ -10,9 +10,13 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 /**
@@ -71,6 +75,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         btn_logout1 = new javax.swing.JButton();
         btn_logout2 = new javax.swing.JButton();
         btn_logout3 = new javax.swing.JButton();
+        btn_createDoc = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,6 +101,13 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         btn_logout3.setText("Activity log");
 
+        btn_createDoc.setText("Create Doc");
+        btn_createDoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_createDocActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -104,24 +116,29 @@ public class MyDocsForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btn_logout2))
+                        .addComponent(btn_logout2)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_createDoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btn_logout1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_logout)
-                            .addComponent(btn_logout3)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel1))
-                            .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap()
+                                .addComponent(btn_logout1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_logout)
+                                    .addComponent(btn_logout3)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel1))
+                                    .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,7 +150,9 @@ public class MyDocsForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btn_logout2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_logout2)
+                    .addComponent(btn_createDoc))
                 .addGap(18, 18, 18)
                 .addComponent(btn_logout)
                 .addGap(18, 18, 18)
@@ -161,6 +180,34 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_createDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_createDocActionPerformed
+        // TODO add your handling code here:
+        
+        JTextField word = new JTextField();
+
+        JTextField meaning = new JTextField();
+
+        meaning.setColumns(20);
+        
+        final JComponent[] inputs = new JComponent[]{
+            new JLabel("Title:"),
+            word};
+//            new JLabel("Meaning:"),
+//            meaning,};
+        int selected = JOptionPane.showConfirmDialog(null, inputs, "Create document: ", JOptionPane.YES_NO_OPTION);
+        if (selected == JOptionPane.YES_OPTION) {
+              this.setVisible(false);
+               new Main().setVisible(true); 
+        }
+      
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btn_createDocActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,6 +245,7 @@ public class MyDocsForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_createDoc;
     private javax.swing.JButton btn_logout;
     private javax.swing.JButton btn_logout1;
     private javax.swing.JButton btn_logout2;
