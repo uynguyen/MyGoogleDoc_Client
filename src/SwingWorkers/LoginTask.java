@@ -7,8 +7,13 @@ package SwingWorkers;
 
 import Bus.Business;
 import CommunicatePackage.LoginReturnPackage;
+import GUI.LoginForm;
+import GUI.Main;
+import GUI.MyDocsForm;
+import GUI.RegisterForm;
 import java.awt.Dialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
@@ -44,9 +49,13 @@ public class LoginTask extends SwingWorker<Object, Object> {
             @Override
             public void run() {
                 if (result.result == true) {
-                    new Dialog(loginForm, "Success").setVisible(true);                    
+                    loginForm.setVisible(false);
+                    new MyDocsForm(result).setVisible(true);
+                                    
                 } else {
-                    new Dialog(loginForm, "Username or password not correct").setVisible(true);
+                       // Main Form to show after the Login Form..
+                    JOptionPane.showMessageDialog(loginForm, "Username or password not correct", "Login Error", 0);
+                  
                 }
             }
         });

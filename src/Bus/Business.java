@@ -5,12 +5,12 @@
  */
 package Bus;
 
-<<<<<<< HEAD
+
 import CommunicatePackage.DocumentPackage;
-=======
+
 import CommunicatePackage.LoginPackage;
 import CommunicatePackage.LoginReturnPackage;
->>>>>>> 1d4eec2cb795874be2edcc553a1492376360c755
+
 import CommunicatePackage.RegisterPackage;
 import GUI.RegisterForm;
 import Pojo.EnumUserAction;
@@ -59,8 +59,7 @@ public class Business {
         }
         return false;
     }
-<<<<<<< HEAD
-    
+
     public static boolean CreateDoc(String title, int ID_Owner)
     {
         try {
@@ -111,7 +110,6 @@ public class Business {
        return email.matches(regex);
     }
     
-=======
 
     public static LoginReturnPackage Login(String username, String password) {
         LoginReturnPackage result = null;
@@ -151,5 +149,4 @@ public class Business {
         return result;
     }
 
->>>>>>> 1d4eec2cb795874be2edcc553a1492376360c755
 }

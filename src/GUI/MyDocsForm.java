@@ -8,22 +8,22 @@ package GUI;
 import CommunicatePackage.LoginReturnPackage;
 import CustomComponents.MyDocument;
 import java.awt.GridLayout;
+import java.util.Date;
 import javax.swing.ImageIcon;
-<<<<<<< HEAD
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
-=======
->>>>>>> 1d4eec2cb795874be2edcc553a1492376360c755
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-<<<<<<< HEAD
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-=======
->>>>>>> 1d4eec2cb795874be2edcc553a1492376360c755
+import javax.swing.text.Document;
+
 
 /**
  *
@@ -31,29 +31,50 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
  */
 public class MyDocsForm extends javax.swing.JFrame {
 
+    LoginReturnPackage _loginReturnPackage = null;
+    
     /**
      * Creates new form MyDocsForm
      */
-    public MyDocsForm() {
+    public MyDocsForm(LoginReturnPackage result) {
         initComponents();
-
+        this._loginReturnPackage = result;
+        
+        txt_UserName.setText(result.user.getUsername());
+        
+        
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
 
        // JScrollPane jScrollPane = new JScrollPane();
        // jScrollPane.setLocation(300, 0);
        // jScrollPane.setSize(900,1000);
+        
+        int lstDocSize = result.documentList.length;
+        int temp1 = lstDocSize % 5;
+        int temp2 = lstDocSize / 5;
+        
+        if(lstDocSize % 5 != 0){
+            temp2++;
+        }
+        
         JPanel panel_MyDocs = new JPanel();
-        panel_MyDocs.setLocation(350, 5);
-        panel_MyDocs.setSize(900, 220); //180-220
+        panel_MyDocs.setLocation(300, 5);
+        panel_MyDocs.setSize(5 * 150 , temp2 * 220); //180-220
         GridLayout grid = new GridLayout();
         grid.setHgap(5);
         grid.setVgap(5);
         grid.setColumns(5);
-        grid.setRows(1);
+        grid.setRows(temp2);
         panel_MyDocs.setLayout(grid);
-        for (int i = 0; i < 5; i++) {
-            panel_MyDocs.add(new MyDocument());
+        for (int i = 0; i < lstDocSize; i++) {
+            String name = result.documentList[i].getName();
+            Date date = result.documentList[i].getDateCreate();
+            String path = result.documentList[i].getPath();
+            int idOwner = result.documentList[i].getIDOwner();
+            int idPartners = result.documentList[i].getIDPartners();
+            int id = result.documentList[i].getID();
+            panel_MyDocs.add(new MyDocument(id,name,path,date,idOwner,idPartners));
         }
         //jScrollPane.add(panel_MyDocs);
         this.add(panel_MyDocs);
@@ -74,7 +95,7 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         lb_avatar = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        txt_UserName = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         btn_logout = new javax.swing.JButton();
@@ -89,8 +110,8 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         lb_avatar.setText("23");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Nguyễn Long Uy");
+        txt_UserName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txt_UserName.setText("Nguyễn Long Uy");
 
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -141,7 +162,7 @@ public class MyDocsForm extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(jLabel1))
+                                        .addComponent(txt_UserName))
                                     .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -152,7 +173,7 @@ public class MyDocsForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addComponent(txt_UserName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -174,7 +195,7 @@ public class MyDocsForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2001, Short.MAX_VALUE))
+                .addGap(0, 2369, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,37 +239,37 @@ public class MyDocsForm extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MyDocsForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MyDocsForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MyDocsForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MyDocsForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MyDocsForm().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(MyDocsForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(MyDocsForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(MyDocsForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(MyDocsForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new MyDocsForm().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_createDoc;
@@ -256,10 +277,10 @@ public class MyDocsForm extends javax.swing.JFrame {
     private javax.swing.JButton btn_logout1;
     private javax.swing.JButton btn_logout2;
     private javax.swing.JButton btn_logout3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lb_avatar;
+    private javax.swing.JLabel txt_UserName;
     // End of variables declaration//GEN-END:variables
 }

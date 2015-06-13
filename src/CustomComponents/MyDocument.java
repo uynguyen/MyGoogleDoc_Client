@@ -23,8 +23,18 @@ public class MyDocument extends javax.swing.JPanel {
     /**
      * Creates new form MyDocument
      */
-    public MyDocument() {
+    public MyDocument(int id,String name, String path, Date date, int idOwner, int idPartners) {
        initComponents();
+       
+       this._ID = id;
+       this._Path = name;
+       this._Path = path;
+       this._DateCreate = date;
+       this._IDOwner = idOwner;
+       this._IDPartners = idPartners;
+       
+       txt_Name.setText(name);
+       txt_CreatedDate.setText(date.toLocaleString());
        ImageIcon icon = new ImageIcon("src\\Resources\\Icon-Document.png"); 
      
        image.setIcon(icon); 

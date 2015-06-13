@@ -27,7 +27,7 @@ public class Account implements Serializable{
     private String _EMail;
 
     
-    private ArrayList<Document> _lstDocs = new ArrayList<>();
+//    private ArrayList<Document> _lstDocs = new ArrayList<>();
     
     
             
@@ -93,15 +93,15 @@ public class Account implements Serializable{
     /**
      * @return the _lstDocs
      */
-    public ArrayList<Document> getLstDocs() {
-        return _lstDocs;
-    }
-
-    /**
-     * @param _lstDocs the _lstDocs to set
-     */
-    public void setLstDocs(ArrayList<Document> _lstDocs) {
-        this._lstDocs = _lstDocs;
-    }
+//    public ArrayList<Document> getLstDocs() {
+//        return _lstDocs;
+//    }
+//
+//    /**
+//     * @param _lstDocs the _lstDocs to set
+//     */
+//    public void setLstDocs(ArrayList<Document> _lstDocs) {
+//        this._lstDocs = _lstDocs;
+//    }
            
 }
