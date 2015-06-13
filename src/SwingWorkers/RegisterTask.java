@@ -3,12 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SwingWorker;
+package SwingWorkers;
 
 import Bus.Business;
-import GUI.RegisterForm;
-import java.util.List;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;

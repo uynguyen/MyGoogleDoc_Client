@@ -6,7 +6,7 @@
 package GUI;
 
 import Bus.Business;
-import SwingWorker.RegisterTask;
+import SwingWorkers.RegisterTask;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -172,7 +172,7 @@ public class RegisterForm extends javax.swing.JFrame {
         btn_Back.setEnabled(false);
         lbl_Error.setText("Wating...");
         RegisterTask registerTask = new RegisterTask(username, pass, email, lbl_Error);
-        registerTask.run();
+        registerTask.execute();
                
     }//GEN-LAST:event_btn_RegisterActionPerformed
 
