@@ -161,13 +161,29 @@ public class RegisterForm extends javax.swing.JFrame {
         String retypePass = txt_RetypePassword.getText();
         String email = txt_Email.getText();
         
+        if(username == "")
+        {
+            lbl_Error.setText("Please input username ...");
+            return;
+        }
         
+        
+        if(!Business.checkValidPassword(pass))
+        {
+            lbl_Error.setText("Password must contain at least 6 characters \n Include letter and digit ...");
+            return;
+        }
+        
+        if(!Business.checkValidEmail(email)){
+            lbl_Error.setText("Invalid email...");
+            return;
+        }
         if(!pass.equals(retypePass))
         {
             lbl_Error.setText("Retype password not match ...");
             return;
         }
-        
+        lbl_Error.setText(" ...");
         btn_Register.setEnabled(false);
         btn_Back.setEnabled(false);
         lbl_Error.setText("Wating...");
