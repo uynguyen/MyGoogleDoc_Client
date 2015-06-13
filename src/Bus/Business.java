@@ -5,7 +5,12 @@
  */
 package Bus;
 
+<<<<<<< HEAD
 import CommunicatePackage.DocumentPackage;
+=======
+import CommunicatePackage.LoginPackage;
+import CommunicatePackage.LoginReturnPackage;
+>>>>>>> 1d4eec2cb795874be2edcc553a1492376360c755
 import CommunicatePackage.RegisterPackage;
 import GUI.RegisterForm;
 import Pojo.EnumUserAction;
@@ -21,41 +26,40 @@ import java.util.logging.Logger;
  * @author UyNguyen.ITUS
  */
 public class Business {
-    
-    public static boolean Register(String username, String password, String email){
+
+    public static boolean Register(String username, String password, String email) {
         try {
-            Socket server = new Socket("localhost",51399);
-            
+            Socket server = new Socket("localhost", 51399);
+
             System.out.print(server.getPort());
-            
-            
+
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
             objectOutputStream.flush();
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
-            
-                        
+
             //Send user register info
             objectOutputStream.writeBoolean(false);
             objectOutputStream.flush();
-            
+
             RegisterPackage message = new RegisterPackage(username, password, email);
-            
+
             objectOutputStream.writeObject(message);
             objectOutputStream.flush();
             //Receive register result
             boolean result = objectInputStream.readBoolean();
-            
+
             objectOutputStream.flush();
             objectOutputStream.close();
             objectInputStream.close();
-            
+
             return result;
-            
+
         } catch (IOException ex) {
-            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);            
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
+<<<<<<< HEAD
     
     public static boolean CreateDoc(String title, int ID_Owner)
     {
@@ -107,4 +111,45 @@ public class Business {
        return email.matches(regex);
     }
     
+=======
+
+    public static LoginReturnPackage Login(String username, String password) {
+        LoginReturnPackage result = null;
+        try {
+
+            Socket server = new Socket("localhost", 51399);
+
+            System.out.print(server.getPort());
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+
+            //Send login signal
+            objectOutputStream.writeBoolean(true);
+            objectOutputStream.flush();
+            
+            //Create Login package for sending
+            LoginPackage message = new LoginPackage(username, password);
+
+            //Sending Login information
+            objectOutputStream.writeObject(message);
+            objectOutputStream.flush();
+
+            //Receive login result
+            result = (LoginReturnPackage) objectInputStream.readObject();            
+            
+            objectInputStream.close();
+            objectOutputStream.flush();
+            objectOutputStream.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Business.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+
+>>>>>>> 1d4eec2cb795874be2edcc553a1492376360c755
 }

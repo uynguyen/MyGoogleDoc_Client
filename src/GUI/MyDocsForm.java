@@ -5,19 +5,25 @@
  */
 package GUI;
 
+import CommunicatePackage.LoginReturnPackage;
 import CustomComponents.MyDocument;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import javax.swing.ImageIcon;
+<<<<<<< HEAD
 import javax.swing.JButton;
 import javax.swing.JComponent;
+=======
+>>>>>>> 1d4eec2cb795874be2edcc553a1492376360c755
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+<<<<<<< HEAD
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
+=======
+>>>>>>> 1d4eec2cb795874be2edcc553a1492376360c755
 
 /**
  *
