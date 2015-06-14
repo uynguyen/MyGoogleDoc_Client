@@ -9,13 +9,14 @@ import java.io.Serializable;
 
 /**
  *
- * @author UyNguyen.ITUS
+ * @author Thanh Tung
  */
-public class DocumentPackage implements Serializable {
-    String _title;
-    int _ID_Owner;
-    public DocumentPackage(String title, int id_owner){
-        this._title = title;
-        this._ID_Owner =id_owner;
+public class CreateDocPackage implements Serializable{
+    public int idOwner;
+    public String title;
+    
+    public CreateDocPackage(int idOwner, String title){
+        this.idOwner = idOwner;
+        this.title = title;
     }
 }

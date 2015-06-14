@@ -7,11 +7,7 @@ package SwingWorkers;
 
 import Bus.Business;
 import CommunicatePackage.LoginReturnPackage;
-import GUI.LoginForm;
-import GUI.Main;
 import GUI.MyDocsForm;
-import GUI.RegisterForm;
-import java.awt.Dialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
