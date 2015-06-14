@@ -24,9 +24,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="textEditor1" min="-2" pref="836" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="856" max="-2" attributes="0"/>
               <Component id="btn_Share" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="101" max="32767" attributes="0"/>
           </Group>
@@ -36,18 +34,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btn_Share" min="-2" max="-2" attributes="0"/>
-                  <Component id="textEditor1" min="-2" pref="439" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="28" max="32767" attributes="0"/>
+              <Component id="btn_Share" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="444" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="CustomComponents.TextEditor" name="textEditor1">
-    </Component>
     <Component class="javax.swing.JButton" name="btn_Share">
       <Properties>
         <Property name="text" type="java.lang.String" value="Share"/>
