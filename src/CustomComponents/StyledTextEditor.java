@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -39,6 +40,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
+import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
 
@@ -69,10 +71,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         //Add some key bindings.
         addBindings();
 
-        //Put the initial text into the text pane.
-        initDocument();
-        textPane.setCaretPosition(0);
-
         //Start watching for undoable edits and caret changes.
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
 
@@ -80,14 +78,42 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         FormatToolbar.setTextEditor(this);
     }
 
-    public void NewDocument(String contentType) {
-        textPane.setEditorKitForContentType(contentType, new StyledEditorKit());
+    public void NewDocument() {
+        textPane.setEditorKit(new HTMLEditorKit());
         textPane.setDocument(textPane.getEditorKit().createDefaultDocument());
+          //Put the initial text into the text pane.
+        // initDocument();
+        textPane.setCaretPosition(0);
     }
 
     private void addChooseFileFilters(JFileChooser chooser) {
         chooser.addChoosableFileFilter(new FileNameExtensionFilter("Rich Text File (*.rtf)", "rtf"));
         chooser.addChoosableFileFilter(new FileNameExtensionFilter("HTML (*.html, *.htm)", "html", "htm"));
+    }
+
+    private void addChooseImageFilters(JFileChooser chooser) {
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("Bitmap (*.bmp)", "bmp"));
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("JPG (*.jpg)", "jpg"));
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
+
+    }
+
+    public void InsertImage() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(false);
+        addChooseImageFilters(chooser);
+        chooser.setAcceptAllFileFilterUsed(true);
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setMultiSelectionEnabled(false);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                textPane.insertIcon(new ImageIcon(chooser.getSelectedFile().getAbsolutePath()));
+
+            } catch (Exception ex) {
+
+            }
+        }
+
     }
 
     public void OpenDocument() {
@@ -157,13 +183,12 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         if (currentFile == null) {
             return;
         }
-       
-        
+
         try {
-            if (getExtensionFile().equals("HTML")) {               
+            if (getExtensionFile().equals("HTML")) {
                 Files.write(currentFile.toPath(), getHTMLString().getBytes());
             } else {
-               Files.write(currentFile.toPath(), getRTFString().getBytes());
+                Files.write(currentFile.toPath(), getRTFString().getBytes());
             }
         } catch (IOException ex) {
             Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
@@ -171,7 +196,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     }
 
-    
     public void SaveAsDocument() {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
@@ -293,7 +317,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         String strResult = "";
         try {
             HTMLEditorKit kit = new HTMLEditorKit();
-            Document d = textPane.getStyledDocument();            
+            Document d = textPane.getStyledDocument();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             kit.write(baos, d, d.getStartPosition().getOffset(), d.getLength());
             strResult = baos.toString(StandardCharsets.UTF_8.name());
@@ -302,10 +326,10 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         return strResult;
     }
 
-    protected String addUTF8Charset(String src){
+    protected String addUTF8Charset(String src) {
         return "";
     }
-    
+
     public void setHTMLString(String src) {
         HTMLEditorKit kit = new HTMLEditorKit();
         textPane.setEditorKit(kit);
