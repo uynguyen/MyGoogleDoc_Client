@@ -7,13 +7,7 @@ package Bus;
 
 
 
-import CommunicatePackage.DocumentPackage;
-
-import CommunicatePackage.LoginPackage;
-import CommunicatePackage.LoginReturnPackage;
-
-
-import CommunicatePackage.DocumentPackage;
+import CommunicatePackage.CreateDocPackage;
 import CommunicatePackage.LoginPackage;
 import CommunicatePackage.LoginReturnPackage;
 
@@ -66,10 +60,11 @@ public class Business {
         return false;
     }
 
-    public static boolean CreateDoc(String title, int ID_Owner)
+    public static int CreateDoc(String title, int ID_Owner)
     {
+        int result = -1;
         try {
-            Socket server = new Socket("localhost",51399);
+            Socket server = new Socket("localhost",13599);
             
             System.out.print(server.getPort());
             
@@ -79,27 +74,25 @@ public class Business {
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
             
                         
-            //Send user register info
+            //Send create doc info
             objectOutputStream.writeInt(EnumUserAction.CREATEDOC.getValue());
             objectOutputStream.flush();
             
-            DocumentPackage message = new DocumentPackage(title,ID_Owner);
+            CreateDocPackage message = new CreateDocPackage(ID_Owner, title);
             
             objectOutputStream.writeObject(message);
             objectOutputStream.flush();
-            //Receive register result
-            boolean result = objectInputStream.readBoolean();
+            //Receive return port (-1 mean fail to create)
+            result = objectInputStream.readInt();
             
             objectOutputStream.flush();
             objectOutputStream.close();
             objectInputStream.close();
-            
-            return result;
-            
+                                    
         } catch (IOException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);            
         }
-        return false;
+        return result;
     }
 
     public static boolean checkValidPassword(String pass) {
