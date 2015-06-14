@@ -5,6 +5,9 @@
  */
 package GUI;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 /**
@@ -18,6 +21,8 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
     }
 
     /**
@@ -30,11 +35,14 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         btnSaveDocument = new javax.swing.JButton();
+        btn_Share = new javax.swing.JButton();
         btnOpenDocument = new javax.swing.JButton();
         styledTextEditor1 = new CustomComponents.StyledTextEditor();
         btnSaveAs = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btn_Share.setText("Share");
 
         btnSaveDocument.setText("Save");
         btnSaveDocument.addActionListener(new java.awt.event.ActionListener() {
@@ -79,13 +87,23 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(textEditor1, javax.swing.GroupLayout.PREFERRED_SIZE, 836, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(styledTextEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_Share)
+                .addContainerGap(101, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_Share)
+                    .addComponent(textEditor1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSaveDocument)
                     .addComponent(btnOpenDocument)
@@ -149,11 +167,16 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new Main().setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Main().setVisible(true);
+            }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnOpenDocument;
+    private javax.swing.JButton btn_Share;
+    private CustomComponents.TextEditor textEditor1;
     private javax.swing.JButton btnSaveAs;
     private javax.swing.JButton btnSaveDocument;
     private CustomComponents.StyledTextEditor styledTextEditor1;
