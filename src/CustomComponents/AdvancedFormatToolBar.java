@@ -53,6 +53,9 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         FontChooser.setAction(new StyledEditorKit.FontFamilyAction(FontChooser.getActionCommand(), FontChooser.getSelectedItem().toString()));
     }
 
+    public void setTextEditor(StyledTextEditor editor){
+        textEditor = editor;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,6 +68,9 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jToolBar1 = new javax.swing.JToolBar();
+        btnSaveDocument = new javax.swing.JButton();
+        btnSaveAsDocument = new javax.swing.JButton();
+        btnOpenDocument = new javax.swing.JButton();
         btnUndo = new javax.swing.JButton();
         btnRedo = new javax.swing.JButton();
         btnBold = new javax.swing.JButton();
@@ -87,8 +93,45 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.setMinimumSize(new java.awt.Dimension(215, 30));
         jToolBar1.setPreferredSize(new java.awt.Dimension(100, 30));
 
+        btnSaveDocument.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
+        btnSaveDocument.setToolTipText("Save");
+        btnSaveDocument.setFocusable(false);
+        btnSaveDocument.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSaveDocument.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSaveDocument.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveDocumentActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnSaveDocument);
+
+        btnSaveAsDocument.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save_as.png"))); // NOI18N
+        btnSaveAsDocument.setToolTipText("Save As...");
+        btnSaveAsDocument.setFocusable(false);
+        btnSaveAsDocument.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSaveAsDocument.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSaveAsDocument.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveAsDocumentActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnSaveAsDocument);
+
+        btnOpenDocument.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/open.png"))); // NOI18N
+        btnOpenDocument.setToolTipText("Open");
+        btnOpenDocument.setFocusable(false);
+        btnOpenDocument.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpenDocument.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOpenDocument.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenDocumentActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnOpenDocument);
+
         btnUndo.setAction(undoAction);
         btnUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow_undo.png"))); // NOI18N
+        btnUndo.setToolTipText("Undo");
         btnUndo.setFocusable(false);
         btnUndo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnUndo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -107,6 +150,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
 
         btnRedo.setAction(redoAction);
         btnRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow_redo.png"))); // NOI18N
+        btnRedo.setToolTipText("Redo");
         btnRedo.setFocusable(false);
         btnRedo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRedo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -122,6 +166,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnBold.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnBold.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bold.png"))); // NOI18N
         btnBold.setText("");
+        btnBold.setToolTipText("Bold");
         btnBold.setFocusable(false);
         btnBold.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnBold.setMaximumSize(new java.awt.Dimension(40, 30));
@@ -139,6 +184,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnItalic.setFont(new java.awt.Font("Times New Roman", 2, 14)); // NOI18N
         btnItalic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/italic.png"))); // NOI18N
         btnItalic.setText("");
+        btnItalic.setToolTipText("Italic");
         btnItalic.setFocusable(false);
         btnItalic.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnItalic.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -158,6 +204,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnUnderline.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         btnUnderline.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/underline.png"))); // NOI18N
         btnUnderline.setText("");
+        btnUnderline.setToolTipText("Underline");
         btnUnderline.setFocusable(false);
         btnUnderline.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnUnderline.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -263,6 +310,21 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUndoActionPerformed
 
+    private void btnSaveAsDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAsDocumentActionPerformed
+        // TODO add your handling code here:
+        textEditor.SaveAsDocument();
+    }//GEN-LAST:event_btnSaveAsDocumentActionPerformed
+
+    private void btnSaveDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDocumentActionPerformed
+        // TODO add your handling code here:
+        textEditor.SaveDocument();
+    }//GEN-LAST:event_btnSaveDocumentActionPerformed
+
+    private void btnOpenDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenDocumentActionPerformed
+        // TODO add your handling code here:
+        textEditor.OpenDocument();
+    }//GEN-LAST:event_btnOpenDocumentActionPerformed
+
     public void initFontComboBox() {
         List<String> fonts = Arrays.asList(GraphicsEnvironment
                 .getLocalGraphicsEnvironment()
@@ -271,13 +333,17 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         FontChooser.setRenderer(new ComboRenderer(FontChooser));
         FontChooser.setSelectedItem("Times New Roman");
     }
+    private StyledTextEditor textEditor;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox FontChooser;
     private javax.swing.JComboBox FontSize;
     private javax.swing.JButton btnBold;
     private javax.swing.JButton btnColorChooser;
     private javax.swing.JButton btnItalic;
+    private javax.swing.JButton btnOpenDocument;
     private javax.swing.JButton btnRedo;
+    private javax.swing.JButton btnSaveAsDocument;
+    private javax.swing.JButton btnSaveDocument;
     private javax.swing.JButton btnUnderline;
     private javax.swing.JButton btnUndo;
     private javax.swing.JToolBar jToolBar1;

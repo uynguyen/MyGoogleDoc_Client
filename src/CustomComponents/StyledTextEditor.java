@@ -77,6 +77,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
 
         textPane.getStyledDocument().addDocumentListener(new StyledTextEditor.MyDocumentListener());
+        FormatToolbar.setTextEditor(this);
     }
 
     public void NewDocument(String contentType) {
@@ -412,6 +413,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
         jPopupMenu1.setLabel("popup");
 
+        textPane.setContentType("text/html"); // NOI18N
         textPane.setComponentPopupMenu(jPopupMenu1);
         textPane.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jScrollPane1.setViewportView(textPane);
@@ -423,7 +425,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
                     .addComponent(FormatToolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -432,7 +434,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(FormatToolbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                 .addGap(35, 35, 35))
         );
     }// </editor-fold>//GEN-END:initComponents
