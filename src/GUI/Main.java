@@ -29,29 +29,94 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        textEditor1 = new CustomComponents.TextEditor();
+        btnSaveDocument = new javax.swing.JButton();
+        btnOpenDocument = new javax.swing.JButton();
+        styledTextEditor1 = new CustomComponents.StyledTextEditor();
+        btnSaveAs = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnSaveDocument.setText("Save");
+        btnSaveDocument.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveDocumentActionPerformed(evt);
+            }
+        });
+
+        btnOpenDocument.setText("Open...");
+        btnOpenDocument.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenDocumentActionPerformed(evt);
+            }
+        });
+
+        styledTextEditor1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                styledTextEditor1CaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+
+        btnSaveAs.setText("Save as...");
+        btnSaveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveAsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(btnOpenDocument)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSaveDocument)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSaveAs)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
+                .addComponent(styledTextEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(49, Short.MAX_VALUE)
-                .addComponent(textEditor1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSaveDocument)
+                    .addComponent(btnOpenDocument)
+                    .addComponent(btnSaveAs))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(styledTextEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSaveDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDocumentActionPerformed
+        // TODO add your handling code here:
+       styledTextEditor1.SaveDocument();      
+    }//GEN-LAST:event_btnSaveDocumentActionPerformed
+
+    private void btnOpenDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenDocumentActionPerformed
+        // TODO add your handling code here:
+       styledTextEditor1.OpenDocument();
+       
+    }//GEN-LAST:event_btnOpenDocumentActionPerformed
+
+    private void styledTextEditor1CaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_styledTextEditor1CaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_styledTextEditor1CaretPositionChanged
+
+    private void btnSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAsActionPerformed
+        // TODO add your handling code here:
+        styledTextEditor1.SaveAsDocument();
+    }//GEN-LAST:event_btnSaveAsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -82,14 +147,15 @@ public class Main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Main().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private CustomComponents.TextEditor textEditor1;
+    private javax.swing.JButton btnOpenDocument;
+    private javax.swing.JButton btnSaveAs;
+    private javax.swing.JButton btnSaveDocument;
+    private CustomComponents.StyledTextEditor styledTextEditor1;
     // End of variables declaration//GEN-END:variables
 }
