@@ -78,7 +78,12 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnUnderline = new javax.swing.JButton();
         FontChooser = new javax.swing.JComboBox();
         FontSize = new javax.swing.JComboBox();
+        btnInsertImage = new javax.swing.JButton();
         btnColorChooser = new javax.swing.JButton();
+        btnLeftAlign = new javax.swing.JButton();
+        btnCenterAlign = new javax.swing.JButton();
+        btnRightAlign = new javax.swing.JButton();
+        btnJustifyAlign = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(900, 30));
         setMinimumSize(new java.awt.Dimension(600, 30));
@@ -135,12 +140,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnUndo.setFocusable(false);
         btnUndo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnUndo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${maximumSize}"), btnUndo, org.jdesktop.beansbinding.BeanProperty.create("maximumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${minimumSize}"), btnUndo, org.jdesktop.beansbinding.BeanProperty.create("minimumSize"));
-        bindingGroup.addBinding(binding);
-
         btnUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUndoActionPerformed(evt);
@@ -154,12 +153,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnRedo.setFocusable(false);
         btnRedo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRedo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${maximumSize}"), btnRedo, org.jdesktop.beansbinding.BeanProperty.create("maximumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${minimumSize}"), btnRedo, org.jdesktop.beansbinding.BeanProperty.create("minimumSize"));
-        bindingGroup.addBinding(binding);
-
         jToolBar1.add(btnRedo);
 
         btnBold.setAction(new StyledEditorKit.BoldAction());
@@ -169,9 +162,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnBold.setToolTipText("Bold");
         btnBold.setFocusable(false);
         btnBold.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnBold.setMaximumSize(new java.awt.Dimension(40, 30));
-        btnBold.setMinimumSize(new java.awt.Dimension(20, 30));
-        btnBold.setPreferredSize(new java.awt.Dimension(20, 30));
         btnBold.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnBold.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,13 +179,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnItalic.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnItalic.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${border}"), btnItalic, org.jdesktop.beansbinding.BeanProperty.create("border"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${maximumSize}"), btnItalic, org.jdesktop.beansbinding.BeanProperty.create("maximumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${minimumSize}"), btnItalic, org.jdesktop.beansbinding.BeanProperty.create("minimumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${preferredSize}"), btnItalic, org.jdesktop.beansbinding.BeanProperty.create("preferredSize"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${border}"), btnItalic, org.jdesktop.beansbinding.BeanProperty.create("border"));
         bindingGroup.addBinding(binding);
 
         jToolBar1.add(btnItalic);
@@ -208,14 +192,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnUnderline.setFocusable(false);
         btnUnderline.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnUnderline.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${maximumSize}"), btnUnderline, org.jdesktop.beansbinding.BeanProperty.create("maximumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${minimumSize}"), btnUnderline, org.jdesktop.beansbinding.BeanProperty.create("minimumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${preferredSize}"), btnUnderline, org.jdesktop.beansbinding.BeanProperty.create("preferredSize"));
-        bindingGroup.addBinding(binding);
-
         jToolBar1.add(btnUnderline);
 
         FontChooser.setEditable(true);
@@ -248,18 +224,22 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(FontSize);
 
+        btnInsertImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/insert_image.png"))); // NOI18N
+        btnInsertImage.setToolTipText("");
+        btnInsertImage.setFocusable(false);
+        btnInsertImage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnInsertImage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnInsertImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertImageActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnInsertImage);
+
         btnColorChooser.setText("Color");
         btnColorChooser.setFocusable(false);
         btnColorChooser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnColorChooser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${maximumSize}"), btnColorChooser, org.jdesktop.beansbinding.BeanProperty.create("maximumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${minimumSize}"), btnColorChooser, org.jdesktop.beansbinding.BeanProperty.create("minimumSize"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${preferredSize}"), btnColorChooser, org.jdesktop.beansbinding.BeanProperty.create("preferredSize"));
-        bindingGroup.addBinding(binding);
-
         btnColorChooser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnColorChooserActionPerformed(evt);
@@ -267,11 +247,56 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnColorChooser);
 
+        btnLeftAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/left_align.png"))); // NOI18N
+        btnLeftAlign.setFocusable(false);
+        btnLeftAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnLeftAlign.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnLeftAlign.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLeftAlignActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnLeftAlign);
+
+        btnCenterAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/center_align.png"))); // NOI18N
+        btnCenterAlign.setFocusable(false);
+        btnCenterAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCenterAlign.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCenterAlign.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCenterAlignActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnCenterAlign);
+
+        btnRightAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/right_align.png"))); // NOI18N
+        btnRightAlign.setFocusable(false);
+        btnRightAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRightAlign.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRightAlign.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRightAlignActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnRightAlign);
+
+        btnJustifyAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/justify_align.png"))); // NOI18N
+        btnJustifyAlign.setToolTipText("Justify");
+        btnJustifyAlign.setFocusable(false);
+        btnJustifyAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnJustifyAlign.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnJustifyAlign.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJustifyAlignActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnJustifyAlign);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,6 +350,31 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         textEditor.OpenDocument();
     }//GEN-LAST:event_btnOpenDocumentActionPerformed
 
+    private void btnLeftAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeftAlignActionPerformed
+        // TODO add your handling code here:
+        (new StyledEditorKit.AlignmentAction(btnLeftAlign.getActionCommand(), 0)).actionPerformed(evt);
+    }//GEN-LAST:event_btnLeftAlignActionPerformed
+
+    private void btnCenterAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCenterAlignActionPerformed
+        // TODO add your handling code here:
+          (new StyledEditorKit.AlignmentAction(btnCenterAlign.getActionCommand(), 1)).actionPerformed(evt);
+    }//GEN-LAST:event_btnCenterAlignActionPerformed
+
+    private void btnRightAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRightAlignActionPerformed
+        // TODO add your handling code here:
+          (new StyledEditorKit.AlignmentAction(btnRightAlign.getActionCommand(), 2)).actionPerformed(evt);
+    }//GEN-LAST:event_btnRightAlignActionPerformed
+
+    private void btnJustifyAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustifyAlignActionPerformed
+        // TODO add your handling code here:
+        (new StyledEditorKit.AlignmentAction(btnJustifyAlign.getActionCommand(), 3)).actionPerformed(evt);
+    }//GEN-LAST:event_btnJustifyAlignActionPerformed
+
+    private void btnInsertImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertImageActionPerformed
+        // TODO add your handling code here:
+        textEditor.InsertImage();
+    }//GEN-LAST:event_btnInsertImageActionPerformed
+
     public void initFontComboBox() {
         List<String> fonts = Arrays.asList(GraphicsEnvironment
                 .getLocalGraphicsEnvironment()
@@ -338,10 +388,15 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
     private javax.swing.JComboBox FontChooser;
     private javax.swing.JComboBox FontSize;
     private javax.swing.JButton btnBold;
+    private javax.swing.JButton btnCenterAlign;
     private javax.swing.JButton btnColorChooser;
+    private javax.swing.JButton btnInsertImage;
     private javax.swing.JButton btnItalic;
+    private javax.swing.JButton btnJustifyAlign;
+    private javax.swing.JButton btnLeftAlign;
     private javax.swing.JButton btnOpenDocument;
     private javax.swing.JButton btnRedo;
+    private javax.swing.JButton btnRightAlign;
     private javax.swing.JButton btnSaveAsDocument;
     private javax.swing.JButton btnSaveDocument;
     private javax.swing.JButton btnUnderline;
