@@ -68,7 +68,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         
         JPanel panel_MyDocs = new JPanel();
         panel_MyDocs.setLocation(300, 5);
-        panel_MyDocs.setSize(5 * 150 , temp2 * 220); //180-220
+        panel_MyDocs.setSize(5 * 180 , temp2 * 220); //180-220
         GridLayout grid = new GridLayout();
         grid.setHgap(5);
         grid.setVgap(5);
@@ -82,7 +82,8 @@ public class MyDocsForm extends javax.swing.JFrame {
             int idOwner = result.documentList[i].getIDOwner();
             int idPartners = result.documentList[i].getIDPartners();
             int id = result.documentList[i].getID();
-            panel_MyDocs.add(new MyDocument(id,name,path,date,idOwner,idPartners));
+            String code = result.documentList[i].getCode();
+            panel_MyDocs.add(new MyDocument(id,name,path,date,idOwner,idPartners,code));
         }
         //jScrollPane.add(panel_MyDocs);
         this.add(panel_MyDocs);
@@ -221,9 +222,6 @@ public class MyDocsForm extends javax.swing.JFrame {
         
         JTextField word = new JTextField();
 
-        JTextField meaning = new JTextField();
-
-        meaning.setColumns(20);
         
         final JComponent[] inputs = new JComponent[]{
             new JLabel("Title:"),
