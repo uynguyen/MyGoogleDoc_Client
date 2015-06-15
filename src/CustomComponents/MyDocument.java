@@ -19,11 +19,11 @@ public class MyDocument extends javax.swing.JPanel {
     private Date _DateCreate;
     private int _IDOwner;
     private int _IDPartners;
-
+    private String _Code;
     /**
      * Creates new form MyDocument
      */
-    public MyDocument(int id,String name, String path, Date date, int idOwner, int idPartners) {
+    public MyDocument(int id,String name, String path, Date date, int idOwner, int idPartners, String code) {
        initComponents();
        
        this._ID = id;
@@ -32,7 +32,7 @@ public class MyDocument extends javax.swing.JPanel {
        this._DateCreate = date;
        this._IDOwner = idOwner;
        this._IDPartners = idPartners;
-       
+       this._Code = code;
        txt_Name.setText(name);
        txt_CreatedDate.setText(date.toLocaleString());
        ImageIcon icon = new ImageIcon("src\\Resources\\Icon-Document.png"); 
