@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Bus.Global;
 import CommunicatePackage.LoginReturnPackage;
 import CustomComponents.MyDocument;
 
@@ -13,6 +14,7 @@ import java.awt.Dimension;
 import SwingWorkers.CreateDocTask;
 
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
 
@@ -20,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.text.Document;
 
 
 
@@ -57,7 +60,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         }
 
         
-
+        ArrayList<Pojo.Document> returnListDocument = new ArrayList<Pojo.Document>();
 
         GridLayout grid = new GridLayout();
         grid.setHgap(5);
@@ -74,14 +77,20 @@ public class MyDocsForm extends javax.swing.JFrame {
             int id = result.documentList[i].getID();
             String code = result.documentList[i].getCode();
             panel_MyDocs.add(new MyDocument(id,name,path,date,idOwner,idPartners,code));
+            returnListDocument.add(result.documentList[i]);
            // jScrollPane.add(panel_MyDocs);
         }
-        //jScrollPane.add(panel_MyDocs);
-        //this.add(jScrollPane);
+       
+        
+        
+        
         ImageIcon icon = new ImageIcon("src\\Resources\\avatar_default.png"); 
-         lb_avatar.setLocation(150,5);
-       lb_avatar.setIcon(icon); 
+        lb_avatar.setLocation(150,5);
+        lb_avatar.setIcon(icon); 
       
+        
+        Global._currentAccount = result.user;
+        Global._currentListDocument = returnListDocument;
     }
 
     /**
