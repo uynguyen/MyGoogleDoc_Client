@@ -7,6 +7,7 @@ package GUI;
 
 import CommunicatePackage.LoginReturnPackage;
 import CustomComponents.MyDocument;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -54,9 +55,9 @@ public class MyDocsForm extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
 
-       // JScrollPane jScrollPane = new JScrollPane();
-       // jScrollPane.setLocation(300, 0);
-       // jScrollPane.setSize(900,1000);
+        
+        
+        
         
         int lstDocSize = result.documentList.length;
         int temp1 = lstDocSize % 5;
@@ -66,9 +67,18 @@ public class MyDocsForm extends javax.swing.JFrame {
             temp2++;
         }
         
-        JPanel panel_MyDocs = new JPanel();
-        panel_MyDocs.setLocation(300, 5);
-        panel_MyDocs.setSize(5 * 180 , temp2 * 220); //180-220
+        
+       // JScrollPane jScrollPane = new JScrollPane();
+       // jScrollPane.setLocation(300, 5);
+       // jScrollPane.setPreferredSize(new Dimension(180,3 * 220));
+        
+      //  JPanel panel_MyDocs = new JPanel();
+      //  panel_MyDocs.setLocation(300, 5);
+      //  panel_MyDocs.setSize(5 * 180 , temp2 * 220); //180-220
+        
+        
+       
+        
         GridLayout grid = new GridLayout();
         grid.setHgap(5);
         grid.setVgap(5);
@@ -84,9 +94,10 @@ public class MyDocsForm extends javax.swing.JFrame {
             int id = result.documentList[i].getID();
             String code = result.documentList[i].getCode();
             panel_MyDocs.add(new MyDocument(id,name,path,date,idOwner,idPartners,code));
+           // jScrollPane.add(panel_MyDocs);
         }
         //jScrollPane.add(panel_MyDocs);
-        this.add(panel_MyDocs);
+        //this.add(jScrollPane);
         ImageIcon icon = new ImageIcon("src\\Resources\\avatar_default.png"); 
          lb_avatar.setLocation(150,5);
        lb_avatar.setIcon(icon); 
@@ -112,6 +123,8 @@ public class MyDocsForm extends javax.swing.JFrame {
         btn_logout2 = new javax.swing.JButton();
         btn_logout3 = new javax.swing.JButton();
         btn_createDoc = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        panel_MyDocs = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -195,8 +208,23 @@ public class MyDocsForm extends javax.swing.JFrame {
                 .addComponent(btn_logout3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_logout1)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        javax.swing.GroupLayout panel_MyDocsLayout = new javax.swing.GroupLayout(panel_MyDocs);
+        panel_MyDocs.setLayout(panel_MyDocsLayout);
+        panel_MyDocsLayout.setHorizontalGroup(
+            panel_MyDocsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 2347, Short.MAX_VALUE)
+        );
+        panel_MyDocsLayout.setVerticalGroup(
+            panel_MyDocsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 565, Short.MAX_VALUE)
+        );
+
+        jScrollPane2.setViewportView(panel_MyDocs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -204,13 +232,17 @@ public class MyDocsForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2369, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
 
@@ -286,7 +318,9 @@ public class MyDocsForm extends javax.swing.JFrame {
     private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lb_avatar;
+    private javax.swing.JPanel panel_MyDocs;
     private javax.swing.JLabel txt_UserName;
     // End of variables declaration//GEN-END:variables
 }
