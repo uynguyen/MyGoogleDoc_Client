@@ -7,11 +7,11 @@ package GUI;
 
 import CommunicatePackage.LoginReturnPackage;
 import CustomComponents.MyDocument;
-<<<<<<< HEAD
+
 import java.awt.Dimension;
-=======
+
 import SwingWorkers.CreateDocTask;
->>>>>>> ff616c1975eb4e4654f787f7f17b513e8f11379d
+
 import java.awt.GridLayout;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -55,25 +55,10 @@ public class MyDocsForm extends javax.swing.JFrame {
         if(lstDocSize % 5 != 0){
             temp2++;
         }
+
         
-<<<<<<< HEAD
-        
-       // JScrollPane jScrollPane = new JScrollPane();
-       // jScrollPane.setLocation(300, 5);
-       // jScrollPane.setPreferredSize(new Dimension(180,3 * 220));
-        
-      //  JPanel panel_MyDocs = new JPanel();
-      //  panel_MyDocs.setLocation(300, 5);
-      //  panel_MyDocs.setSize(5 * 180 , temp2 * 220); //180-220
-        
-        
-       
-        
-=======
-        JPanel panel_MyDocs = new JPanel();
-        panel_MyDocs.setLocation(300, 5);
-        panel_MyDocs.setSize(5 * 150 , temp2 * 220); //180-220
->>>>>>> ff616c1975eb4e4654f787f7f17b513e8f11379d
+
+
         GridLayout grid = new GridLayout();
         grid.setHgap(5);
         grid.setVgap(5);
