@@ -6,36 +6,74 @@
 package SwingWorkers;
 
 import Bus.Business;
+import GUI.Main;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 /**
  *
  * @author Thanh Tung
  */
-public class CreateDocTask extends SwingWorker<Object, Object>{
-    
+public class CreateDocTask extends SwingWorker<Object, Object> {
+
     int idOwner;
     String docTitle;
     int result;
-    
-    public CreateDocTask(int idOwner, String docTitle){
+    JFrame myDocForm;
+    JDialog notiDialog;
+
+    private JDialog CreateModalDialog(String message) {
+        JDialog dialog = new JDialog(myDocForm);
+        JLabel label = new JLabel(message);
+        dialog.setLocationRelativeTo(null);
+        dialog.add(label);
+        dialog.pack();
+        return dialog;
+    }
+
+    public CreateDocTask(int idOwner, String docTitle, JFrame myDocForm) {
         this.idOwner = idOwner;
         this.docTitle = docTitle;
+        this.myDocForm = myDocForm;
+        notiDialog = CreateModalDialog("Please wait...");
     }
 
     @Override
     protected Object doInBackground() throws Exception {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                notiDialog.setVisible(true);
+            }
+        });
         result = Business.CreateDoc(docTitle, idOwner);
         return result;
     }
 
     @Override
     protected void done() {
-        if(result == -1){
-            System.out.print("fail");
-        } else {
-            System.out.print("success");
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                notiDialog.setVisible(false);
+                notiDialog.dispose();
+                if (result == -1) {
+                    System.out.print("fail");
+                    JOptionPane.showMessageDialog(myDocForm, "Fail to create document");                    
+                } else {
+                    System.out.print("success");
+                    myDocForm.setVisible(false);
+                    new Main().setVisible(true);
+                }
+            }
+        });
+
     }
-       
+
 }

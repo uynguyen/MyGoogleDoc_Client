@@ -7,31 +7,17 @@ package GUI;
 
 import CommunicatePackage.LoginReturnPackage;
 import CustomComponents.MyDocument;
+import SwingWorkers.CreateDocTask;
 import java.awt.GridLayout;
 import java.util.Date;
 import javax.swing.ImageIcon;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-
-import javax.swing.JButton;
-import javax.swing.JComponent;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
-import javax.swing.text.Document;
-
-
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 /**
  *
@@ -218,29 +204,12 @@ public class MyDocsForm extends javax.swing.JFrame {
 
     private void btn_createDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_createDocActionPerformed
         // TODO add your handling code here:
+        String title = JOptionPane.showInputDialog("Please input document title: ");
         
-        JTextField word = new JTextField();
-
-        JTextField meaning = new JTextField();
-
-        meaning.setColumns(20);
-        
-        final JComponent[] inputs = new JComponent[]{
-            new JLabel("Title:"),
-            word};
-//            new JLabel("Meaning:"),
-//            meaning,};
-        int selected = JOptionPane.showConfirmDialog(null, inputs, "Create document: ", JOptionPane.YES_NO_OPTION);
-        if (selected == JOptionPane.YES_OPTION) {
-              this.setVisible(false);
-               new Main().setVisible(true); 
+        if(title != null){
+            CreateDocTask createDoc = new CreateDocTask(_loginReturnPackage.user.getID(), title, this);
+            createDoc.execute();
         }
-      
-        
-        
-        
-        
-        
         
     }//GEN-LAST:event_btn_createDocActionPerformed
 
