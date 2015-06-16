@@ -45,11 +45,11 @@ public class LoginTask extends SwingWorker<Object, Object> {
             @Override
             public void run() {
                 if (result.result == true) {
+                    // Main Form to show after the Login Form..
                     loginForm.setVisible(false);
                     new MyDocsForm(result).setVisible(true);
                                     
-                } else {
-                       // Main Form to show after the Login Form..
+                } else {                       
                     JOptionPane.showMessageDialog(loginForm, "Username or password not correct", "Login Error", 0);
                   
                 }
