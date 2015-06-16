@@ -6,12 +6,15 @@
 package CustomComponents;
 
 import Bus.Global;
+import SwingWorkers.OpenDocTask;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 /**
@@ -71,6 +74,9 @@ public class MyDocument extends javax.swing.JPanel {
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(200, 220));
         addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);
             }
@@ -174,6 +180,11 @@ public class MyDocument extends javax.swing.JPanel {
         
         formMouseExited(evt);
     }//GEN-LAST:event_btn_DeleteMouseExited
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        OpenDocTask openDocTask = new OpenDocTask(_Code,(JFrame) SwingUtilities.getWindowAncestor(this));
+        openDocTask.execute();
+    }//GEN-LAST:event_formMouseClicked
 
     
 

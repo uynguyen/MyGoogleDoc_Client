@@ -113,9 +113,10 @@ public class Business {
             objectOutputStream.writeInt(EnumUserAction.OPENDOC.getValue());
             objectOutputStream.flush();                        
             
+            System.out.println(docID);
             objectOutputStream.writeUTF(docID);
             objectOutputStream.flush();
-            //Receive return port (-1 mean fail to create)
+            //Receive return port (-1 mean fail to open)            
             result = objectInputStream.readInt();
             
             objectOutputStream.flush();

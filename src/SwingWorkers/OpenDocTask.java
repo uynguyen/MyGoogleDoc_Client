@@ -5,6 +5,10 @@
  */
 package SwingWorkers;
 
+import GUI.Main;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 /**
@@ -15,20 +19,35 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
     
     String docID;
     int result;
+    JFrame myDocForm;
     
-    public OpenDocTask(String docID){
+    public OpenDocTask(String docID, JFrame myDocForm){
         this.docID = docID;
+        this.myDocForm = myDocForm;
     }
 
     @Override
     protected Object doInBackground() throws Exception {
         result = Bus.Business.OpenDoc(docID);
+        System.out.println(result);
         return result;
     }
 
     @Override
     protected void done() {
-        super.done(); //To change body of generated methods, choose Tools | Templates.
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                if(result == -1){
+                    JOptionPane.showMessageDialog(myDocForm, "Fail to open Document. Please try again later");
+                } else {
+                    JOptionPane.showMessageDialog(myDocForm, "Open success. Port " + result);
+                    
+                }
+                
+            }
+        });
     }
     
 }
