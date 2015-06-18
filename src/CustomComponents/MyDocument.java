@@ -194,7 +194,7 @@ public class MyDocument extends javax.swing.JPanel {
         formMouseExited(evt);
     }//GEN-LAST:event_btn_DeleteMouseExited
 
-<<<<<<< HEAD
+
     private void imageMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseEntered
         // TODO add your handling code here:
         
@@ -218,12 +218,12 @@ public class MyDocument extends javax.swing.JPanel {
         
         
     }//GEN-LAST:event_imageMouseClicked
-=======
+
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         OpenDocTask openDocTask = new OpenDocTask(_Code,(JFrame) SwingUtilities.getWindowAncestor(this));
         openDocTask.execute();
     }//GEN-LAST:event_formMouseClicked
->>>>>>> 3b73fc45a3df6bda29366179992e5b1f9e2a25a4
+
 
     
 
