@@ -94,6 +94,40 @@ public class Business {
         }
         return result;
     }
+    
+    public static int OpenDoc(String docID)
+    {
+        int result = -1;
+        try {
+            Socket server = new Socket("localhost",13599);
+            
+            System.out.print(server.getPort());
+            
+            
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+            
+                        
+            //Send doc id
+            objectOutputStream.writeInt(EnumUserAction.OPENDOC.getValue());
+            objectOutputStream.flush();                        
+            
+            System.out.println(docID);
+            objectOutputStream.writeUTF(docID);
+            objectOutputStream.flush();
+            //Receive return port (-1 mean fail to open)            
+            result = objectInputStream.readInt();
+            
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+                                    
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);            
+        }
+        return result;
+    }
 
     public static boolean checkValidPassword(String pass) {
 
