@@ -70,7 +70,6 @@ public class MyDocument extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        setToolTipText("text");
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(200, 220));
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -99,6 +98,18 @@ public class MyDocument extends javax.swing.JPanel {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn_DeleteMouseExited(evt);
+            }
+        });
+
+        image.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imageMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                imageMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                imageMouseExited(evt);
             }
         });
 
@@ -155,10 +166,12 @@ public class MyDocument extends javax.swing.JPanel {
            btn_Delete.setVisible(true);
            
        }
-      System.out.print(this._IDOwner);
+   
+
+     // System.out.print(this._IDOwner);
       
       
-      setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+      
        
        
     }//GEN-LAST:event_formMouseEntered
@@ -181,10 +194,36 @@ public class MyDocument extends javax.swing.JPanel {
         formMouseExited(evt);
     }//GEN-LAST:event_btn_DeleteMouseExited
 
+
+    private void imageMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseEntered
+        // TODO add your handling code here:
+        
+        image.setToolTipText("<html>" + this._Name + "<br>" + this._DateCreate.toLocaleString() + "</html>");
+        formMouseEntered(evt);
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+    }//GEN-LAST:event_imageMouseEntered
+
+    private void imageMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseExited
+        // TODO add your handling code here:
+          formMouseExited(evt);
+         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_imageMouseExited
+
+    private void imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseClicked
+        // TODO add your handling code here:
+        
+        System.out.print("open" + this._Code);
+        
+        
+        
+    }//GEN-LAST:event_imageMouseClicked
+
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         OpenDocTask openDocTask = new OpenDocTask(_Code,(JFrame) SwingUtilities.getWindowAncestor(this));
         openDocTask.execute();
     }//GEN-LAST:event_formMouseClicked
+
 
     
 
@@ -287,7 +326,7 @@ public class MyDocument extends javax.swing.JPanel {
        txt_CreatedDate.setFont(new Font("Serif", Font.PLAIN, 14));
       
        btn_Delete.setVisible(false);
-        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+       
     }
     
     
