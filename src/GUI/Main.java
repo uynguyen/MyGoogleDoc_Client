@@ -70,7 +70,7 @@ public class Main extends javax.swing.JFrame {
     public void run() {
         try {
             Thread.sleep(5000);
-            
+            //ss
             Action action = new ActionDelete(null);
             action.setStartPosition(0);
             action.setEndPosition(5);
