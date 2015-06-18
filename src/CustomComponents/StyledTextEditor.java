@@ -33,14 +33,16 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Caret;
+import javax.swing.text.DefaultCaret;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
-import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
 
@@ -50,11 +52,15 @@ import javax.swing.text.rtf.RTFEditorKit;
  */
 public final class StyledTextEditor extends javax.swing.JPanel {
 
+   final long  MAX_CHARACTERS = Long.MAX_VALUE;
     Color forcegroundColor = Color.black;
-
-    File currentFile = null;
+    Caret defaultCaret;
+//    Timer timer = new Timer(1000, new TimerAction());
+    public File currentFile = null;
     String newline = "\n";
     HashMap<Object, Action> actions;
+    AbstractDocument doc;
+    HashMap<String, Caret> caretMap = new HashMap<>();
 
     //undo helpers
     /**
@@ -62,11 +68,11 @@ public final class StyledTextEditor extends javax.swing.JPanel {
      */
     public StyledTextEditor() {
         initComponents();
+       
 
         textPane.setCaretPosition(0);
         textPane.setMargin(new Insets(20, 20, 20, 20));
-
-        //Set up the menu bar.
+    
         actions = createActionTable(textPane);
         //Add some key bindings.
         addBindings();
@@ -76,14 +82,25 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
         textPane.getStyledDocument().addDocumentListener(new StyledTextEditor.MyDocumentListener());
         FormatToolbar.setTextEditor(this);
+        
+        NewDocument();
+
     }
 
+    public void ApplyAttributeSet(SimpleAttributeSet as){
+      
+    }
+    
     public void NewDocument() {
-        textPane.setEditorKit(new HTMLEditorKit());
+        textPane.setEditorKit(new AdvancedHTMLEditorKit());
+        textPane.setContentType(textPane.getEditorKit().getContentType());
         textPane.setDocument(textPane.getEditorKit().createDefaultDocument());
-          //Put the initial text into the text pane.
+        //Put the initial text into the text pane.
         // initDocument();
         textPane.setCaretPosition(0);
+        defaultCaret = new DefaultCaret();
+        defaultCaret.setBlinkRate(300);
+        
     }
 
     private void addChooseFileFilters(JFileChooser chooser) {
@@ -99,6 +116,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
 
     public void InsertImage() {
+        addCaret(5, Color.red);
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
         addChooseImageFilters(chooser);
@@ -113,10 +131,29 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
             }
         }
+       
+    }
+
+    
+    
+    public void addCaret(int pos, Color cl) {
+        Caret caret = new DefaultCaret();
+       // caret.setBlinkRate(300);
+        caretMap.put(cl.toString(), caret);
+        drawCaret();
+        caret.setDot(pos);
 
     }
 
+    public void drawCaret() {
+        caretMap.keySet().stream().forEach((key) -> {
+            textPane.setCaret(caretMap.get(key));
+        });
+       
+    }
+
     public void OpenDocument() {
+        addCaret(10, Color.BLUE);
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
         addChooseFileFilters(chooser);
@@ -203,6 +240,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
+        
         try {
             if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 currentFile = chooser.getSelectedFile();
@@ -225,6 +263,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         @Override
         public void caretUpdate(CaretEvent e) {
             displaySelectionInfo(e.getDot(), e.getMark());
+          //  drawCaret();
+           //  textPane.setCaret(defaultCaret);
         }
 
         //This method can be invoked from any thread.  It 
@@ -269,6 +309,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             });
         }
     }
+//    int BeginOffset = 0;
+//    int EndOffset = 0;
+//    String resultToPost = "";
 
     //And this one listens for any changes to the document.
     protected class MyDocumentListener
@@ -276,26 +319,57 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
-            displayEditInfo(e);
+//            
+//            if (!timer.isRunning()) {
+//                BeginOffset = e.getOffset();
+//                EndOffset = e.getOffset();
+//            }
+//            doTheChange( e, timer);
+//            timer.restart();
+
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            displayEditInfo(e);
+            doTheChange(e);
+//            if (!timer.isRunning()) {
+//                BeginOffset = e.getOffset();
+//                EndOffset = e.getOffset();
+//            }
+//            doTheChange(e, timer);
+//            timer.restart();
         }
 
         @Override
         public void changedUpdate(DocumentEvent e) {
-            displayEditInfo(e);
+            doTheChange(e);
+//            if (!timer.isRunning()) {
+//                BeginOffset = e.getOffset();
+//                EndOffset = e.getOffset();
+//            }
+//            doTheChange(e, timer);
+//            timer.restart();
         }
 
-        private void displayEditInfo(DocumentEvent e) {
-            Document document = e.getDocument();
-            int changeLength = e.getLength();
+        private void doTheChange(DocumentEvent e) {
 
         }
     }
+//
+//    class TimerAction implements ActionListener {
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            CommitChange(resultToPost);
+//            Timer t = (Timer) e.getSource();
+//            t.stop();
+//        }
+//
+//    }
 
+//    public void CommitChange(String strChangeString){
+//        System.out.println(strChangeString);
+//    }
     //Add a couple of emacs key bindings for navigation.
     protected void addBindings() {
         InputMap inputMap = textPane.getInputMap();
@@ -438,28 +512,28 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         jPopupMenu1.setLabel("popup");
 
         textPane.setContentType("text/html"); // NOI18N
+        textPane.setAutoscrolls(false);
         textPane.setComponentPopupMenu(jPopupMenu1);
         textPane.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        textPane.setMaximumSize(jScrollPane1.getPreferredSize());
         jScrollPane1.setViewportView(textPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
-                    .addComponent(FormatToolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(FormatToolbar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addComponent(jScrollPane1)
+                .addGap(137, 137, 137))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(FormatToolbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
-                .addGap(35, 35, 35))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
