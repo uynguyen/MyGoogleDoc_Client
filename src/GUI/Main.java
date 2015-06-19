@@ -10,18 +10,22 @@ import Actions.ActionDelete;
 import Actions.ActionFormat;
 import Actions.ActionInsert;
 import Actions.ActionSelect;
+import SwingWorkers.CreateDocTask;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileReader;
+
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+
+import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
@@ -34,6 +38,7 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 
+
 /**
  *
  * @author Vin
@@ -43,96 +48,53 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    public Main() {
+    public Main(int workingServerPort) {
         initComponents();
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        String result = "";
+
+//        String result = "";
+//
+//        try {
+//            String path = "C:\\Users\\UyNguyen.ITUS\\Desktop\\uy.html";
+//
+//            FileReader fr = new FileReader(path);
+//            BufferedReader br = new BufferedReader(fr);
+//
+//            String aline;
+//            while ((aline = br.readLine()) != null) {
+//                result += aline;
+//            }
+//
+//            br.close();
+//            
+//            
+//            styledTextEditor1.setHTMLString(result);
+//
+//        } catch (Exception e) {
+//
+//        }
+
+        //Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
+        //  test.start();
 
         try {
-            String path = "C:\\Users\\UyNguyen.ITUS\\Desktop\\uy.html";
-
-            FileReader fr = new FileReader(path);
-            BufferedReader br = new BufferedReader(fr);
-
-            String aline;
-            while ((aline = br.readLine()) != null) {
-                result += aline;
-            }
-
-            br.close();
+            //Connect to workingServer
+            Socket server = new Socket("localhost",workingServerPort);
             
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
             
-            styledTextEditor1.setHTMLString(result);
+            //Create send and receiver thread
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 
-        } catch (Exception e) {
-
-        }
-
-      //  Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
-        //  test.start();
     }
 
-    private class SuperServerThread extends Thread {
-
-        JTextPane text;
-
-        public SuperServerThread(JTextPane t) {
-            this.text = t;
-
-        }
-
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(5000);
-                //ss ssss
-                Action action = new ActionDelete(null);
-                action.setStartPosition(0);
-                action.setEndPosition(5);
-                action.onDraw(text);
-
-                Thread.sleep(10000);
-
-                Action action1 = new ActionInsert(text.getCharacterAttributes());
-                ((ActionInsert) action1).setContent("ASDSD");
-                action1.setStartPosition(10);
-                action1.setEndPosition(30);
-
-                action1.onDraw(text);
-
-                Thread.sleep(5000);
-
-           // MutableAttributeSet as = new SimpleAttributeSet();
-                //StyleConstants.setBold(as,true);
-                SimpleAttributeSet as1 = new SimpleAttributeSet();//text.getCharacterAttributes();
-
-                StyleConstants.setBackground(as1, Color.gray);
-
-                Action action3 = new ActionSelect(as1);
-                action3.setStartPosition(10);
-                action3.setEndPosition(30);
-
-                action3.onDraw(text);
-
-                SimpleAttributeSet as = new SimpleAttributeSet();//text.getCharacterAttributes();
-
-                StyleConstants.setBold(as, true);
-                StyleConstants.setForeground(as, Color.red);
-
-                Action action2 = new ActionFormat(as);
-                action2.setStartPosition(0);
-                action2.setEndPosition(5);
-
-                action2.onDraw(text);
-
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
+      
     }
 
     /**
@@ -185,41 +147,23 @@ public class Main extends javax.swing.JFrame {
 
     private void btn_ShareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ShareActionPerformed
         // TODO add your handling code here:
+        
+         String title = JOptionPane.showInputDialog("Input username: ");
+        
+        if(title != null){
+            
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
     }//GEN-LAST:event_btn_ShareActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new Main().setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Share;
