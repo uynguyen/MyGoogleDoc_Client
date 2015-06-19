@@ -44,9 +44,8 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                 } else {
                   //  JOptionPane.showMessageDialog(myDocForm, "Open success. Port " + result);
                     myDocForm.setVisible(false);
-                    new Main().setVisible(true);
-                    
-                    
+                    myDocForm.dispose();
+                    new Main(result).setVisible(true);
                 }
                 
             }
