@@ -413,12 +413,12 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         HTMLEditorKit kit = new AdvancedHTMLEditorKit();
         textPane.setEditorKit(kit);
         textPane.setDocument(kit.createDefaultDocument());
-        textPane.setCaret(kit.createCaret());
+       // textPane.setCaret(kit.createCaret());
 
         textPane.setText(src);
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
         textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
-        textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+      //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     public String getRTFString() {
