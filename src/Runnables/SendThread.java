@@ -5,6 +5,7 @@
  */
 package Runnables;
 
+import Bus.Global;
 import CustomComponents.StyledTextEditor;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -38,6 +39,8 @@ public class SendThread implements Runnable{
             Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
         }
          System.err.println("Sended!");
+            Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
