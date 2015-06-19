@@ -8,6 +8,7 @@ package CustomComponents;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -42,13 +43,14 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
     UndoAction undoAction = new UndoAction();
     RedoAction redoAction = new RedoAction();
     Color forcegroundColor = Color.black;
-JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
    
     /**
      * Creates new form AdvancedFormatToolBar
      */
     public AdvancedFormatToolBar() {
         initComponents();
+      
         initFontComboBox();
         FontSize.setAction(new StyledEditorKit.FontSizeAction(FontSize.getActionCommand(), Integer.parseInt(FontSize.getSelectedItem().toString())));
         FontChooser.setAction(new StyledEditorKit.FontFamilyAction(FontChooser.getActionCommand(), FontChooser.getSelectedItem().toString()));
@@ -237,7 +239,8 @@ JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         });
         jToolBar1.add(btnInsertImage);
 
-        btnColorChooser.setText("Color");
+        btnColorChooser.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnColorChooser.setText("A");
         btnColorChooser.setFocusable(false);
         btnColorChooser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnColorChooser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -317,6 +320,7 @@ JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         Color color = JColorChooser.showDialog(this, "Chọn màu chữ", forcegroundColor);
         if (color != null) {
             forcegroundColor = color;
+            btnColorChooser.setForeground(color);
             (new StyledEditorKit.ForegroundAction("Color", color)).actionPerformed(evt);
         }
     }//GEN-LAST:event_btnColorChooserActionPerformed
