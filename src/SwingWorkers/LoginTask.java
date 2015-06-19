@@ -32,6 +32,7 @@ public class LoginTask extends SwingWorker<Object, Object> {
 
     @Override
     protected Object doInBackground() throws Exception {
+        
         result = Business.Login(username, password);
         return result;
     }

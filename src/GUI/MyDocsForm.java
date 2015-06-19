@@ -67,6 +67,12 @@ public class MyDocsForm extends javax.swing.JFrame {
         grid.setVgap(5);
         grid.setColumns(5);
         grid.setRows(temp2);
+        
+        
+        panel_MyDocs.setPreferredSize(new Dimension( 200 * 5, 220 * temp2 ));
+        
+        
+        
         panel_MyDocs.setLayout(grid);
         for (int i = 0; i < lstDocSize; i++) {
             String name = result.documentList[i].getName();

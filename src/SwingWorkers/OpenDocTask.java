@@ -42,7 +42,10 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                 if(result == -1){
                     JOptionPane.showMessageDialog(myDocForm, "Fail to open Document. Please try again later");
                 } else {
-                    JOptionPane.showMessageDialog(myDocForm, "Open success. Port " + result);
+                  //  JOptionPane.showMessageDialog(myDocForm, "Open success. Port " + result);
+                    myDocForm.setVisible(false);
+                    new Main().setVisible(true);
+                    
                     
                 }
                 

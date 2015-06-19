@@ -212,16 +212,16 @@ public class MyDocument extends javax.swing.JPanel {
 
     private void imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseClicked
         // TODO add your handling code here:
-        
-        System.out.print("open" + this._Code);
+        OpenDocTask openDocTask = new OpenDocTask(_Code,(JFrame) SwingUtilities.getWindowAncestor(this));
+        openDocTask.execute();
+      //  System.out.print("open" + this._Code);
         
         
         
     }//GEN-LAST:event_imageMouseClicked
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        OpenDocTask openDocTask = new OpenDocTask(_Code,(JFrame) SwingUtilities.getWindowAncestor(this));
-        openDocTask.execute();
+       
     }//GEN-LAST:event_formMouseClicked
 
 

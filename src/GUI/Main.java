@@ -13,6 +13,8 @@ import Actions.ActionSelect;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,6 +22,7 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JRootPane;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeListener;
@@ -42,95 +45,96 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
-        
-        
-        
-        
-        Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
-        test.start();
-        
-        
-        
+
+        String result = "";
+
+        try {
+            String path = "C:\\Users\\UyNguyen.ITUS\\Desktop\\uy.html";
+
+            FileReader fr = new FileReader(path);
+            BufferedReader br = new BufferedReader(fr);
+
+            String aline;
+            while ((aline = br.readLine()) != null) {
+                result += aline;
+            }
+
+            br.close();
+            
+            
+            styledTextEditor1.setHTMLString(result);
+
+        } catch (Exception e) {
+
+        }
+
+      //  Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
+        //  test.start();
     }
 
-    private class SuperServerThread extends Thread{
+    private class SuperServerThread extends Thread {
 
-        JTextPane text ;
-        
+        JTextPane text;
+
         public SuperServerThread(JTextPane t) {
             this.text = t;
-            
+
         }
-    
-        
-        
-    @Override
-    public void run() {
-        try {
-            Thread.sleep(5000);
-            //ss ssss
-            Action action = new ActionDelete(null);
-            action.setStartPosition(0);
-            action.setEndPosition(5);
-            action.onDraw(text);
-            
-            
-             Thread.sleep(10000);
-             
-             
-            Action action1 = new ActionInsert(text.getCharacterAttributes());
-            ((ActionInsert)action1).setContent("ASDSD");
-            action1.setStartPosition(10);
-            action1.setEndPosition(30);
-            
-            action1.onDraw(text);
-            
-            
-             Thread.sleep(5000);
-             
-             
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(5000);
+                //ss ssss
+                Action action = new ActionDelete(null);
+                action.setStartPosition(0);
+                action.setEndPosition(5);
+                action.onDraw(text);
+
+                Thread.sleep(10000);
+
+                Action action1 = new ActionInsert(text.getCharacterAttributes());
+                ((ActionInsert) action1).setContent("ASDSD");
+                action1.setStartPosition(10);
+                action1.setEndPosition(30);
+
+                action1.onDraw(text);
+
+                Thread.sleep(5000);
+
            // MutableAttributeSet as = new SimpleAttributeSet();
-            //StyleConstants.setBold(as,true);
-             
-             
-            SimpleAttributeSet as1 = new SimpleAttributeSet()  ;//text.getCharacterAttributes();
-            
-       
-            StyleConstants.setBackground(as1, Color.gray);
-                    
-            Action action3 = new ActionSelect(as1);
-            action3.setStartPosition(10);
-            action3.setEndPosition(30);
-            
-            action3.onDraw(text);
-            
-           
-             
-             
-            SimpleAttributeSet as = new SimpleAttributeSet()  ;//text.getCharacterAttributes();
-            
-            StyleConstants.setBold(as,true);
-            StyleConstants.setForeground(as, Color.red);
-             
-            
-              
-          
-                    
-           Action action2 = new ActionFormat(as);
-           action2.setStartPosition(0);
-           action2.setEndPosition(5);
-            
-            action2.onDraw(text);
-            
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                //StyleConstants.setBold(as,true);
+                SimpleAttributeSet as1 = new SimpleAttributeSet();//text.getCharacterAttributes();
+
+                StyleConstants.setBackground(as1, Color.gray);
+
+                Action action3 = new ActionSelect(as1);
+                action3.setStartPosition(10);
+                action3.setEndPosition(30);
+
+                action3.onDraw(text);
+
+                SimpleAttributeSet as = new SimpleAttributeSet();//text.getCharacterAttributes();
+
+                StyleConstants.setBold(as, true);
+                StyleConstants.setForeground(as, Color.red);
+
+                Action action2 = new ActionFormat(as);
+                action2.setStartPosition(0);
+                action2.setEndPosition(5);
+
+                action2.onDraw(text);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
-        
+
     }
-    
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
