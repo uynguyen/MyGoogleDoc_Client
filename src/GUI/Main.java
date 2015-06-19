@@ -10,6 +10,7 @@ import Actions.ActionDelete;
 import Actions.ActionFormat;
 import Actions.ActionInsert;
 import Actions.ActionSelect;
+import SwingWorkers.CreateDocTask;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -22,6 +23,7 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
@@ -48,30 +50,30 @@ public class Main extends javax.swing.JFrame {
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-//        String result = "";
-//
-//        try {
-//            String path = "C:\\Users\\UyNguyen.ITUS\\Desktop\\uy.html";
-//
-//            FileReader fr = new FileReader(path);
-//            BufferedReader br = new BufferedReader(fr);
-//
-//            String aline;
-//            while ((aline = br.readLine()) != null) {
-//                result += aline;
-//            }
-//
-//            br.close();
-//            
-//            
-//            styledTextEditor1.setHTMLString(result);
-//
-//        } catch (Exception e) {
-//
-//        }
+        String result = "";
 
-        Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
-          test.start();
+        try {
+            String path = "C:\\Users\\UyNguyen.ITUS\\Desktop\\uy.html";
+
+            FileReader fr = new FileReader(path);
+            BufferedReader br = new BufferedReader(fr);
+
+            String aline;
+            while ((aline = br.readLine()) != null) {
+                result += aline;
+            }
+
+            br.close();
+            
+            
+            styledTextEditor1.setHTMLString(result);
+
+        } catch (Exception e) {
+
+        }
+
+        //Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
+        //  test.start();
     }
 
     private class SuperServerThread extends Thread {
@@ -184,6 +186,21 @@ public class Main extends javax.swing.JFrame {
 
     private void btn_ShareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ShareActionPerformed
         // TODO add your handling code here:
+        
+         String title = JOptionPane.showInputDialog("Input username: ");
+        
+        if(title != null){
+            
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
     }//GEN-LAST:event_btn_ShareActionPerformed
 
     /**
