@@ -8,12 +8,11 @@ package CustomComponents;
 import EditorKits.AdvancedHTMLEditorKit;
 import EditorKits.AdvancedRTFEditorKit;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Event;
 import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,13 +25,11 @@ import java.util.logging.Logger;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
-import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
@@ -41,7 +38,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Caret;
-import javax.swing.text.DefaultCaret;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.SimpleAttributeSet;
@@ -49,7 +45,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
-import jdk.nashorn.internal.objects.NativeArray;
 
 /**
  *
@@ -57,13 +52,11 @@ import jdk.nashorn.internal.objects.NativeArray;
  */
 public final class StyledTextEditor extends javax.swing.JPanel {
 
+   final long  MAX_CHARACTERS = Long.MAX_VALUE;
     Color forcegroundColor = Color.black;
-    Caret defaultCaret;
-//    Timer timer = new Timer(1000, new TimerAction());
     public File currentFile = null;
     String newline = "\n";
     HashMap<Object, Action> actions;
-
     HashMap<String, Caret> caretMap = new HashMap<>();
 
     //undo helpers
@@ -73,11 +66,11 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     public StyledTextEditor() {
         initComponents();
         //   timer.stop();
+       
 
         textPane.setCaretPosition(0);
-        textPane.setMargin(new Insets(20, 20, 20, 20));
-
-        //Set up the menu bar.
+        textPane.setMargin(new Insets(50, 50, 50, 50));
+    
         actions = createActionTable(textPane);
         //Add some key bindings.
         addBindings();
@@ -88,20 +81,23 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.getStyledDocument().addDocumentListener(new StyledTextEditor.MyDocumentListener());
         FormatToolbar.setTextEditor(this);
         
-      //  NewDocument();
+        NewDocument();
 
     }
 
+    public void ApplyAttributeSet(SimpleAttributeSet as){
+      
+    }
+    
     
     public void NewDocument() {
-        textPane.setEditorKit(new HTMLEditorKit());
+        textPane.setEditorKit(new AdvancedHTMLEditorKit());
+        textPane.setContentType(textPane.getEditorKit().getContentType());
         textPane.setDocument(textPane.getEditorKit().createDefaultDocument());
         //Put the initial text into the text pane.
-         initDocument();
-        textPane.setCaretPosition(0);
-        defaultCaret = new DefaultCaret();
-        defaultCaret.setBlinkRate(300);
-        
+      //   initDocument();
+        textPane.setCaretPosition(0);  
+       
     }
 
     private void addChooseFileFilters(JFileChooser chooser) {
@@ -117,7 +113,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
 
     public void InsertImage() {
-        addCaret(5, Color.red);
+        //addCaret(5, Color.red);
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
         addChooseImageFilters(chooser);
@@ -137,24 +133,24 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     
     
-    public void addCaret(int pos, Color cl) {
-        Caret caret = new DefaultCaret();
-       // caret.setBlinkRate(300);
-        caretMap.put(cl.toString(), caret);
-        drawCaret();
-        caret.setDot(pos);
-
-    }
-
-    public void drawCaret() {
-        caretMap.keySet().stream().forEach((key) -> {
-            textPane.setCaret(caretMap.get(key));
-        });
-       
-    }
+//    public void addCaret(int pos, Color cl) {
+//        Caret caret = new DefaultCaret();
+//       // caret.setBlinkRate(300);
+//        caretMap.put(cl.toString(), caret);
+//        drawCaret();
+//        caret.setDot(pos);
+//
+//    }
+//
+//    public void drawCaret() {
+//        caretMap.keySet().stream().forEach((key) -> {
+//            textPane.setCaret(caretMap.get(key));
+//        });
+//       
+//    }
 
     public void OpenDocument() {
-        addCaret(10, Color.BLUE);
+        //addCaret(10, Color.BLUE);
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
         addChooseFileFilters(chooser);
@@ -173,8 +169,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                     setRTFString(content);
                 }
                 textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-
-                textPane.getStyledDocument().addDocumentListener(new StyledTextEditor.MyDocumentListener());
+                textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
             } catch (IOException ex) {
 
             }
@@ -249,6 +244,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
+        
         try {
             if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 currentFile = chooser.getSelectedFile();
@@ -271,8 +267,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         @Override
         public void caretUpdate(CaretEvent e) {
             displaySelectionInfo(e.getDot(), e.getMark());
-            drawCaret();
-             textPane.setCaret(defaultCaret);
+            
+          //  drawCaret();
+           //  textPane.setCaret(defaultCaret);
         }
 
         //This method can be invoked from any thread.  It 
@@ -413,12 +410,15 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
 
     public void setHTMLString(String src) {
-        HTMLEditorKit kit = new HTMLEditorKit();
+        HTMLEditorKit kit = new AdvancedHTMLEditorKit();
         textPane.setEditorKit(kit);
         textPane.setDocument(kit.createDefaultDocument());
         textPane.setCaret(kit.createCaret());
 
         textPane.setText(src);
+        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
+        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+        textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     public String getRTFString() {
@@ -435,10 +435,13 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
 
     public void setRTFString(String src) {
-        RTFEditorKit kit = new RTFEditorKit();
+        RTFEditorKit kit = new AdvancedRTFEditorKit();
         textPane.setEditorKit(kit);
         textPane.setDocument(kit.createDefaultDocument());
         textPane.setText(src);
+        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
+        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+        textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     protected void initDocument() {
@@ -520,16 +523,34 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         jPopupMenu1.setLabel("popup");
 
         textPane.setContentType("text/html"); // NOI18N
+        textPane.setAutoscrolls(false);
         textPane.setComponentPopupMenu(jPopupMenu1);
         textPane.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        textPane.setMaximumSize(jScrollPane1.getPreferredSize());
+        textPane.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                textPaneMouseMoved(evt);
+            }
+        });
+        textPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                textPaneMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                textPaneMouseExited(evt);
+            }
+        });
         jScrollPane1.setViewportView(textPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
             .addComponent(FormatToolbar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addComponent(jScrollPane1)
+                .addGap(137, 137, 137))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -539,6 +560,21 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void textPaneMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textPaneMouseMoved
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_textPaneMouseMoved
+
+    private void textPaneMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textPaneMouseEntered
+        // TODO add your handling code here:
+         setCursor(new Cursor(Cursor.TEXT_CURSOR));
+    }//GEN-LAST:event_textPaneMouseEntered
+
+    private void textPaneMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textPaneMouseExited
+        // TODO add your handling code here:
+         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_textPaneMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

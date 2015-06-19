@@ -8,21 +8,23 @@ package CustomComponents;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
@@ -41,13 +43,14 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
     UndoAction undoAction = new UndoAction();
     RedoAction redoAction = new RedoAction();
     Color forcegroundColor = Color.black;
-
+    JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
    
     /**
      * Creates new form AdvancedFormatToolBar
      */
     public AdvancedFormatToolBar() {
         initComponents();
+      
         initFontComboBox();
         FontSize.setAction(new StyledEditorKit.FontSizeAction(FontSize.getActionCommand(), Integer.parseInt(FontSize.getSelectedItem().toString())));
         FontChooser.setAction(new StyledEditorKit.FontFamilyAction(FontChooser.getActionCommand(), FontChooser.getSelectedItem().toString()));
@@ -236,7 +239,8 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnInsertImage);
 
-        btnColorChooser.setText("Color");
+        btnColorChooser.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnColorChooser.setText("A");
         btnColorChooser.setFocusable(false);
         btnColorChooser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnColorChooser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -316,6 +320,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         Color color = JColorChooser.showDialog(this, "Chọn màu chữ", forcegroundColor);
         if (color != null) {
             forcegroundColor = color;
+            btnColorChooser.setForeground(color);
             (new StyledEditorKit.ForegroundAction("Color", color)).actionPerformed(evt);
         }
     }//GEN-LAST:event_btnColorChooserActionPerformed
@@ -338,16 +343,20 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
     private void btnSaveAsDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAsDocumentActionPerformed
         // TODO add your handling code here:
         textEditor.SaveAsDocument();
+        
+        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
     }//GEN-LAST:event_btnSaveAsDocumentActionPerformed
 
     private void btnSaveDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDocumentActionPerformed
         // TODO add your handling code here:
         textEditor.SaveDocument();
+        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
     }//GEN-LAST:event_btnSaveDocumentActionPerformed
 
     private void btnOpenDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenDocumentActionPerformed
         // TODO add your handling code here:
         textEditor.OpenDocument();
+        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
     }//GEN-LAST:event_btnOpenDocumentActionPerformed
 
     private void btnLeftAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeftAlignActionPerformed
