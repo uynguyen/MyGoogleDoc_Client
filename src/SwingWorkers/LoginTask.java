@@ -8,6 +8,7 @@ package SwingWorkers;
 import Bus.Business;
 import CommunicatePackage.LoginReturnPackage;
 import GUI.MyDocsForm;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -23,11 +24,13 @@ public class LoginTask extends SwingWorker<Object, Object> {
     String password;
     LoginReturnPackage result;
     JFrame loginForm;
+    JButton btn_login;
 
-    public LoginTask(String username, String password, JFrame loginForm) {
+    public LoginTask(String username, String password, JFrame loginForm, JButton btnlogin) {
         this.username = username;
         this.password = password;
         this.loginForm = loginForm;
+        this.btn_login = btnlogin;
     }
 
     @Override
@@ -45,16 +48,19 @@ public class LoginTask extends SwingWorker<Object, Object> {
 
             @Override
             public void run() {
-                if ( result != null || result.result == true ) {
+                if ( result != null && result.result == true ) {
                     // Main Form to show after the Login Form..
                     loginForm.setVisible(false);
+                    
 //                    Pojo.Account user = new Pojo.Account(1234, "Vin", "abc", "xyz");
 //                    
 //                    result = new LoginReturnPackage(true, user, new Document[0]);
                     new MyDocsForm(result).setVisible(true);
                                     
-                } else {                       
-                    JOptionPane.showMessageDialog(loginForm, "Username or password not correct", "Login Error", 0);                 
+                } else {                
+                    btn_login.setEnabled(true);
+                    JOptionPane.showMessageDialog(loginForm, "Username or password not correct", "Login Error", 0);
+                  
                 }
             }
         });

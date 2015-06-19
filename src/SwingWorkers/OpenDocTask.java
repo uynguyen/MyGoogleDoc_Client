@@ -6,7 +6,11 @@
 package SwingWorkers;
 
 import GUI.Main;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -20,7 +24,7 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
     String docID;
     int result;
     JFrame myDocForm;
-    
+
     public OpenDocTask(String docID, JFrame myDocForm){
         this.docID = docID;
         this.myDocForm = myDocForm;
@@ -30,9 +34,12 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
     protected Object doInBackground() throws Exception {
         result = Bus.Business.OpenDoc(docID);
         System.out.println(result);
+    
+        
         return result;
     }
 
+   
     @Override
     protected void done() {
         SwingUtilities.invokeLater(new Runnable() {
@@ -42,7 +49,8 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                 if(result == -1){
                     JOptionPane.showMessageDialog(myDocForm, "Fail to open Document. Please try again later");
                 } else {
-                  //  JOptionPane.showMessageDialog(myDocForm, "Open success. Port " + result);
+             
+                
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
                     new Main(result).setVisible(true);

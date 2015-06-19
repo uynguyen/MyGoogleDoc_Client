@@ -65,6 +65,7 @@ public class MyDocument extends javax.swing.JPanel {
         txt_CreatedDate = new javax.swing.JLabel();
         btn_Delete = new javax.swing.JButton();
         image = new javax.swing.JLabel();
+        btn_Leave = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -115,6 +116,17 @@ public class MyDocument extends javax.swing.JPanel {
             }
         });
 
+        btn_Leave.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        btn_Leave.setText("Leave");
+        btn_Leave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_LeaveMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_LeaveMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,8 +145,10 @@ public class MyDocument extends javax.swing.JPanel {
                                 .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(131, 131, 131)
-                        .addComponent(btn_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addComponent(btn_Leave)
+                        .addGap(68, 68, 68)
+                        .addComponent(btn_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -147,7 +161,9 @@ public class MyDocument extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_CreatedDate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_Delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_Delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_Leave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(17, 17, 17))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -166,8 +182,14 @@ public class MyDocument extends javax.swing.JPanel {
        if(isOwner(Global._currentAccount.getID()))
        {
            btn_Delete.setVisible(true);
-           
+           btn_Leave.setVisible(false);
        }
+       else
+       {
+           btn_Delete.setVisible(false);
+           btn_Leave.setVisible(true);
+       }
+                   
    
 
      // System.out.print(this._IDOwner);
@@ -226,11 +248,22 @@ public class MyDocument extends javax.swing.JPanel {
        
     }//GEN-LAST:event_formMouseClicked
 
+    private void btn_LeaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LeaveMouseEntered
+        // TODO add your handling code here:
+          formMouseEntered(evt);
+    }//GEN-LAST:event_btn_LeaveMouseEntered
+
+    private void btn_LeaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LeaveMouseExited
+        // TODO add your handling code here:
+            formMouseExited(evt);
+    }//GEN-LAST:event_btn_LeaveMouseExited
+
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Delete;
+    private javax.swing.JButton btn_Leave;
     private javax.swing.JLabel image;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel txt_CreatedDate;
@@ -328,7 +361,7 @@ public class MyDocument extends javax.swing.JPanel {
        txt_CreatedDate.setFont(new Font("Serif", Font.PLAIN, 14));
       
        btn_Delete.setVisible(false);
-       
+       btn_Leave.setVisible(false);
     }
     
     
