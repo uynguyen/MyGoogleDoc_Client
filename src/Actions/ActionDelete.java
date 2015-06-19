@@ -15,7 +15,7 @@ import javax.swing.text.BadLocationException;
  *
  * @author UyNguyen.ITUS
  */
-public class ActionDelete extends Action{
+public class ActionDelete extends Action {
 
     public ActionDelete(AttributeSet attributeset) {
         super(attributeset);

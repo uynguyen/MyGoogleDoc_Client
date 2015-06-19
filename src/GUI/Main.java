@@ -5,19 +5,10 @@
  */
 package GUI;
 
-import Actions.Action;
-import Actions.ActionDelete;
-import Actions.ActionFormat;
-import Actions.ActionInsert;
-import Actions.ActionSelect;
+import Bus.Global;
+import CustomComponents.ActionChangeEvent;
 import Runnables.ReceiveThread;
 import Runnables.SendThread;
-import SwingWorkers.CreateDocTask;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,18 +19,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
-import javax.swing.JTextPane;
-import javax.swing.UIManager;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledEditorKit;
-
 
 /**
  *
@@ -47,14 +26,18 @@ import javax.swing.text.StyledEditorKit;
  */
 public class Main extends javax.swing.JFrame {
 
+    private Socket Server;
+    private ObjectOutputStream objectOutputStream;
+    private  int WorkingServerPort;
     /**
      * Creates new form Main
+     * @param workingServerPort
      */
     public Main(int workingServerPort) {
         initComponents();
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+        styledTextEditor1.addDocumentChangeListener(this::performSendActionChangeEvent);
 
 //        String result = "";
 //
@@ -77,28 +60,40 @@ public class Main extends javax.swing.JFrame {
 //        } catch (Exception e) {
 //
 //        }
-
         //Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
         //  test.start();
-
+        WorkingServerPort = workingServerPort;
         try {
-            //Connect to workingServer
-            Socket server = new Socket("localhost",workingServerPort);
-            
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            //Connect to workingServer            
+            Server = new Socket("localhost", workingServerPort);
+            objectOutputStream = new ObjectOutputStream(Server.getOutputStream());
             objectOutputStream.flush();
-            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+            ObjectInputStream objectInputStream = new ObjectInputStream(Server.getInputStream());
             
-            //Create send and receiver thread
-            SendThread sendThread = new SendThread(objectOutputStream, styledTextEditor1);
+            //Sending client info
+            objectOutputStream.writeObject(Global._currentAccount);
+            objectOutputStream.flush();
+            
+            //Create receive thread
             ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 
+        }
     }
 
-      
+    // TODO: Gửi action tới server
+    public final void performSendActionChangeEvent(ActionChangeEvent evt) {
+        Actions.Action action = evt.getAction();
+        
+        if(Global.flag == false){
+            Global.flag = true;
+            return;
+        }
+        //Create send thread
+        SendThread sendThread = new SendThread(objectOutputStream, action);
+        
     }
 
     /**
@@ -153,21 +148,14 @@ public class Main extends javax.swing.JFrame {
 
     private void btn_ShareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ShareActionPerformed
         // TODO add your handling code here:
-        
-         String title = JOptionPane.showInputDialog("Input username: ");
-        
-        if(title != null){
-            
-            
+
+        String title = JOptionPane.showInputDialog("Input username: ");
+
+        if (title != null) {
+
         }
-        
-        
-        
-        
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_btn_ShareActionPerformed
 
 

@@ -5,6 +5,8 @@
  */
 package Runnables;
 
+import Actions.Action;
+import Bus.Global;
 import CustomComponents.StyledTextEditor;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,14 +18,14 @@ import javax.swing.SwingUtilities;
  *
  * @author ThanhTung
  */
-public class ReceiveThread implements Runnable{
-    
+public class ReceiveThread implements Runnable {
+
     Thread t;
     ObjectInputStream objectInputStream;
     StyledTextEditor styledTextEditor;
     String initDocument;
-    
-    public ReceiveThread(ObjectInputStream ois, StyledTextEditor ste){
+
+    public ReceiveThread(ObjectInputStream ois, StyledTextEditor ste) {
         this.objectInputStream = ois;
         this.styledTextEditor = ste;
         t = new Thread(this);
@@ -35,7 +37,7 @@ public class ReceiveThread implements Runnable{
         try {
             //Receive Document
             initDocument = objectInputStream.readUTF();
-            
+
             SwingUtilities.invokeLater(new Runnable() {
 
                 @Override
@@ -43,14 +45,23 @@ public class ReceiveThread implements Runnable{
                     styledTextEditor.setHTMLString(initDocument);
                 }
             });
-            
-            while(true){
-                
+
+            while (true) {
+                Action action = (Action) objectInputStream.readObject();
+                SwingUtilities.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Global.flag = false;
+                        action.onDraw(styledTextEditor.getJTextPane());
+                    }
+                });
+
             }
-            
-        } catch (IOException ex) {
+
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ReceiveThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
