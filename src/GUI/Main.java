@@ -48,30 +48,30 @@ public class Main extends javax.swing.JFrame {
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        String result = "";
+//        String result = "";
+//
+//        try {
+//            String path = "C:\\Users\\UyNguyen.ITUS\\Desktop\\uy.html";
+//
+//            FileReader fr = new FileReader(path);
+//            BufferedReader br = new BufferedReader(fr);
+//
+//            String aline;
+//            while ((aline = br.readLine()) != null) {
+//                result += aline;
+//            }
+//
+//            br.close();
+//            
+//            
+//            styledTextEditor1.setHTMLString(result);
+//
+//        } catch (Exception e) {
+//
+//        }
 
-        try {
-            String path = "C:\\Users\\UyNguyen.ITUS\\Desktop\\uy.html";
-
-            FileReader fr = new FileReader(path);
-            BufferedReader br = new BufferedReader(fr);
-
-            String aline;
-            while ((aline = br.readLine()) != null) {
-                result += aline;
-            }
-
-            br.close();
-            
-            
-            styledTextEditor1.setHTMLString(result);
-
-        } catch (Exception e) {
-
-        }
-
-      //  Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
-        //  test.start();
+        Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
+          test.start();
     }
 
     private class SuperServerThread extends Thread {
