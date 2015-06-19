@@ -5,8 +5,12 @@
  */
 package Runnables;
 
+import Bus.Global;
 import CustomComponents.StyledTextEditor;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,7 +31,15 @@ public class SendThread implements Runnable{
 
     @Override
     public void run() {
-        
+        try {
+            //sending client information
+            objectOutputStream.writeObject(Global._currentAccount);
+            objectOutputStream.flush();
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
