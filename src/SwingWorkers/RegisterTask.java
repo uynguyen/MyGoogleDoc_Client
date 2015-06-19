@@ -6,6 +6,9 @@
 package SwingWorkers;
 
 import Bus.Business;
+import GUI.LoginForm;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -20,13 +23,20 @@ public class RegisterTask extends SwingWorker<Object, Object>{
     String password;
     String email;
     JLabel errorLabel;
+    JButton btn_Register;
+    JButton btn_Back;
+    JFrame registerForm;
     boolean result;
     
-    public RegisterTask(String username, String password, String email, JLabel errorLabel){
+    public RegisterTask(String username, String password, String email, JLabel errorLabel,
+            JButton btn_Register, JButton btn_Back, JFrame registerForm){
         this.username = username;
         this.password = password;
         this.email = email;
         this.errorLabel = errorLabel;
+        this.btn_Register = btn_Register;
+        this.btn_Back = btn_Back;
+        this.registerForm = registerForm;
     }    
     
     @Override
@@ -37,8 +47,13 @@ public class RegisterTask extends SwingWorker<Object, Object>{
             public void run() {
                 if(result == true){
                     errorLabel.setText("Success");
+                    registerForm.setVisible(false);
+                    registerForm.dispose();
+                    new LoginForm().setVisible(true);
                 } else {
                     errorLabel.setText("Something went wrong");
+                    btn_Register.setEnabled(true);
+                    btn_Back.setEnabled(true);
                 }
                 
             }

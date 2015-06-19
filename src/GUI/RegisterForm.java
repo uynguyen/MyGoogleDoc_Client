@@ -51,6 +51,11 @@ public class RegisterForm extends javax.swing.JFrame {
         lbl_Error = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("User Name:");
@@ -78,6 +83,11 @@ public class RegisterForm extends javax.swing.JFrame {
 
         btn_Back.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_Back.setText("Back");
+        btn_Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BackActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("REGISTER FORM");
@@ -188,10 +198,22 @@ public class RegisterForm extends javax.swing.JFrame {
         btn_Register.setEnabled(false);
         btn_Back.setEnabled(false);
         lbl_Error.setText("Wating...");
-        RegisterTask registerTask = new RegisterTask(username, pass, email, lbl_Error);
+        RegisterTask registerTask = new RegisterTask(username, pass, email, lbl_Error, btn_Register, btn_Back, this);
         registerTask.execute();
                
     }//GEN-LAST:event_btn_RegisterActionPerformed
+
+    private void btn_BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BackActionPerformed
+        this.setVisible(false);
+        this.dispose();
+        new LoginForm().setVisible(true);
+    }//GEN-LAST:event_btn_BackActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.setVisible(false);
+        this.dispose();
+        new LoginForm().setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
