@@ -5,36 +5,13 @@
  */
 package GUI;
 
-import Actions.Action;
-import Actions.ActionDelete;
-import Actions.ActionFormat;
-import Actions.ActionInsert;
-import Actions.ActionSelect;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JRootPane;
-import javax.swing.JTextPane;
-import javax.swing.UIManager;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledEditorKit;
 
 /**
  *
@@ -62,7 +39,7 @@ public class Main extends javax.swing.JFrame {
             
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
 
       
     }
