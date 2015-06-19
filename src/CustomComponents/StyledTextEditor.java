@@ -26,8 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
@@ -52,8 +54,8 @@ import javax.swing.text.rtf.RTFEditorKit;
  */
 public final class StyledTextEditor extends javax.swing.JPanel {
 
-     private List<FireChangeDocumentListener> listeners = new ArrayList<FireChangeDocumentListener>();
-    
+    private List<FireChangeDocumentListener> listeners = new ArrayList<FireChangeDocumentListener>();
+
     final long MAX_CHARACTERS = Long.MAX_VALUE;
     Color forcegroundColor = Color.black;
     public File currentFile = null;
@@ -64,23 +66,49 @@ public final class StyledTextEditor extends javax.swing.JPanel {
      * Creates new form StyledTextEditor
      */
     public StyledTextEditor() {
-        initComponents();
-        //   timer.stop();
+      
+    
+            createProgressBar();
+            
+          
+            initComponents();
+            
+            //   timer.stop();
+            
+            textPane.setCaretPosition(0);
+            textPane.setMargin(new Insets(50, 50, 50, 50));
+            
+            //Add some key bindings.
+            addBindings();
+            
+            //Start watching for undoable edits and caret changes.
+            textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
+            
+            textPane.getStyledDocument().addDocumentListener(new StyledTextEditor.MyDocumentListener());
+            FormatToolbar.setTextEditor(this);
+            
+            NewDocument();
+            f.setVisible(false);
+     
+    }
+    JDialog f;
 
-        textPane.setCaretPosition(0);
-        textPane.setMargin(new Insets(50, 50, 50, 50));
+    private void createProgressBar() {
+        try {
 
-        //Add some key bindings.
-        addBindings();
+            Icon icon = new ImageIcon("src\\Resources\\loading.gif");
+            JLabel label = new JLabel(icon);
 
-        //Start watching for undoable edits and caret changes.
-        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
+            f = new JDialog();
+            f.getContentPane().add(label);
+            f.pack();
+            f.setLocationRelativeTo(null);
+            f.setResizable(false);
+            f.setVisible(true);
 
-        textPane.getStyledDocument().addDocumentListener(new StyledTextEditor.MyDocumentListener());
-        FormatToolbar.setTextEditor(this);
-
-        NewDocument();
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void ApplyAttributeSet(SimpleAttributeSet as) {
@@ -243,7 +271,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         public void caretUpdate(CaretEvent e) {
             sendActionCaretUpdate(e.getDot(), e.getMark());
 
-         
         }
 
         protected void sendActionCaretUpdate(final int dot, final int mark) {
@@ -265,11 +292,12 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         }
     }
 
-    public void addDocumentChangeListener(FireChangeDocumentListener listener){
-        if (listener != null)
-             listeners.add(listener);
-}
-    
+    public void addDocumentChangeListener(FireChangeDocumentListener listener) {
+        if (listener != null) {
+            listeners.add(listener);
+        }
+    }
+
     //And this one listens for any changes to the document.
     protected class MyDocumentListener
             implements DocumentListener {
@@ -305,11 +333,11 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             sendAction(action);
         }
     }
-    
-    private void sendAction(Actions.Action action){
+
+    private void sendAction(Actions.Action action) {
         listeners.stream().forEach((l) -> {
             l.FireChange(new ActionChangeEvent(action));
-         });
+        });
     }
 
     //Add a couple of emacs key bindings for navigation.
@@ -381,11 +409,10 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
-    
-    public void ApplyActionChange(Actions.Action action){
+    public void ApplyActionChange(Actions.Action action) {
         action.onDraw(textPane);
     }
-    
+
     protected void initDocument() {
         String initString[]
                 = {"Use the mouse to place the caret.",

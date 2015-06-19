@@ -8,6 +8,17 @@ package GUI;
 import SwingWorkers.LoginTask;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -21,6 +32,8 @@ public class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
+       
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
@@ -150,12 +163,16 @@ public class LoginForm extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
+   
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username = txt_userName.getText();
         String password = txt_Password.getText();
         
-        LoginTask loginTask = new LoginTask(username, password, this);
+        LoginTask loginTask = new LoginTask(username, password, this, jButton1);
+        jButton1.setEnabled(false);
         loginTask.execute();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
