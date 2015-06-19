@@ -5,6 +5,10 @@
  */
 package CustomComponents;
 
+import Actions.ActionDelete;
+import Actions.ActionFormat;
+import Actions.ActionInsert;
+import Actions.ActionSelect;
 import EditorKits.AdvancedHTMLEditorKit;
 import EditorKits.AdvancedRTFEditorKit;
 import java.awt.Color;
@@ -12,17 +16,16 @@ import java.awt.Cursor;
 import java.awt.Event;
 import java.awt.HeadlessException;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JFileChooser;
@@ -35,11 +38,8 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Caret;
 import javax.swing.text.Document;
-import javax.swing.text.JTextComponent;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
@@ -52,12 +52,12 @@ import javax.swing.text.rtf.RTFEditorKit;
  */
 public final class StyledTextEditor extends javax.swing.JPanel {
 
-   final long  MAX_CHARACTERS = Long.MAX_VALUE;
+     private List<FireChangeDocumentListener> listeners = new ArrayList<FireChangeDocumentListener>();
+    
+    final long MAX_CHARACTERS = Long.MAX_VALUE;
     Color forcegroundColor = Color.black;
     public File currentFile = null;
     String newline = "\n";
-    HashMap<Object, Action> actions;
-    HashMap<String, Caret> caretMap = new HashMap<>();
 
     //undo helpers
     /**
@@ -66,12 +66,10 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     public StyledTextEditor() {
         initComponents();
         //   timer.stop();
-       
 
         textPane.setCaretPosition(0);
         textPane.setMargin(new Insets(50, 50, 50, 50));
-    
-        actions = createActionTable(textPane);
+
         //Add some key bindings.
         addBindings();
 
@@ -80,24 +78,23 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
         textPane.getStyledDocument().addDocumentListener(new StyledTextEditor.MyDocumentListener());
         FormatToolbar.setTextEditor(this);
-        
+
         NewDocument();
 
     }
 
-    public void ApplyAttributeSet(SimpleAttributeSet as){
-      
+    public void ApplyAttributeSet(SimpleAttributeSet as) {
+
     }
-    
-    
+
     public void NewDocument() {
         textPane.setEditorKit(new AdvancedHTMLEditorKit());
         textPane.setContentType(textPane.getEditorKit().getContentType());
         textPane.setDocument(textPane.getEditorKit().createDefaultDocument());
         //Put the initial text into the text pane.
-      //   initDocument();
-        textPane.setCaretPosition(0);  
-       
+        //   initDocument();
+        textPane.setCaretPosition(0);
+
     }
 
     private void addChooseFileFilters(JFileChooser chooser) {
@@ -128,26 +125,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
             }
         }
-       
-    }
 
-    
-    
-//    public void addCaret(int pos, Color cl) {
-//        Caret caret = new DefaultCaret();
-//       // caret.setBlinkRate(300);
-//        caretMap.put(cl.toString(), caret);
-//        drawCaret();
-//        caret.setDot(pos);
-//
-//    }
-//
-//    public void drawCaret() {
-//        caretMap.keySet().stream().forEach((key) -> {
-//            textPane.setCaret(caretMap.get(key));
-//        });
-//       
-//    }
+    }
 
     public void OpenDocument() {
         //addCaret(10, Color.BLUE);
@@ -229,14 +208,10 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     }
 
-    
-    public JTextPane getJTextPane(){
+    public JTextPane getJTextPane() {
         return textPane;
     }
-    
-    
-    
-  
+
     public void SaveAsDocument() {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
@@ -244,7 +219,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
-        
+
         try {
             if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 currentFile = chooser.getSelectedFile();
@@ -266,115 +241,77 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         //Might not be invoked from the event dispatch thread.
         @Override
         public void caretUpdate(CaretEvent e) {
-            displaySelectionInfo(e.getDot(), e.getMark());
-            
-          //  drawCaret();
-           //  textPane.setCaret(defaultCaret);
+            sendActionCaretUpdate(e.getDot(), e.getMark());
+
+         
         }
 
-        //This method can be invoked from any thread.  It 
-        //invokes the setText and modelToView methods, which 
-        //must run on the event dispatch thread. We use
-        //invokeLater to schedule the code for execution
-        //on the event dispatch thread.
-        protected void displaySelectionInfo(final int dot,
-                final int mark) {
+        protected void sendActionCaretUpdate(final int dot, final int mark) {
             SwingUtilities.invokeLater(() -> {
                 if (dot == mark) {  // no selection
-                    try {
-                        Rectangle caretCoords = textPane.modelToView(dot);
-                        //Convert it to view coordinates.
-                        setText("caret: text position: " + dot
-                                + ", view location = ["
-                                + caretCoords.x + ", "
-                                + caretCoords.y + "]"
-                                + newline);
-                    } catch (BadLocationException ble) {
-                        setText("caret: text position: " + dot + newline);
-                    }
+
                 } else {
+                    ActionSelect action = new ActionSelect(textPane.getCharacterAttributes());
                     if (dot < mark) {
-                        setText("selection from: " + dot
-                                + " to " + mark + newline);
+                        action.setStartPosition(dot);
+                        action.setEndPosition(mark);
                     } else {
-                        setText("selection from: " + mark
-                                + " to " + dot + newline);
+                        action.setStartPosition(mark);
+                        action.setEndPosition(dot);
                     }
-                }
-                try {
-                    AttributeSet atts = ((StyledEditorKit) textPane.getEditorKit()).getInputAttributes();
-                    System.out.println(textPane.getStyledDocument().getText(dot, dot - mark));
-
-                    System.out.println("isBold :" + StyleConstants.isBold(atts));
-                    System.out.println("isItalic :" + StyleConstants.isItalic(atts));
-                    System.out.println("isUnderline :" + StyleConstants.isUnderline(atts));
-                } catch (Exception ex) {
-
+                    sendAction(action);
                 }
             });
         }
     }
-//    int BeginOffset = 0;
-//    int EndOffset = 0;
-//    String resultToPost = "";
 
+    public void addDocumentChangeListener(FireChangeDocumentListener listener){
+        if (listener != null)
+             listeners.add(listener);
+}
+    
     //And this one listens for any changes to the document.
     protected class MyDocumentListener
             implements DocumentListener {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
-//            
-//            if (!timer.isRunning()) {
-//                BeginOffset = e.getOffset();
-//                EndOffset = e.getOffset();
-//            }
-//            doTheChange( e, timer);
-//            timer.restart();
+            ActionInsert action = new ActionInsert(textPane.getCharacterAttributes());
 
+            try {
+                action.setStartPosition(e.getOffset());
+                action.setContent(e.getDocument().getText(e.getOffset(), e.getLength()));
+
+            } catch (BadLocationException ex) {
+                Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            sendAction(action);
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            doTheChange(e);
-//            if (!timer.isRunning()) {
-//                BeginOffset = e.getOffset();
-//                EndOffset = e.getOffset();
-//            }
-//            doTheChange(e, timer);
-//            timer.restart();
+            ActionDelete action = new ActionDelete(textPane.getCharacterAttributes());
+
+            action.setStartPosition(e.getOffset());
+            action.setEndPosition(e.getOffset() + e.getLength());
+            sendAction(action);
         }
 
         @Override
         public void changedUpdate(DocumentEvent e) {
-            doTheChange(e);
-//            if (!timer.isRunning()) {
-//                BeginOffset = e.getOffset();
-//                EndOffset = e.getOffset();
-//            }
-//            doTheChange(e, timer);
-//            timer.restart();
-        }
-
-        private void doTheChange(DocumentEvent e) {
-
+            ActionFormat action = new ActionFormat(textPane.getCharacterAttributes());
+            action.setStartPosition(e.getOffset());
+            action.setEndPosition(e.getOffset() + e.getLength());
+            sendAction(action);
         }
     }
-//
-//    class TimerAction implements ActionListener {
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            CommitChange(resultToPost);
-//            Timer t = (Timer) e.getSource();
-//            t.stop();
-//        }
-//
-//    }
+    
+    private void sendAction(Actions.Action action){
+        listeners.stream().forEach((l) -> {
+            l.FireChange(new ActionChangeEvent(action));
+         });
+    }
 
-//    public void CommitChange(String strChangeString){
-//        System.out.println(strChangeString);
-//    }
     //Add a couple of emacs key bindings for navigation.
     protected void addBindings() {
         InputMap inputMap = textPane.getInputMap();
@@ -413,12 +350,12 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         HTMLEditorKit kit = new AdvancedHTMLEditorKit();
         textPane.setEditorKit(kit);
         textPane.setDocument(kit.createDefaultDocument());
-       // textPane.setCaret(kit.createCaret());
+        // textPane.setCaret(kit.createCaret());
 
         textPane.setText(src);
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
         textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
-      //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     public String getRTFString() {
@@ -441,7 +378,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setText(src);
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
         textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
-      //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     protected void initDocument() {
@@ -489,21 +426,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         StyleConstants.setForeground(attrs[5], Color.red);
 
         return attrs;
-    }
-
-    //The following two methods allow us to find an
-    //action provided by the editor kit by its name.
-    private HashMap<Object, Action> createActionTable(JTextComponent textComponent) {
-        HashMap<Object, Action> actionlisteners = new HashMap<>();
-        Action[] actionsArray = textComponent.getActions();
-        for (Action a : actionsArray) {
-            actionlisteners.put(a.getValue(Action.NAME), a);
-        }
-        return actionlisteners;
-    }
-
-    private Action getActionByName(String name) {
-        return actions.get(name);
     }
 
     /**
@@ -567,17 +489,17 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     private void textPaneMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textPaneMouseMoved
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_textPaneMouseMoved
 
     private void textPaneMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textPaneMouseEntered
         // TODO add your handling code here:
-         setCursor(new Cursor(Cursor.TEXT_CURSOR));
+        setCursor(new Cursor(Cursor.TEXT_CURSOR));
     }//GEN-LAST:event_textPaneMouseEntered
 
     private void textPaneMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textPaneMouseExited
         // TODO add your handling code here:
-         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_textPaneMouseExited
 
 

@@ -10,6 +10,8 @@ import Actions.ActionDelete;
 import Actions.ActionFormat;
 import Actions.ActionInsert;
 import Actions.ActionSelect;
+import CustomComponents.ActionChangeEvent;
+import CustomComponents.FireChangeDocumentListener;
 import Runnables.ReceiveThread;
 import Runnables.SendThread;
 import SwingWorkers.CreateDocTask;
@@ -40,21 +42,23 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 
-
 /**
  *
  * @author Vin
  */
 public class Main extends javax.swing.JFrame {
 
+    private Socket Server;
+    private  int WorkingServerPort;
     /**
      * Creates new form Main
+     * @param workingServerPort
      */
     public Main(int workingServerPort) {
         initComponents();
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+        styledTextEditor1.addDocumentChangeListener(this::performSendActionChangeEvent);
 
 //        String result = "";
 //
@@ -77,28 +81,40 @@ public class Main extends javax.swing.JFrame {
 //        } catch (Exception e) {
 //
 //        }
-
         //Thread test = new SuperServerThread(styledTextEditor1.getJTextPane());
         //  test.start();
-
+        WorkingServerPort = workingServerPort;
         try {
             //Connect to workingServer
-            Socket server = new Socket("localhost",workingServerPort);
-            
+            Socket server = new Socket("localhost", workingServerPort);
+            Server = new Socket("localhost", workingServerPort);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
             objectOutputStream.flush();
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
-            
-            //Create send and receiver thread
-            SendThread sendThread = new SendThread(objectOutputStream, styledTextEditor1);
+
             ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 
+        }
     }
 
-      
+    // TODO: Gửi action tới server
+    public final void performSendActionChangeEvent(ActionChangeEvent evt) {
+        Actions.Action action = evt.getAction();
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(Server.getOutputStream());
+            objectOutputStream.flush();
+           
+            //Create send and receiver thread
+            SendThread sendThread = new SendThread(objectOutputStream, action);
+            
+
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
     }
 
     /**
@@ -151,21 +167,14 @@ public class Main extends javax.swing.JFrame {
 
     private void btn_ShareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ShareActionPerformed
         // TODO add your handling code here:
-        
-         String title = JOptionPane.showInputDialog("Input username: ");
-        
-        if(title != null){
-            
-            
+
+        String title = JOptionPane.showInputDialog("Input username: ");
+
+        if (title != null) {
+
         }
-        
-        
-        
-        
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_btn_ShareActionPerformed
 
 

@@ -45,9 +45,12 @@ public class LoginTask extends SwingWorker<Object, Object> {
 
             @Override
             public void run() {
-                if (result.result == true) {
+                if ( result != null || result.result == true ) {
                     // Main Form to show after the Login Form..
                     loginForm.setVisible(false);
+//                    Pojo.Account user = new Pojo.Account(1234, "Vin", "abc", "xyz");
+//                    
+//                    result = new LoginReturnPackage(true, user, new Document[0]);
                     new MyDocsForm(result).setVisible(true);
                                     
                 } else {                       
