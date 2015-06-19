@@ -8,6 +8,7 @@ package GUI;
 import Bus.Global;
 import CommunicatePackage.LoginReturnPackage;
 import CustomComponents.MyDocument;
+import CustomComponents.WrapLayout;
 
 import java.awt.Dimension;
 
@@ -47,33 +48,13 @@ public class MyDocsForm extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
 
-        
-        
-        
-        
         int lstDocSize = result.documentList.length;
-        int temp1 = lstDocSize % 5;
-        int temp2 = lstDocSize / 5;
         
-        if(lstDocSize % 5 != 0){
-            temp2++;
-        }
-
-        
+           
         ArrayList<Pojo.Document> returnListDocument = new ArrayList<Pojo.Document>();
 
-        GridLayout grid = new GridLayout();
-        grid.setHgap(5);
-        grid.setVgap(5);
-        grid.setColumns(5);
-        grid.setRows(temp2);
-        
-        
-        panel_MyDocs.setPreferredSize(new Dimension( 200 * 5, 220 * temp2 ));
-        
-        
-        
-        panel_MyDocs.setLayout(grid);
+           
+        panel_MyDocs.setLayout(new WrapLayout(java.awt.FlowLayout.LEFT, 10, 10));
         for (int i = 0; i < lstDocSize; i++) {
             String name = result.documentList[i].getName();
             Date date = result.documentList[i].getDateCreate();
@@ -122,6 +103,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         panel_MyDocs = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 500));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -208,17 +190,10 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        javax.swing.GroupLayout panel_MyDocsLayout = new javax.swing.GroupLayout(panel_MyDocs);
-        panel_MyDocs.setLayout(panel_MyDocsLayout);
-        panel_MyDocsLayout.setHorizontalGroup(
-            panel_MyDocsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2347, Short.MAX_VALUE)
-        );
-        panel_MyDocsLayout.setVerticalGroup(
-            panel_MyDocsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
-        );
-
+        panel_MyDocs.setBackground(new java.awt.Color(204, 255, 204));
+        panel_MyDocs.setMinimumSize(new java.awt.Dimension(400, 400));
+        panel_MyDocs.setPreferredSize(new java.awt.Dimension(400, 400));
+        panel_MyDocs.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
         jScrollPane2.setViewportView(panel_MyDocs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -228,7 +203,7 @@ public class MyDocsForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
