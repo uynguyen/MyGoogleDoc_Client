@@ -10,6 +10,8 @@ import Actions.ActionDelete;
 import Actions.ActionFormat;
 import Actions.ActionInsert;
 import Actions.ActionSelect;
+import Runnables.ReceiveThread;
+import Runnables.SendThread;
 import SwingWorkers.CreateDocTask;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -88,6 +90,8 @@ public class Main extends javax.swing.JFrame {
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
             
             //Create send and receiver thread
+            SendThread sendThread = new SendThread(objectOutputStream, styledTextEditor1);
+            ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1);
             
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
