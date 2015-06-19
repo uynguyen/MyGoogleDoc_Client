@@ -5,21 +5,10 @@
  */
 package GUI;
 
-import Actions.Action;
-import Actions.ActionDelete;
-import Actions.ActionFormat;
-import Actions.ActionInsert;
-import Actions.ActionSelect;
+import Bus.Global;
 import CustomComponents.ActionChangeEvent;
-import CustomComponents.FireChangeDocumentListener;
 import Runnables.ReceiveThread;
 import Runnables.SendThread;
-import SwingWorkers.CreateDocTask;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,17 +19,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
-import javax.swing.JTextPane;
-import javax.swing.UIManager;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledEditorKit;
 
 /**
  *
@@ -49,6 +27,7 @@ import javax.swing.text.StyledEditorKit;
 public class Main extends javax.swing.JFrame {
 
     private Socket Server;
+    private ObjectOutputStream objectOutputStream;
     private  int WorkingServerPort;
     /**
      * Creates new form Main
@@ -85,13 +64,17 @@ public class Main extends javax.swing.JFrame {
         //  test.start();
         WorkingServerPort = workingServerPort;
         try {
-            //Connect to workingServer
-            Socket server = new Socket("localhost", workingServerPort);
+            //Connect to workingServer            
             Server = new Socket("localhost", workingServerPort);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream = new ObjectOutputStream(Server.getOutputStream());
             objectOutputStream.flush();
-            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
-
+            ObjectInputStream objectInputStream = new ObjectInputStream(Server.getInputStream());
+            
+            //Sending client info
+            objectOutputStream.writeObject(Global._currentAccount);
+            objectOutputStream.flush();
+            
+            //Create receive thread
             ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1);
 
         } catch (IOException ex) {
@@ -103,18 +86,14 @@ public class Main extends javax.swing.JFrame {
     // TODO: Gửi action tới server
     public final void performSendActionChangeEvent(ActionChangeEvent evt) {
         Actions.Action action = evt.getAction();
-        try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(Server.getOutputStream());
-            objectOutputStream.flush();
-           
-            //Create send and receiver thread
-            SendThread sendThread = new SendThread(objectOutputStream, action);
-            
-
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-
+        
+        if(Global.flag == false){
+            Global.flag = true;
+            return;
         }
+        //Create send thread
+        SendThread sendThread = new SendThread(objectOutputStream, action);
+        
     }
 
     /**
