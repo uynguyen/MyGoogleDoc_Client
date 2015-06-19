@@ -381,6 +381,11 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
+    
+    public void ApplyActionChange(Actions.Action action){
+        action.onDraw(textPane);
+    }
+    
     protected void initDocument() {
         String initString[]
                 = {"Use the mouse to place the caret.",

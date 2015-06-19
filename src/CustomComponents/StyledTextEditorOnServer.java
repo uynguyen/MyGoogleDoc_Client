@@ -79,7 +79,13 @@ public final class StyledTextEditorOnServer extends javax.swing.JPanel {
         NewDocument();
 
     }
-
+    
+    // Hàm cập nhật thay đổi của text editor khi nhận vào một action
+    public void ApplyActionChange(Actions.Action action){
+        action.onDraw(textPane);
+    }
+    
+    
     public void ApplyAttributeSet(SimpleAttributeSet as) {
 
     }

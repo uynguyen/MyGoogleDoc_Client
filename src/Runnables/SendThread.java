@@ -35,6 +35,7 @@ public class SendThread implements Runnable{
         System.err.println("Sending...");
         try {
             objectOutputStream.writeObject(this.action);
+            objectOutputStream.flush();
         } catch (IOException ex) {
             Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
         }
