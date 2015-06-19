@@ -43,7 +43,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
     UndoAction undoAction = new UndoAction();
     RedoAction redoAction = new RedoAction();
     Color forcegroundColor = Color.black;
-    JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    //JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
    
     /**
      * Creates new form AdvancedFormatToolBar
@@ -344,19 +344,19 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         // TODO add your handling code here:
         textEditor.SaveAsDocument();
         
-        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
+//        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
     }//GEN-LAST:event_btnSaveAsDocumentActionPerformed
 
     private void btnSaveDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDocumentActionPerformed
         // TODO add your handling code here:
         textEditor.SaveDocument();
-        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
+//        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
     }//GEN-LAST:event_btnSaveDocumentActionPerformed
 
     private void btnOpenDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenDocumentActionPerformed
         // TODO add your handling code here:
         textEditor.OpenDocument();
-        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
+//        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
     }//GEN-LAST:event_btnOpenDocumentActionPerformed
 
     private void btnLeftAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeftAlignActionPerformed

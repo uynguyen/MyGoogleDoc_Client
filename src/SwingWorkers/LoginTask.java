@@ -54,8 +54,7 @@ public class LoginTask extends SwingWorker<Object, Object> {
                     new MyDocsForm(result).setVisible(true);
                                     
                 } else {                       
-                    JOptionPane.showMessageDialog(loginForm, "Username or password not correct", "Login Error", 0);
-                  
+                    JOptionPane.showMessageDialog(loginForm, "Username or password not correct", "Login Error", 0);                 
                 }
             }
         });
