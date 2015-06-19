@@ -26,21 +26,17 @@ public class SendThread implements Runnable{
         this.objectOutputStream = oos;
         this.action = _action;
         t = new Thread(this);
-        t.start();
-       
+        t.start();       
     }
 
     @Override
     public void run() {
-        System.err.println("Sending...");
-        try {
+        try {            
             objectOutputStream.writeObject(this.action);
             objectOutputStream.flush();
         } catch (IOException ex) {
             Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         System.err.println("Sended!");
-            
+        }            
     }
     
 }

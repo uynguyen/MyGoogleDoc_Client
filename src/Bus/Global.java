@@ -17,6 +17,6 @@ public  class Global {
     
     public static Account _currentAccount;
     public static ArrayList<Pojo.Document> _currentListDocument;
-    
+    public static boolean flag = true;
     
 }
