@@ -309,7 +309,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
     
     private void sendAction(Actions.Action action){
-        ApplyActionChange(action);
+        
         listeners.stream().forEach((l) -> {
             l.FireChange(new ActionChangeEvent(action));
          });
