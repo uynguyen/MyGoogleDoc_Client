@@ -83,9 +83,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setContentType(textPane.getEditorKit().getContentType());
         textPane.setDocument(textPane.getEditorKit().createDefaultDocument()); 
         textPane.setStyledDocument(new HTMLDocument());
-        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
-        textPane.addCaretListener(new CaretListenerLabel(""));
+       
         textPane.setCaretPosition(0);
     }
 
@@ -356,6 +354,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     public void setHTMLString(String src) {
         NewDocument();
         textPane.setText(src);
+        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
+        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+        textPane.addCaretListener(new CaretListenerLabel(""));
     }
 
     public String getRTFString() {

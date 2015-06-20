@@ -36,7 +36,7 @@ public class ReceiveThread implements Runnable {
     public void run() {
         try {
             //Receive Document
-            initDocument = objectInputStream.readUTF();
+            initDocument = (String)  objectInputStream.readObject();
 
             SwingUtilities.invokeLater(() -> {
                 Global.flag = false;
