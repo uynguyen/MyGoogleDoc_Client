@@ -350,6 +350,10 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setText(src);
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
         textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+        
+        
+        
+        
         //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 

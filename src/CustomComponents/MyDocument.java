@@ -27,12 +27,12 @@ public class MyDocument extends javax.swing.JPanel {
     private String _Path;
     private Date _DateCreate;
     private int _IDOwner;
-    private int _IDPartners;
+  
     private String _Code;
     /**
      * Creates new form MyDocument
      */
-    public MyDocument(int id,String name, String path, Date date, int idOwner, int idPartners, String code) {
+    public MyDocument(int id,String name, String path, Date date, int idOwner, String code) {
        initComponents();
        initControl();
        this._ID = id;
@@ -40,7 +40,7 @@ public class MyDocument extends javax.swing.JPanel {
        this._Path = path;
        this._DateCreate = date;
        this._IDOwner = idOwner;
-       this._IDPartners = idPartners;
+      
        this._Code = code;
        txt_Name.setText(name);
        txt_CreatedDate.setText(date.toLocaleString());
@@ -221,7 +221,7 @@ public class MyDocument extends javax.swing.JPanel {
 
     private void imageMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseEntered
         // TODO add your handling code here:
-        
+     
         image.setToolTipText("<html>" + this._Name + "<br>" + this._DateCreate.toLocaleString() + "</html>");
         formMouseEntered(evt);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -236,6 +236,7 @@ public class MyDocument extends javax.swing.JPanel {
 
     private void imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseClicked
         // TODO add your handling code here:
+        image.setEnabled(false); //Khỏi click nhiều lần
         OpenDocTask openDocTask = new OpenDocTask(_Code,(JFrame) SwingUtilities.getWindowAncestor(this));
         openDocTask.execute();
       //  System.out.print("open" + this._Code);
@@ -340,19 +341,7 @@ public class MyDocument extends javax.swing.JPanel {
         this._IDOwner = _IDOwner;
     }
 
-    /**
-     * @return the _IDPartners
-     */
-    public int getIDPartners() {
-        return _IDPartners;
-    }
 
-    /**
-     * @param _IDPartners the _IDPartners to set
-     */
-    public void setIDPartners(int _IDPartners) {
-        this._IDPartners = _IDPartners;
-    }
 
     private void initControl() {
        this.setBorder(BorderFactory.createMatteBorder(
