@@ -111,13 +111,15 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
                 AdvancedHTMLEditorKit kit = (AdvancedHTMLEditorKit)textPane.getEditorKit();
-              kit.insertImage(textPane.getStyledDocument(), textPane.getCaretPosition(), chooser.getSelectedFile());
-              
+              String imgTagData = kit.insertImage(textPane.getStyledDocument(), textPane.getCaretPosition(), chooser.getSelectedFile());
+              Actions.ActionInsertImage action = new Actions.ActionInsertImage(textPane.getCharacterAttributes());
+              action.setStartPosition(textPane.getCaretPosition());
+              action.setContent(imgTagData);
+                sendAction(action);
             } catch (Exception ex) {
 
             }
         }
-
     }
 
     public void OpenDocument() {
@@ -309,7 +311,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
     
     private void sendAction(Actions.Action action){
-        ApplyActionChange(action);
+        
         listeners.stream().forEach((l) -> {
             l.FireChange(new ActionChangeEvent(action));
          });
@@ -347,9 +349,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         return strResult;
     }
 
-    protected String addUTF8Charset(String src) {
-        return "";
-    }
 
     public void setHTMLString(String src) {
         NewDocument();
