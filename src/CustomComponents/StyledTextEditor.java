@@ -20,16 +20,17 @@ import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
@@ -45,6 +46,8 @@ import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
 
@@ -54,75 +57,34 @@ import javax.swing.text.rtf.RTFEditorKit;
  */
 public final class StyledTextEditor extends javax.swing.JPanel {
 
-    private List<FireChangeDocumentListener> listeners = new ArrayList<FireChangeDocumentListener>();
-
+     private final List<FireChangeDocumentListener> listeners = new ArrayList<>();
+    
     final long MAX_CHARACTERS = Long.MAX_VALUE;
     Color forcegroundColor = Color.black;
     public File currentFile = null;
     String newline = "\n";
 
-    //undo helpers
-    /**
-     * Creates new form StyledTextEditor
-     */
+
     public StyledTextEditor() {
-      
-    
-            createProgressBar();
-            
-          
-            initComponents();
-            
-            //   timer.stop();
-            
-            textPane.setCaretPosition(0);
-            textPane.setMargin(new Insets(50, 50, 50, 50));
-            
-            //Add some key bindings.
-            addBindings();
-            
-            //Start watching for undoable edits and caret changes.
-            textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-            
-            textPane.getStyledDocument().addDocumentListener(new StyledTextEditor.MyDocumentListener());
-            FormatToolbar.setTextEditor(this);
-            
-            NewDocument();
-            f.setVisible(false);
-     
-    }
-    JDialog f;
-
-    private void createProgressBar() {
-        try {
-
-            Icon icon = new ImageIcon("src\\Resources\\loading.gif");
-            JLabel label = new JLabel(icon);
-
-            f = new JDialog();
-            f.getContentPane().add(label);
-            f.pack();
-            f.setLocationRelativeTo(null);
-            f.setResizable(false);
-            f.setVisible(true);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        initComponents();
+        textPane.setMargin(new Insets(50, 50, 50, 50));
+       // textPane.setCaretPosition(0);
+        NewDocument();
+        addBindings();
+         
+        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
+        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+        FormatToolbar.setTextEditor(this);
+        
     }
 
-    public void ApplyAttributeSet(SimpleAttributeSet as) {
-
-    }
-
+    // Tạo một tài liệu mới
     public void NewDocument() {
         textPane.setEditorKit(new AdvancedHTMLEditorKit());
         textPane.setContentType(textPane.getEditorKit().getContentType());
-        textPane.setDocument(textPane.getEditorKit().createDefaultDocument());
-        //Put the initial text into the text pane.
-        //   initDocument();
+        textPane.setDocument(textPane.getEditorKit().createDefaultDocument()); 
+        textPane.setStyledDocument(new HTMLDocument());
         textPane.setCaretPosition(0);
-
     }
 
     private void addChooseFileFilters(JFileChooser chooser) {
@@ -138,7 +100,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
 
     public void InsertImage() {
-        //addCaret(5, Color.red);
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
         addChooseImageFilters(chooser);
@@ -147,8 +108,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         chooser.setMultiSelectionEnabled(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
-                textPane.insertIcon(new ImageIcon(chooser.getSelectedFile().getAbsolutePath()));
-
+                AdvancedHTMLEditorKit kit = (AdvancedHTMLEditorKit)textPane.getEditorKit();
+              kit.insertImage(textPane.getStyledDocument(), textPane.getCaretPosition(), chooser.getSelectedFile());
+              
             } catch (Exception ex) {
 
             }
@@ -240,6 +202,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         return textPane;
     }
 
+
     public void SaveAsDocument() {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
@@ -251,6 +214,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         try {
             if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 currentFile = chooser.getSelectedFile();
+                
+                
                 SaveDocument();
             }
         } catch (HeadlessException e) {
@@ -271,6 +236,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         public void caretUpdate(CaretEvent e) {
             sendActionCaretUpdate(e.getDot(), e.getMark());
 
+         
         }
 
         protected void sendActionCaretUpdate(final int dot, final int mark) {
@@ -292,12 +258,11 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         }
     }
 
-    public void addDocumentChangeListener(FireChangeDocumentListener listener) {
-        if (listener != null) {
-            listeners.add(listener);
-        }
-    }
-
+    public void addDocumentChangeListener(FireChangeDocumentListener listener){
+        if (listener != null)
+             listeners.add(listener);
+}
+    
     //And this one listens for any changes to the document.
     protected class MyDocumentListener
             implements DocumentListener {
@@ -333,11 +298,11 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             sendAction(action);
         }
     }
-
-    private void sendAction(Actions.Action action) {
+    
+    private void sendAction(Actions.Action action){
         listeners.stream().forEach((l) -> {
             l.FireChange(new ActionChangeEvent(action));
-        });
+         });
     }
 
     //Add a couple of emacs key bindings for navigation.
@@ -357,14 +322,16 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         inputMap.put(key, new StyledEditorKit.UnderlineAction());
     }
 
+    
+    // Lấy chuỗi HTML của tài liệu
     public String getHTMLString() {
         String strResult = "";
         try {
-            HTMLEditorKit kit = new HTMLEditorKit();
+            AdvancedHTMLEditorKit kit = new AdvancedHTMLEditorKit();
             Document d = textPane.getStyledDocument();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            kit.write(baos, d, d.getStartPosition().getOffset(), d.getLength());
-            strResult = baos.toString(StandardCharsets.UTF_8.name());
+            StringWriter wt = new StringWriter();
+            kit.write(wt, d, d.getStartPosition().getOffset(), d.getLength());         
+            strResult = wt.getBuffer().toString();
         } catch (IOException | BadLocationException ex) {
         }
         return strResult;
@@ -409,10 +376,11 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
-    public void ApplyActionChange(Actions.Action action) {
+    
+    public void ApplyActionChange(Actions.Action action){
         action.onDraw(textPane);
     }
-
+    
     protected void initDocument() {
         String initString[]
                 = {"Use the mouse to place the caret.",
