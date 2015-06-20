@@ -347,9 +347,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         return strResult;
     }
 
-    protected String addUTF8Charset(String src) {
-        return "";
-    }
 
     public void setHTMLString(String src) {
         NewDocument();
