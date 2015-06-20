@@ -92,7 +92,7 @@ public class Main extends javax.swing.JFrame {
             return;
         }
         try {
-            Thread.sleep(100);
+            Thread.sleep(60);
         } catch (InterruptedException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
