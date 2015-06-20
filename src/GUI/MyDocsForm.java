@@ -60,10 +60,10 @@ public class MyDocsForm extends javax.swing.JFrame {
             Date date = result.documentList[i].getDateCreate();
             String path = result.documentList[i].getPath();
             int idOwner = result.documentList[i].getIDOwner();
-            int idPartners = result.documentList[i].getIDPartners();
+       
             int id = result.documentList[i].getID();
             String code = result.documentList[i].getCode();
-            panel_MyDocs.add(new MyDocument(id,name,path,date,idOwner,idPartners,code));
+            panel_MyDocs.add(new MyDocument(id,name,path,date,idOwner,code));
             returnListDocument.add(result.documentList[i]);
            // jScrollPane.add(panel_MyDocs);
         }

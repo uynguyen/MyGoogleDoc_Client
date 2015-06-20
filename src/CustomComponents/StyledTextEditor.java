@@ -283,6 +283,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             try {
                 action.setStartPosition(e.getOffset());
                 action.setContent(e.getDocument().getText(e.getOffset(), e.getLength()));
+
             } catch (BadLocationException ex) {
                 Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
             }
