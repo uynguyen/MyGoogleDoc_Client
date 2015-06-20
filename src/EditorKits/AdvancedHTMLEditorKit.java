@@ -101,7 +101,7 @@ public class AdvancedHTMLEditorKit extends HTMLEditorKit {
         // tạo chuỗi base 64 của image
         String imgString = "";
         try {
-            BufferedInputStream itStrm = new BufferedInputStream(new FileInputStream(selectedFile));
+          
             byte[] buff = Files.readAllBytes(selectedFile.toPath());
             imgString = Base64.getEncoder().encodeToString(buff);
             if (!"".equals(imgString)) {
