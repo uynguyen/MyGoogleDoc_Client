@@ -9,6 +9,7 @@ import Bus.Global;
 import CommunicatePackage.LoginReturnPackage;
 import CustomComponents.MyDocument;
 import CustomComponents.WrapLayout;
+import Pojo.Invite;
 
 import java.awt.Dimension;
 
@@ -16,6 +17,7 @@ import SwingWorkers.CreateDocTask;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import javax.swing.ImageIcon;
 
@@ -74,10 +76,13 @@ public class MyDocsForm extends javax.swing.JFrame {
         ImageIcon icon = new ImageIcon("src\\Resources\\avatar_default.png"); 
         lb_avatar.setLocation(150,5);
         lb_avatar.setIcon(icon); 
-      
+        
+        lbl_countNoti.setText(String.valueOf(result.inviteList.length) + " NEWs");
+        
         
         Global._currentAccount = result.user;
         Global._currentListDocument = returnListDocument;
+        Global._currentListInvite = new ArrayList<Invite>(Arrays.asList(result.inviteList));
     }
 
     /**
@@ -100,6 +105,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         btn_logout3 = new javax.swing.JButton();
         btn_createDoc = new javax.swing.JButton();
         btn_Collaboration = new javax.swing.JButton();
+        lbl_countNoti = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         panel_MyDocs = new javax.swing.JPanel();
 
@@ -137,17 +143,14 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         btn_Collaboration.setText("Collaboration");
 
+        lbl_countNoti.setText("jLabel1");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btn_logout2)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_createDoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -167,9 +170,17 @@ public class MyDocsForm extends javax.swing.JFrame {
                                         .addComponent(txt_UserName))
                                     .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_Collaboration)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_logout2)
+                            .addComponent(btn_Collaboration))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lbl_countNoti)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btn_createDoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -185,9 +196,11 @@ public class MyDocsForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_logout2)
                     .addComponent(btn_createDoc))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(btn_Collaboration)
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_Collaboration)
+                    .addComponent(lbl_countNoti))
+                .addGap(18, 18, 18)
                 .addComponent(btn_logout)
                 .addGap(18, 18, 18)
                 .addComponent(btn_logout3)
@@ -211,7 +224,7 @@ public class MyDocsForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -285,6 +298,7 @@ public class MyDocsForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lb_avatar;
+    private javax.swing.JLabel lbl_countNoti;
     private javax.swing.JPanel panel_MyDocs;
     private javax.swing.JLabel txt_UserName;
     // End of variables declaration//GEN-END:variables

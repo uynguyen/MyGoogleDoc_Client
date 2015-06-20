@@ -6,6 +6,8 @@
 package Bus;
 
 import Pojo.Account;
+import Pojo.Document;
+import Pojo.Invite;
 import java.util.ArrayList;
 
 /**
@@ -15,7 +17,8 @@ import java.util.ArrayList;
 public  class Global {
     
     public static Account _currentAccount;
-    public static ArrayList<Pojo.Document> _currentListDocument;
+    public static ArrayList<Document> _currentListDocument;
+    public static ArrayList<Invite> _currentListInvite;
     public static boolean flag = true;
     
 }
