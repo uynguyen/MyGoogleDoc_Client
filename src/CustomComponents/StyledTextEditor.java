@@ -72,8 +72,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         NewDocument();
         addBindings();
          
-        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+        
         FormatToolbar.setTextEditor(this);
         
     }
@@ -84,6 +83,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setContentType(textPane.getEditorKit().getContentType());
         textPane.setDocument(textPane.getEditorKit().createDefaultDocument()); 
         textPane.setStyledDocument(new HTMLDocument());
+        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
+        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+        textPane.addCaretListener(new CaretListenerLabel(""));
         textPane.setCaretPosition(0);
     }
 
@@ -234,17 +236,17 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         //Might not be invoked from the event dispatch thread.
         @Override
         public void caretUpdate(CaretEvent e) {
-            sendActionCaretUpdate(e.getDot(), e.getMark());
-
-         
+            sendActionCaretUpdate(e.getDot(), e.getMark());       
         }
 
         protected void sendActionCaretUpdate(final int dot, final int mark) {
             SwingUtilities.invokeLater(() -> {
+                 ActionSelect action = new ActionSelect(textPane.getCharacterAttributes());
                 if (dot == mark) {  // no selection
-
+                    action.setStartPosition(dot);
+                    action.setEndPosition(dot);
                 } else {
-                    ActionSelect action = new ActionSelect(textPane.getCharacterAttributes());
+                   
                     if (dot < mark) {
                         action.setStartPosition(dot);
                         action.setEndPosition(mark);
@@ -252,8 +254,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                         action.setStartPosition(mark);
                         action.setEndPosition(dot);
                     }
-                    sendAction(action);
+                   
                 }
+                 sendAction(action);
             });
         }
     }
@@ -267,6 +270,12 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     protected class MyDocumentListener
             implements DocumentListener {
 
+        private void doSendAction(Actions.Action action) {
+                    Runnable doSend = () -> {
+                        sendAction(action);
+                    };
+                    SwingUtilities.invokeLater(doSend);
+                }
         @Override
         public void insertUpdate(DocumentEvent e) {
             ActionInsert action = new ActionInsert(textPane.getCharacterAttributes());
@@ -274,11 +283,10 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             try {
                 action.setStartPosition(e.getOffset());
                 action.setContent(e.getDocument().getText(e.getOffset(), e.getLength()));
-
             } catch (BadLocationException ex) {
                 Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
             }
-            sendAction(action);
+            doSendAction(action);
         }
 
         @Override
@@ -287,7 +295,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
             action.setStartPosition(e.getOffset());
             action.setEndPosition(e.getOffset() + e.getLength());
-            sendAction(action);
+            doSendAction(action);
         }
 
         @Override
@@ -295,11 +303,12 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             ActionFormat action = new ActionFormat(textPane.getCharacterAttributes());
             action.setStartPosition(e.getOffset());
             action.setEndPosition(e.getOffset() + e.getLength());
-            sendAction(action);
+            doSendAction(action);
         }
     }
     
     private void sendAction(Actions.Action action){
+        ApplyActionChange(action);
         listeners.stream().forEach((l) -> {
             l.FireChange(new ActionChangeEvent(action));
          });
@@ -342,15 +351,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
 
     public void setHTMLString(String src) {
-        HTMLEditorKit kit = new AdvancedHTMLEditorKit();
-        textPane.setEditorKit(kit);
-        textPane.setDocument(kit.createDefaultDocument());
-        // textPane.setCaret(kit.createCaret());
-
+        NewDocument();
         textPane.setText(src);
-        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
-        //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     public String getRTFString() {
