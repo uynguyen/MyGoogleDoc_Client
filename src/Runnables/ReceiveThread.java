@@ -38,25 +38,16 @@ public class ReceiveThread implements Runnable {
             //Receive Document
             initDocument = objectInputStream.readUTF();
 
-            SwingUtilities.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    styledTextEditor.setHTMLString(initDocument);
-                }
+            SwingUtilities.invokeLater(() -> {
+                styledTextEditor.setHTMLString(initDocument);
             });
 
             while (true) {
                 Action action = (Action) objectInputStream.readObject();
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        Global.flag = false;
-                        action.onDraw(styledTextEditor.getJTextPane());
-                    }
+                SwingUtilities.invokeLater(() -> {
+                    Global.flag = false;
+                   styledTextEditor.ApplyActionChange(action);
                 });
-
             }
 
         } catch (IOException | ClassNotFoundException ex) {
