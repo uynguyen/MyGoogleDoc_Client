@@ -98,6 +98,9 @@ public class AdvancedHTMLEditorKit extends HTMLEditorKit {
     }
 
     public String insertImage(StyledDocument styledDocument, int caretPosition, File selectedFile) {
+        
+        
+        
         // tạo chuỗi base 64 của image
         String imgString = "";
         try {

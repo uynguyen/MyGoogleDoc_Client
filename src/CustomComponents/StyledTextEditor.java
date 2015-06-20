@@ -21,15 +21,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -46,9 +43,7 @@ import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
-import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
 
 /**
@@ -62,7 +57,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     final long MAX_CHARACTERS = Long.MAX_VALUE;
     Color forcegroundColor = Color.black;
     public File currentFile = null;
-    String newline = "\n";
 
 
     public StyledTextEditor() {
@@ -72,7 +66,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         NewDocument();
         addBindings();
          
-        
+        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
+        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+        textPane.addCaretListener(new MyCaretListener());
         FormatToolbar.setTextEditor(this);
         
     }
@@ -226,11 +222,11 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
 
     //This listens for and reports caret movements.
-    protected class CaretListenerLabel extends JLabel
+    protected class MyCaretListener 
             implements CaretListener {
 
-        public CaretListenerLabel(String label) {
-            super(label);
+        public MyCaretListener() {
+            
         }
 
         //Might not be invoked from the event dispatch thread.
@@ -356,7 +352,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setText(src);
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
         textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
-        textPane.addCaretListener(new CaretListenerLabel(""));
+        textPane.addCaretListener(new MyCaretListener());
     }
 
     public String getRTFString() {
@@ -387,26 +383,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         action.onDraw(textPane);
     }
     
-    protected void initDocument() {
-        String initString[]
-                = {"Use the mouse to place the caret.",
-                    "Use the edit menu to cut, copy, paste, and select text.",
-                    "Also to undo and redo changes.",
-                    "Use the style menu to change the style of the text.",
-                    "Use the arrow keys on the keyboard or these emacs key bindings to move the caret:",
-                    "Ctrl-f, Ctrl-b, Ctrl-n, Ctrl-p."};
-
-        SimpleAttributeSet[] attrs = initAttributes(initString.length);
-
-        try {
-            for (int i = 0; i < initString.length; i++) {
-                textPane.getStyledDocument().insertString(textPane.getStyledDocument().getLength(), initString[i] + newline,
-                        attrs[i]);
-            }
-        } catch (BadLocationException ble) {
-            System.err.println("Couldn't insert initial text.");
-        }
-    }
 
     protected SimpleAttributeSet[] initAttributes(int length) {
         //Hard-code some attributes.
