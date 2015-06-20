@@ -66,9 +66,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         NewDocument();
         addBindings();
          
-        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
-        textPane.addCaretListener(new MyCaretListener());
+//        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
+//        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+//        textPane.addCaretListener(new MyCaretListener());
         FormatToolbar.setTextEditor(this);
         
     }
