@@ -7,6 +7,7 @@ package GUI;
 
 import Bus.Global;
 import CommunicatePackage.LoginReturnPackage;
+import CustomComponents.CollaborationItem;
 import CustomComponents.MyDocument;
 import CustomComponents.WrapLayout;
 import Pojo.Invite;
@@ -16,18 +17,17 @@ import java.awt.Dimension;
 import SwingWorkers.CreateDocTask;
 
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import javax.swing.ImageIcon;
-
+import javax.swing.JDialog;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.text.Document;
-
-
 
 /**
  *
@@ -36,50 +36,43 @@ import javax.swing.text.Document;
 public class MyDocsForm extends javax.swing.JFrame {
 
     LoginReturnPackage _loginReturnPackage = null;
-    
+
     /**
      * Creates new form MyDocsForm
      */
     public MyDocsForm(LoginReturnPackage result) {
         initComponents();
         this._loginReturnPackage = result;
-        
+
         txt_UserName.setText(result.user.getUsername());
-        
-        
+
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
 
         int lstDocSize = result.documentList.length;
-        
-           
+
         ArrayList<Pojo.Document> returnListDocument = new ArrayList<Pojo.Document>();
 
-           
         panel_MyDocs.setLayout(new WrapLayout(java.awt.FlowLayout.LEFT, 10, 10));
         for (int i = 0; i < lstDocSize; i++) {
             String name = result.documentList[i].getName();
             Date date = result.documentList[i].getDateCreate();
             String path = result.documentList[i].getPath();
             int idOwner = result.documentList[i].getIDOwner();
-       
+
             int id = result.documentList[i].getID();
             String code = result.documentList[i].getCode();
-            panel_MyDocs.add(new MyDocument(id,name,path,date,idOwner,code));
+            panel_MyDocs.add(new MyDocument(id, name, path, date, idOwner, code));
             returnListDocument.add(result.documentList[i]);
-           // jScrollPane.add(panel_MyDocs);
+            // jScrollPane.add(panel_MyDocs);
         }
-       
-        
-        
-        
-        ImageIcon icon = new ImageIcon("src\\Resources\\avatar_default.png"); 
-        lb_avatar.setLocation(150,5);
-        lb_avatar.setIcon(icon); 
-        
+
+        ImageIcon icon = new ImageIcon("src\\Resources\\avatar_default.png");
+        lb_avatar.setLocation(150, 5);
+        lb_avatar.setIcon(icon);
+
         lbl_countNoti.setText(String.valueOf(result.inviteList.length) + " NEWs");
-        
-        
+
         Global._currentAccount = result.user;
         Global._currentListDocument = returnListDocument;
         Global._currentListInvite = new ArrayList<Invite>(Arrays.asList(result.inviteList));
@@ -142,6 +135,11 @@ public class MyDocsForm extends javax.swing.JFrame {
         });
 
         btn_Collaboration.setText("Collaboration");
+        btn_Collaboration.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CollaborationActionPerformed(evt);
+            }
+        });
 
         lbl_countNoti.setText("jLabel1");
 
@@ -211,7 +209,7 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        panel_MyDocs.setBackground(new java.awt.Color(204, 255, 204));
+        panel_MyDocs.setBackground(new java.awt.Color(51, 204, 255));
         panel_MyDocs.setMinimumSize(new java.awt.Dimension(400, 400));
         panel_MyDocs.setPreferredSize(new java.awt.Dimension(400, 400));
         panel_MyDocs.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
@@ -243,13 +241,29 @@ public class MyDocsForm extends javax.swing.JFrame {
     private void btn_createDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_createDocActionPerformed
         // TODO add your handling code here:
         String title = JOptionPane.showInputDialog("Please input document title: ");
-        
-        if(title != null){
+
+        if (title != null) {
             CreateDocTask createDoc = new CreateDocTask(_loginReturnPackage.user.getID(), title, this);
             createDoc.execute();
         }
-        
+
     }//GEN-LAST:event_btn_createDocActionPerformed
+
+    private void btn_CollaborationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CollaborationActionPerformed
+        // TODO add your handling code here:
+        final JDialog frame = new JDialog(this, "Collaboration", true);
+       // frame.pack();
+       // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+       // frame.setLocation(dim.width - frame.getSize().width / 2, dim.height - frame.getSize().height / 2);
+        frame.setLocationRelativeTo(null);
+        frame.getContentPane().add(new MyListCollaboration(Global._currentListInvite));
+
+        frame.setSize(new Dimension(900, 500));
+        frame.setResizable(false);
+        frame.setVisible(true);
+        // new MyListInvite(Global._currentListInvite).setVisible(true);
+    }//GEN-LAST:event_btn_CollaborationActionPerformed
 
     /**
      * @param args the command line arguments

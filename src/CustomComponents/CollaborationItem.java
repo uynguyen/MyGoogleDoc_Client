@@ -5,15 +5,37 @@
  */
 package CustomComponents;
 
+import java.util.Date;
+
 /**
  *
  * @author UyNguyen.ITUS
  */
 public class CollaborationItem extends javax.swing.JPanel {
 
+    private int id;
+    private String doc_Code;
+
+    private int id_sender;
+    private String username_Sender;
+
+    private Date date_Invite;
+    private String doc_title;
+
     /**
      * Creates new form CollaborationItem
      */
+    public CollaborationItem(int id, String doc_Code, int id_sender, String username_Sender, Date date_Invite, String doc_title) {
+        initComponents();
+        this.id = id;
+        this.doc_Code = doc_Code;
+        this.id_sender = id_sender;
+        this.username_Sender = username_Sender;
+        this.date_Invite = date_Invite;
+        this.doc_title = doc_title;
+        initGUI();
+    }
+
     public CollaborationItem() {
         initComponents();
     }
@@ -27,38 +49,64 @@ public class CollaborationItem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_accept = new javax.swing.JButton();
+        btn_Reject = new javax.swing.JButton();
+        lbl_Datetime = new javax.swing.JLabel();
+        lbl_Content = new javax.swing.JLabel();
 
-        jButton1.setText("jButton1");
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton2.setText("jButton1");
+        btn_accept.setText("Accept");
+
+        btn_Reject.setText("Reject");
+
+        lbl_Datetime.setBackground(new java.awt.Color(51, 204, 255));
+        lbl_Datetime.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbl_Datetime.setForeground(new java.awt.Color(0, 102, 102));
+        lbl_Datetime.setText("19-09-1994 20:40");
+        lbl_Datetime.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        lbl_Content.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbl_Content.setText("Uy Nguyễn đã mời bạn cộng tác vào tài liệu Báo cáo kiến trúc");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(527, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addContainerGap()
+                .addComponent(lbl_Datetime)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_Content)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                .addComponent(btn_accept)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btn_Reject)
                 .addGap(7, 7, 7))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap())
+                    .addComponent(lbl_Content)
+                    .addComponent(btn_accept)
+                    .addComponent(btn_Reject)
+                    .addComponent(lbl_Datetime))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_Reject;
+    private javax.swing.JButton btn_accept;
+    private javax.swing.JLabel lbl_Content;
+    private javax.swing.JLabel lbl_Datetime;
     // End of variables declaration//GEN-END:variables
+
+    private void initGUI() {
+        lbl_Datetime.setText(this.date_Invite.toLocaleString());
+        lbl_Content.setText(this.username_Sender + " invited you to collaborate the " + this.doc_title + " document");
+    }
 }

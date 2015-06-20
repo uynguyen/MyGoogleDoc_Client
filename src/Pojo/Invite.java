@@ -13,7 +13,7 @@ import java.util.Date;
  * @author UyNguyen.ITUS
  */
 public class Invite implements Serializable{
-    
+    private int id;
     private String doc_Code;
     
     private int id_sender;
@@ -22,7 +22,8 @@ public class Invite implements Serializable{
     private Date date_Invite;
     private String doc_title;
 
-    public Invite(String doc_Code, int id_sender, String username_Sender, Date date_Invite, String doc_title) {
+    public Invite(int id,String doc_Code, int id_sender, String username_Sender, Date date_Invite, String doc_title) {
+        this.id = id;
         this.doc_Code = doc_Code;
         this.id_sender = id_sender;
         this.username_Sender = username_Sender;
@@ -101,6 +102,20 @@ public class Invite implements Serializable{
      */
     public void setDoc_title(String doc_title) {
         this.doc_title = doc_title;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
     }
     
     
