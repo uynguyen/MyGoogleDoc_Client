@@ -20,12 +20,14 @@ public class Invite implements Serializable{
     private String username_Sender;
     
     private Date date_Invite;
+    private String doc_title;
 
-    public Invite(String doc_Code, int id_sender, String username_Sender, Date date_Invite) {
+    public Invite(String doc_Code, int id_sender, String username_Sender, Date date_Invite, String doc_title) {
         this.doc_Code = doc_Code;
         this.id_sender = id_sender;
         this.username_Sender = username_Sender;
         this.date_Invite = date_Invite;
+        this.doc_title = doc_title;
     }
 
     
@@ -85,6 +87,20 @@ public class Invite implements Serializable{
      */
     public void setDate_Invite(Date date_Invite) {
         this.date_Invite = date_Invite;
+    }
+
+    /**
+     * @return the doc_title
+     */
+    public String getDoc_title() {
+        return doc_title;
+    }
+
+    /**
+     * @param doc_title the doc_title to set
+     */
+    public void setDoc_title(String doc_title) {
+        this.doc_title = doc_title;
     }
     
     
