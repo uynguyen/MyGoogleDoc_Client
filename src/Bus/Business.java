@@ -106,7 +106,7 @@ public class Business {
             objectOutputStream.flush();
 
             System.out.println(docID);
-            objectOutputStream.writeObject(docID);
+            objectOutputStream.writeUTF(docID);
             objectOutputStream.flush();
             //Receive return port (-1 mean fail to open)            
             result = objectInputStream.readInt();
