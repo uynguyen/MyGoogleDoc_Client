@@ -99,6 +99,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         btn_logout2 = new javax.swing.JButton();
         btn_logout3 = new javax.swing.JButton();
         btn_createDoc = new javax.swing.JButton();
+        btn_Collaboration = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         panel_MyDocs = new javax.swing.JPanel();
 
@@ -134,6 +135,8 @@ public class MyDocsForm extends javax.swing.JFrame {
             }
         });
 
+        btn_Collaboration.setText("Collaboration");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -163,7 +166,10 @@ public class MyDocsForm extends javax.swing.JFrame {
                                         .addGap(10, 10, 10)
                                         .addComponent(txt_UserName))
                                     .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btn_Collaboration)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -179,13 +185,15 @@ public class MyDocsForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_logout2)
                     .addComponent(btn_createDoc))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(btn_Collaboration)
+                .addGap(14, 14, 14)
                 .addComponent(btn_logout)
                 .addGap(18, 18, 18)
                 .addComponent(btn_logout3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btn_logout1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -266,6 +274,7 @@ public class MyDocsForm extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Collaboration;
     private javax.swing.JButton btn_createDoc;
     private javax.swing.JButton btn_logout;
     private javax.swing.JButton btn_logout1;

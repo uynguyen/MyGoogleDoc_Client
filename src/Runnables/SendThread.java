@@ -5,8 +5,6 @@
  */
 package Runnables;
 
-import Bus.Global;
-import CustomComponents.StyledTextEditor;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
