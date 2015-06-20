@@ -272,12 +272,12 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     protected class MyDocumentListener
             implements DocumentListener {
 
-        private void doSendAction(Actions.Action action) {
-                    Runnable doSend = () -> {
-                        sendAction(action);
-                    };
-                    SwingUtilities.invokeLater(doSend);
-                }
+//        private void doSendAction(Actions.Action action) {
+//                    Runnable doSend = () -> {
+//                        sendAction(action);
+//                    };
+//                    SwingUtilities.invokeLater(doSend);
+//                }
         @Override
         public void insertUpdate(DocumentEvent e) {
             ActionInsert action = new ActionInsert(textPane.getCharacterAttributes());
@@ -289,7 +289,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             } catch (BadLocationException ex) {
                 Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
             }
-            doSendAction(action);
+            //doSendAction(action);
+            sendAction(action);
         }
 
         @Override
@@ -298,7 +299,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
             action.setStartPosition(e.getOffset());
             action.setEndPosition(e.getOffset() + e.getLength());
-            doSendAction(action);
+            //doSendAction(action);
+             sendAction(action);
         }
 
         @Override
@@ -306,7 +308,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             ActionFormat action = new ActionFormat(textPane.getCharacterAttributes());
             action.setStartPosition(e.getOffset());
             action.setEndPosition(e.getOffset() + e.getLength());
-            doSendAction(action);
+            //doSendAction(action);
+             sendAction(action);
         }
     }
     
