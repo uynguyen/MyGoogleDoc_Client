@@ -39,6 +39,7 @@ public class ReceiveThread implements Runnable {
             initDocument = objectInputStream.readUTF();
 
             SwingUtilities.invokeLater(() -> {
+                Global.flag = false;
                 styledTextEditor.setHTMLString(initDocument);
             });
 
