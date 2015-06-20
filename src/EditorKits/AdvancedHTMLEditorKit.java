@@ -76,7 +76,7 @@ public class AdvancedHTMLEditorKit extends HTMLEditorKit {
                         }
                     };
                 } else if (v instanceof ImageView) {
-                    return new Custom_ImageView(e);                   
+                    return new Custom_ImageView(e);
                 }
                 return v;
             }
@@ -97,7 +97,7 @@ public class AdvancedHTMLEditorKit extends HTMLEditorKit {
         }
     }
 
-    public void insertImage(StyledDocument styledDocument, int caretPosition, File selectedFile) {
+    public String insertImage(StyledDocument styledDocument, int caretPosition, File selectedFile) {
         // tạo chuỗi base 64 của image
         String imgString = "";
         try {
@@ -109,13 +109,14 @@ public class AdvancedHTMLEditorKit extends HTMLEditorKit {
 
                 insertHTML((HTMLDocument) styledDocument, caretPosition, imgTag,
                         0, 0, HTML.Tag.IMG);
+                return imgTag;
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AdvancedHTMLEditorKit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | BadLocationException ex) {
             Logger.getLogger(AdvancedHTMLEditorKit.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        return "";
     }
-    
+
 }
