@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import SwingWorkers.ForgotPasswordTask;
 import SwingWorkers.LoginTask;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -93,6 +94,11 @@ public class LoginForm extends javax.swing.JFrame {
 
         jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton4.setText("Forgot passwword?");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         txt_Password.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -179,6 +185,13 @@ public class LoginForm extends javax.swing.JFrame {
         this.setVisible(false);
         this.dispose();       
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String username = JOptionPane.showInputDialog("Please enter your username");
+        this.setEnabled(false);
+        ForgotPasswordTask forgotPasswordTask = new ForgotPasswordTask(username, this);
+        forgotPasswordTask.execute();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

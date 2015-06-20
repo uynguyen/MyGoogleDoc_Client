@@ -5,8 +5,6 @@
  */
 package Bus;
 
-
-
 import CommunicatePackage.CreateDocPackage;
 import CommunicatePackage.LoginPackage;
 import CommunicatePackage.LoginReturnPackage;
@@ -38,7 +36,7 @@ public class Business {
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
 
             //Send user register info
-            objectOutputStream.writeBoolean(false);
+            objectOutputStream.writeInt(EnumUserAction.REGISTER.getValue());
             objectOutputStream.flush();
 
             RegisterPackage message = new RegisterPackage(username, password, email);
@@ -60,89 +58,82 @@ public class Business {
         return false;
     }
 
-    public static int CreateDoc(String title, int ID_Owner)
-    {
+    public static int CreateDoc(String title, int ID_Owner) {
         int result = -1;
         try {
-            Socket server = new Socket("localhost",13599);
-            
+            Socket server = new Socket("localhost", 13599);
+
             System.out.print(server.getPort());
-            
-            
+
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
             objectOutputStream.flush();
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
-            
-                        
+
             //Send create doc info
             objectOutputStream.writeInt(EnumUserAction.CREATEDOC.getValue());
             objectOutputStream.flush();
-            
+
             CreateDocPackage message = new CreateDocPackage(ID_Owner, title);
-            
+
             objectOutputStream.writeObject(message);
             objectOutputStream.flush();
             //Receive return port (-1 mean fail to create)
             result = objectInputStream.readInt();
-            
+
             objectOutputStream.flush();
             objectOutputStream.close();
             objectInputStream.close();
-                                    
+
         } catch (IOException ex) {
-            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);            
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
-    
-    public static int OpenDoc(String docID)
-    {
+
+    public static int OpenDoc(String docID) {
         int result = -1;
         try {
-            Socket server = new Socket("localhost",13599);
-            
+            Socket server = new Socket("localhost", 13599);
+
             System.out.print(server.getPort());
-            
-            
+
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
             objectOutputStream.flush();
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
-            
-                        
+
             //Send doc id
             objectOutputStream.writeInt(EnumUserAction.OPENDOC.getValue());
-            objectOutputStream.flush();                        
-            
+            objectOutputStream.flush();
+
             System.out.println(docID);
             objectOutputStream.writeUTF(docID);
             objectOutputStream.flush();
             //Receive return port (-1 mean fail to open)            
             result = objectInputStream.readInt();
-            
+
             objectOutputStream.flush();
             objectOutputStream.close();
             objectInputStream.close();
-                                    
+
         } catch (IOException ex) {
-            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);            
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     public static boolean checkValidPassword(String pass) {
 
-       if (pass.matches("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+$") && pass.length() >= 6) {
-           return true;
-       }
+        if (pass.matches("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+$") && pass.length() >= 6) {
+            return true;
+        }
 
-       return false;
+        return false;
     }
 
     public static boolean checkValidEmail(String email) {
-       String regex = "^(.+)@(.+)$";
-       return email.matches(regex);
+        String regex = "^(.+)@(.+)$";
+        return email.matches(regex);
     }
-    
 
     public static LoginReturnPackage Login(String username, String password) {
         LoginReturnPackage result = null;
@@ -157,9 +148,9 @@ public class Business {
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
 
             //Send login signal
-            objectOutputStream.writeBoolean(true);
+            objectOutputStream.writeInt(EnumUserAction.LOGIN.getValue());
             objectOutputStream.flush();
-            
+
             //Create Login package for sending
             LoginPackage message = new LoginPackage(username, password);
 
@@ -168,8 +159,8 @@ public class Business {
             objectOutputStream.flush();
 
             //Receive login result
-            result = (LoginReturnPackage) objectInputStream.readObject();            
-            
+            result = (LoginReturnPackage) objectInputStream.readObject();
+
             objectInputStream.close();
             objectOutputStream.flush();
             objectOutputStream.close();
@@ -178,6 +169,36 @@ public class Business {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Business.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+
+    public static String ResetPassword(String username) {
+        String result = "";
+        try {
+            Socket server = new Socket("localhost", 51399);
+
+            System.out.print(server.getPort());
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+
+            //Send username
+            objectOutputStream.writeInt(EnumUserAction.RESETPASS.getValue());
+            objectOutputStream.flush();
+
+            objectOutputStream.writeUTF(username);
+            objectOutputStream.flush();
+            //Receive resetpass result
+            result = objectInputStream.readUTF();
+
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
