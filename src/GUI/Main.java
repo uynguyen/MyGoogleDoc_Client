@@ -5,10 +5,12 @@
  */
 package GUI;
 
+import Actions.ActionChat;
 import Bus.Global;
 import CustomComponents.ActionChangeEvent;
 import Runnables.ReceiveThread;
 import Runnables.SendThread;
+import java.awt.event.KeyEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,6 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -28,18 +31,26 @@ public class Main extends javax.swing.JFrame {
 
     private Socket Server;
     private ObjectOutputStream objectOutputStream;
-    
-    private  int WorkingServerPort;
+
+    private int WorkingServerPort;
+    private Object e;
+
     /**
      * Creates new form Main
+     *
      * @param workingServerPort
      */
+    public Main() {
+        initComponents();
+    }
+
     public Main(int workingServerPort) {
         initComponents();
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         styledTextEditor1.addDocumentChangeListener(this::performSendActionChangeEvent);
 
+        initChatRoom();
 //        String result = "";
 //
 //        try {
@@ -70,13 +81,13 @@ public class Main extends javax.swing.JFrame {
             objectOutputStream = new ObjectOutputStream(Server.getOutputStream());
             objectOutputStream.flush();
             ObjectInputStream objectInputStream = new ObjectInputStream(Server.getInputStream());
-            
+
             //Sending client info
             objectOutputStream.writeObject(Global._currentAccount);
             objectOutputStream.flush();
-            
+
             //Create receive thread
-            ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1);
+            ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1, jTextArea_Room);
 
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,21 +98,21 @@ public class Main extends javax.swing.JFrame {
     // TODO: Gửi action tới server
     public final void performSendActionChangeEvent(ActionChangeEvent evt) {
         Actions.Action action = evt.getAction();
-        
-        if(Global.flag == false){
+
+        if (Global.flag == false) {
             Global.flag = true;
             return;
         }
-        
+
         try {
             Thread.sleep(10);
         } catch (InterruptedException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         //Create send thread
         SendThread sendThread = new SendThread(objectOutputStream, action);
-        
+
     }
 
     /**
@@ -115,8 +126,14 @@ public class Main extends javax.swing.JFrame {
 
         btn_Share = new javax.swing.JButton();
         styledTextEditor1 = new CustomComponents.StyledTextEditor();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea_Room = new javax.swing.JTextArea();
+        jTextField_Input = new javax.swing.JTextField();
+        btn_Send = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(600, 59));
 
         btn_Share.setText("Share");
@@ -128,14 +145,60 @@ public class Main extends javax.swing.JFrame {
 
         styledTextEditor1.setBorder(null);
 
+        jPanel3.setBackground(new java.awt.Color(102, 204, 255));
+
+        jTextArea_Room.setColumns(20);
+        jTextArea_Room.setRows(5);
+        jScrollPane1.setViewportView(jTextArea_Room);
+
+        jTextField_Input.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_InputKeyPressed(evt);
+            }
+        });
+
+        btn_Send.setText("Send");
+        btn_Send.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_SendActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jTextField_Input, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_Send, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField_Input)
+                    .addComponent(btn_Send, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(styledTextEditor1, javax.swing.GroupLayout.PREFERRED_SIZE, 714, Short.MAX_VALUE)
-                .addGap(240, 240, 240))
+                .addComponent(styledTextEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_Share)
@@ -147,7 +210,11 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btn_Share)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(styledTextEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(styledTextEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -166,9 +233,88 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_ShareActionPerformed
 
+    private void jTextField_InputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_InputKeyPressed
+        // TODO add your handling code here:
+
+//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+//            sendMessage(jTextField_Input.getText());
+//
+//        }
+    }//GEN-LAST:event_jTextField_InputKeyPressed
+
+    private void btn_SendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SendActionPerformed
+        // TODO add your handling code here:
+        sendMessage(jTextField_Input.getText());
+    }//GEN-LAST:event_btn_SendActionPerformed
+
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            // for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+            //  }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Main().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Send;
     private javax.swing.JButton btn_Share;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea_Room;
+    private javax.swing.JTextField jTextField_Input;
     private CustomComponents.StyledTextEditor styledTextEditor1;
     // End of variables declaration//GEN-END:variables
+
+    private void initChatRoom() {
+        this.getRootPane().setDefaultButton(btn_Send);
+        jTextArea_Room.setEditable(false);
+        jTextArea_Room.setLineWrap(true);
+    }
+
+    private void sendMessage(String text) {
+
+        ActionChat actionChat = new ActionChat(null);
+        actionChat.setUsername(Global._currentAccount.getUsername());
+        actionChat.setContent(text);
+        SendThread sendThread = new SendThread(objectOutputStream, actionChat);
+
+        UpdateChatRoom(text);
+
+    }
+
+    private void UpdateChatRoom(String text) {
+
+        jTextArea_Room.append("You: " + text.toString());
+        jTextArea_Room.append("\n");
+        jTextField_Input.selectAll();
+        jTextField_Input.requestFocus();
+        jTextField_Input.setText("");
+    }
 }
