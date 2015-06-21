@@ -10,7 +10,11 @@ import Bus.Global;
 import CustomComponents.ActionChangeEvent;
 import Runnables.ReceiveThread;
 import Runnables.SendThread;
+<<<<<<< HEAD
 import java.awt.event.KeyEvent;
+=======
+import SwingWorkers.ShareTask;
+>>>>>>> 16d2b211291a574c0c674cf1dd373634285132b1
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -222,12 +226,12 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_ShareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ShareActionPerformed
-        // TODO add your handling code here:
+        
 
-        String title = JOptionPane.showInputDialog("Input username: ");
+        String username = JOptionPane.showInputDialog("Input username: ");
 
-        if (title != null) {
-
+        if (username != null) {
+            //ShareTask shareTask = new ShareTask(Global._currentAccount.getID(), Global., username, this);
         }
 
 

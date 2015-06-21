@@ -10,6 +10,8 @@ import CommunicatePackage.LoginPackage;
 import CommunicatePackage.LoginReturnPackage;
 
 import CommunicatePackage.RegisterPackage;
+import CommunicatePackage.ReplyInvitePackage;
+import CommunicatePackage.SharePackage;
 import GUI.RegisterForm;
 import Pojo.EnumUserAction;
 import java.io.IOException;
@@ -110,6 +112,70 @@ public class Business {
             objectOutputStream.flush();
             //Receive return port (-1 mean fail to open)            
             result = objectInputStream.readInt();
+
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public static boolean ReplyInvite(boolean reply, int idInvite, String docCode, int idClient) {        
+        boolean result = false;
+        try {
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
+
+            System.out.print(server.getPort());
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+
+            //Send signal
+            objectOutputStream.writeInt(EnumUserAction.REPLYINVITE.getValue());
+            objectOutputStream.flush();
+            
+            ReplyInvitePackage replyInvitePackage = new ReplyInvitePackage(reply, idInvite, docCode, idClient);
+            
+            objectOutputStream.writeObject(replyInvitePackage);
+            objectOutputStream.flush();
+            //Receive result
+            result = objectInputStream.readBoolean();
+
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public static boolean Share(int idClient, String docCode, String username) {        
+        boolean result = false;
+        try {
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
+
+            System.out.print(server.getPort());
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+
+            //Send signal
+            objectOutputStream.writeInt(EnumUserAction.SHARE.getValue());
+            objectOutputStream.flush();
+            
+            SharePackage sharePackage = new SharePackage(idClient, docCode, username);
+            
+            objectOutputStream.writeObject(sharePackage);
+            objectOutputStream.flush();
+            //Receive result
+            result = objectInputStream.readBoolean();
 
             objectOutputStream.flush();
             objectOutputStream.close();

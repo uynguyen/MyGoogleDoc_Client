@@ -76,6 +76,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 //        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
 //        textPane.addCaretListener(new MyCaretListener());
         FormatToolbar.setTextEditor(this);
+        this.setFocusCycleRoot(false);
 
     }
 
