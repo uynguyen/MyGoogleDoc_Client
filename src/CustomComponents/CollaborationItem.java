@@ -59,6 +59,11 @@ public class CollaborationItem extends javax.swing.JPanel {
         btn_accept.setText("Accept");
 
         btn_Reject.setText("Reject");
+        btn_Reject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RejectActionPerformed(evt);
+            }
+        });
 
         lbl_Datetime.setBackground(new java.awt.Color(51, 204, 255));
         lbl_Datetime.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -96,6 +101,20 @@ public class CollaborationItem extends javax.swing.JPanel {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_RejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RejectActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btn_RejectActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

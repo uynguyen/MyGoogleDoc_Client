@@ -261,7 +261,8 @@ public class MyDocsForm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btn_createDocActionPerformed
-    private MyListCollaboration myListConllaboration;
+    public static MyListCollaboration myListConllaboration;
+    
     private void btn_CollaborationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CollaborationActionPerformed
         // TODO add your handling code here:
 
