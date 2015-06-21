@@ -28,6 +28,8 @@ public class ActionSelect extends Action{
     @Override
     public void onDraw(JTextPane textPane) {
        System.err.println("Select: " + _startPosition + "->" + _endPosition);
+       int selection_start = textPane.getSelectionStart();
+       int selection_end = textPane.getSelectionEnd();
        if (_startPosition == _endPosition){         
            textPane.getHighlighter().removeAllHighlights();
           // textPane.setCaretPosition(_endPosition);
@@ -49,6 +51,8 @@ public class ActionSelect extends Action{
                Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
            }
        }
+       textPane.setSelectionStart(selection_start);
+       textPane.setSelectionEnd(selection_end);
        //textPane.setSelectionStart(_startPosition);
       // textPane.setSelectionEnd(_endPosition);
        
