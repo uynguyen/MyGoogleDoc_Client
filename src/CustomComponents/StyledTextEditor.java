@@ -64,6 +64,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     public StyledTextEditor() {
         myDocumentListener = new MyDocumentListener();
+        caretListener = new MyCaretListener();
         initComponents();
         textPane.setMargin(new Insets(50, 50, 50, 50));
         // textPane.setCaretPosition(0);
