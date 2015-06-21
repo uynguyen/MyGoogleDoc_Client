@@ -23,7 +23,8 @@ public class ReceiveThread implements Runnable {
     Thread t;
     ObjectInputStream objectInputStream;
     StyledTextEditor styledTextEditor;
-    String initDocument;
+    String initDocument = "";
+    Action action;
 
     public ReceiveThread(ObjectInputStream ois, StyledTextEditor ste) {
         this.objectInputStream = ois;
@@ -38,21 +39,26 @@ public class ReceiveThread implements Runnable {
             //Receive Document
             initDocument = objectInputStream.readUTF();
 
-            SwingUtilities.invokeLater(() -> {
-                styledTextEditor.setHTMLString(initDocument);
-            });
-
-            while (true) {
-                Action action = (Action) objectInputStream.readObject();
-                SwingUtilities.invokeLater(() -> {
-                    Global.flag = false;
-                   styledTextEditor.ApplyActionChange(action);
-                });
-            }
-
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(ReceiveThread.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        SwingUtilities.invokeLater(() -> {
+            styledTextEditor.setHTMLString(initDocument);
+        });
+
+        while (true) {            
+            try {
+                action = (Action) objectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(ReceiveThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            SwingUtilities.invokeLater(() -> {
+                Global.flag = false;
+                styledTextEditor.ApplyActionChange(action);
+            });
+        }
+
     }
 
 }
