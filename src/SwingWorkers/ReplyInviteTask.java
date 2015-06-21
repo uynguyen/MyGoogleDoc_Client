@@ -6,7 +6,10 @@
 package SwingWorkers;
 
 import CustomComponents.CollaborationItem;
+import java.awt.Container;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
@@ -27,6 +30,7 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
         this.idInvite = idInvite;
         this.docCode = docCode;
         this.idClient = idClient;
+        this.item = item;
     }
 
     @Override
@@ -42,8 +46,13 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
             @Override
             public void run() {
                 if(result){
-                    item.getParent().remove(item);
-                    item.getParent().invalidate();
+                    //item.getParent().remove(item);
+                  Container con =  item.getParent();
+                  con.remove(item);
+                  con.revalidate();
+                  con.repaint();
+                  
+                   
                 } else {
                     JOptionPane.showMessageDialog(item.getRootPane(), "Fail to reply invitation");
                    
