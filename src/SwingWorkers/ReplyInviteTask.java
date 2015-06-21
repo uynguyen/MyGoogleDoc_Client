@@ -43,8 +43,10 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
             public void run() {
                 if(result){
                     item.getParent().remove(item);
+                    item.getParent().invalidate();
                 } else {
                     JOptionPane.showMessageDialog(item.getRootPane(), "Fail to reply invitation");
+                   
                 }
             }
         });
