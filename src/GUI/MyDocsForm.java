@@ -36,6 +36,7 @@ import javax.swing.text.Document;
 public class MyDocsForm extends javax.swing.JFrame {
 
     LoginReturnPackage _loginReturnPackage = null;
+    private JDialog frame = new JDialog(this, "Collaboration", true);
 
     /**
      * Creates new form MyDocsForm
@@ -76,6 +77,17 @@ public class MyDocsForm extends javax.swing.JFrame {
         Global._currentAccount = result.user;
         Global._currentListDocument = returnListDocument;
         Global._currentListInvite = new ArrayList<Invite>(Arrays.asList(result.inviteList));
+
+        this.myListConllaboration = new MyListCollaboration(Global._currentListInvite);
+
+       // frame.pack();
+        // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        // frame.setLocation(dim.width - frame.getSize().width / 2, dim.height - frame.getSize().height / 2);
+        frame.setLocationRelativeTo(null);
+        frame.getContentPane().add(this.myListConllaboration);
+        frame.setSize(new Dimension(900, 500));
+        frame.setResizable(false);
+
     }
 
     /**
@@ -238,6 +250,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void btn_createDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_createDocActionPerformed
         // TODO add your handling code here:
         String title = JOptionPane.showInputDialog("Please input document title: ");
@@ -248,21 +261,12 @@ public class MyDocsForm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btn_createDocActionPerformed
-
+    private MyListCollaboration myListConllaboration;
     private void btn_CollaborationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CollaborationActionPerformed
         // TODO add your handling code here:
-        final JDialog frame = new JDialog(this, "Collaboration", true);
-       // frame.pack();
-       // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
-       // frame.setLocation(dim.width - frame.getSize().width / 2, dim.height - frame.getSize().height / 2);
-        frame.setLocationRelativeTo(null);
-        frame.getContentPane().add(new MyListCollaboration(Global._currentListInvite));
-
-        frame.setSize(new Dimension(900, 500));
-        frame.setResizable(false);
         frame.setVisible(true);
-        // new MyListInvite(Global._currentListInvite).setVisible(true);
+      
     }//GEN-LAST:event_btn_CollaborationActionPerformed
 
     /**
