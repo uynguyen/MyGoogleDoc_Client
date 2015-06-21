@@ -57,6 +57,11 @@ public class CollaborationItem extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         btn_accept.setText("Accept");
+        btn_accept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_acceptActionPerformed(evt);
+            }
+        });
 
         btn_Reject.setText("Reject");
         btn_Reject.addActionListener(new java.awt.event.ActionListener() {
@@ -106,15 +111,11 @@ public class CollaborationItem extends javax.swing.JPanel {
         // TODO add your handling code here:
         
         
-        
-        
-        
-        
-        
-        
-        
-        
     }//GEN-LAST:event_btn_RejectActionPerformed
+
+    private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
+        
+    }//GEN-LAST:event_btn_acceptActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
