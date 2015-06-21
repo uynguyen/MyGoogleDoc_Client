@@ -48,14 +48,14 @@ public class ActionSelect extends Action{
                textPane.getHighlighter().removeAllHighlights();
                textPane.getHighlighter().addHighlight(_startPosition, _endPosition,
                        new DefaultHighlighter.DefaultHighlightPainter(Color.green));
+               textPane.select(selection_start, selection_end);
            } catch (BadLocationException ex) {
                Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
            }
        }
-       textPane.setSelectionStart(selection_start);
-       textPane.setSelectionEnd(selection_end);
+
+      
        textPane.invalidate();
-       Global.flag = false;
        //textPane.setSelectionStart(_startPosition);
       // textPane.setSelectionEnd(_endPosition);
        
