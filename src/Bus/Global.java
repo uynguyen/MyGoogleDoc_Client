@@ -20,5 +20,7 @@ public  class Global {
     public static ArrayList<Document> _currentListDocument;
     public static ArrayList<Invite> _currentListInvite;
     public static boolean flag = true;
-    
+    public static String _IPServer = "localhost";
+    public static int _ServerPort = 51399;
+    public static int _DocsPort = 13599;
 }

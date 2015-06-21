@@ -27,7 +27,7 @@ public class Business {
 
     public static boolean Register(String username, String password, String email) {
         try {
-            Socket server = new Socket("localhost", 51399);
+            Socket server = new Socket(Global._IPServer, Global._ServerPort);
 
             System.out.print(server.getPort());
 
@@ -61,7 +61,7 @@ public class Business {
     public static int CreateDoc(String title, int ID_Owner) {
         int result = -1;
         try {
-            Socket server = new Socket("localhost", 13599);
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
 
             System.out.print(server.getPort());
 
@@ -93,7 +93,7 @@ public class Business {
     public static int OpenDoc(String docID) {
         int result = -1;
         try {
-            Socket server = new Socket("localhost", 13599);
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
 
             System.out.print(server.getPort());
 
@@ -139,7 +139,7 @@ public class Business {
         LoginReturnPackage result = null;
         try {
 
-            Socket server = new Socket("localhost", 51399);
+            Socket server = new Socket(Global._IPServer, Global._ServerPort);
 
             System.out.print(server.getPort());
 
@@ -176,7 +176,7 @@ public class Business {
     public static String ResetPassword(String username) {
         String result = "";
         try {
-            Socket server = new Socket("localhost", 51399);
+            Socket server = new Socket(Global._IPServer, Global._ServerPort);
 
             System.out.print(server.getPort());
 

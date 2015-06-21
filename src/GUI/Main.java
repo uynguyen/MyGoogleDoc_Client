@@ -65,7 +65,7 @@ public class Main extends javax.swing.JFrame {
         WorkingServerPort = workingServerPort;
         try {
             //Connect to workingServer            
-            Server = new Socket("localhost", workingServerPort);
+            Server = new Socket(Global._IPServer, workingServerPort);
             objectOutputStream = new ObjectOutputStream(Server.getOutputStream());
             objectOutputStream.flush();
             ObjectInputStream objectInputStream = new ObjectInputStream(Server.getInputStream());
