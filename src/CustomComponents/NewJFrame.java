@@ -5,6 +5,8 @@
  */
 package CustomComponents;
 
+import EditorKits.AdvancedHTMLEditorKit;
+
 /**
  *
  * @author Vin
@@ -19,6 +21,7 @@ public class NewJFrame extends javax.swing.JFrame {
         styledTextEditor1.addDocumentChangeListener((ActionChangeEvent evt) -> {
             styledTextEditor2.ApplyActionChange(evt.getAction());
         });
+        styledTextEditor1.setHTMLString("");
     }
 
     /**
@@ -47,8 +50,8 @@ public class NewJFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(styledTextEditor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(styledTextEditor2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(styledTextEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(styledTextEditor2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
