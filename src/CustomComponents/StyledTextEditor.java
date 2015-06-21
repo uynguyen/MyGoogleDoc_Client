@@ -59,15 +59,19 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     final long MAX_CHARACTERS = Long.MAX_VALUE;
     Color forcegroundColor = Color.black;
     public File currentFile = null;
+    protected MyCaretListener caretListener;
+    protected DocumentListener myDocumentListener;
 
     public StyledTextEditor() {
+        myDocumentListener = new MyDocumentListener();
+        caretListener = new MyCaretListener();
         initComponents();
         textPane.setMargin(new Insets(50, 50, 50, 50));
         // textPane.setCaretPosition(0);
         NewDocument();
         addBindings();
 
-     //   textPane.setHighlighter(new CursorHighlighter());
+        //   textPane.setHighlighter(new CursorHighlighter());
 //        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
 //        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
 //        textPane.addCaretListener(new MyCaretListener());
@@ -144,7 +148,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                     setRTFString(content);
                 }
                 textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-                textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+                textPane.getStyledDocument().addDocumentListener(myDocumentListener);
             } catch (IOException ex) {
 
             }
@@ -262,7 +266,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                     }
                     sendAction(action);
                 } catch (Exception ex) {
-                     Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
         }
@@ -363,8 +367,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setText(src);
         textPane.setCaretPosition(0);
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
-        textPane.addCaretListener(new MyCaretListener());
+        textPane.getStyledDocument().addDocumentListener(myDocumentListener);
+        textPane.addCaretListener(caretListener);
     }
 
     public String getRTFString() {
@@ -386,12 +390,16 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setDocument(kit.createDefaultDocument());
         textPane.setText(src);
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
+        textPane.getStyledDocument().addDocumentListener(myDocumentListener);
         //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     public void ApplyActionChange(Actions.Action action) {
+        textPane.getStyledDocument().removeDocumentListener(myDocumentListener);
+        textPane.removeCaretListener(caretListener);
         action.onDraw(textPane);
+        textPane.getStyledDocument().addDocumentListener(myDocumentListener);
+        textPane.addCaretListener(caretListener);
     }
 
     protected SimpleAttributeSet[] initAttributes(int length) {
