@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -41,6 +42,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTMLDocument;
@@ -52,34 +54,34 @@ import javax.swing.text.rtf.RTFEditorKit;
  */
 public final class StyledTextEditor extends javax.swing.JPanel {
 
-     private final List<FireChangeDocumentListener> listeners = new ArrayList<>();
-    
+    private final List<FireChangeDocumentListener> listeners = new ArrayList<>();
+
     final long MAX_CHARACTERS = Long.MAX_VALUE;
     Color forcegroundColor = Color.black;
     public File currentFile = null;
 
-
     public StyledTextEditor() {
         initComponents();
         textPane.setMargin(new Insets(50, 50, 50, 50));
-       // textPane.setCaretPosition(0);
+        // textPane.setCaretPosition(0);
         NewDocument();
         addBindings();
-         
+
+     //   textPane.setHighlighter(new CursorHighlighter());
 //        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
 //        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
 //        textPane.addCaretListener(new MyCaretListener());
         FormatToolbar.setTextEditor(this);
-        
+
     }
 
     // Tạo một tài liệu mới
     public void NewDocument() {
         textPane.setEditorKit(new AdvancedHTMLEditorKit());
         textPane.setContentType(textPane.getEditorKit().getContentType());
-        textPane.setDocument(textPane.getEditorKit().createDefaultDocument()); 
+        textPane.setDocument(textPane.getEditorKit().createDefaultDocument());
         textPane.setStyledDocument(new HTMLDocument());
-       
+
         textPane.setCaretPosition(0);
     }
 
@@ -104,12 +106,18 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         chooser.setMultiSelectionEnabled(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
-                AdvancedHTMLEditorKit kit = (AdvancedHTMLEditorKit)textPane.getEditorKit();
-              String imgTagData = kit.insertImage(textPane.getStyledDocument(), textPane.getCaretPosition(), chooser.getSelectedFile());
-              Actions.ActionInsertImage action = new Actions.ActionInsertImage(textPane.getCharacterAttributes());
-              action.setStartPosition(textPane.getCaretPosition());
-              action.setContent(imgTagData);
-                sendAction(action);
+                AdvancedHTMLEditorKit kit = (AdvancedHTMLEditorKit) textPane.getEditorKit();
+//                ImageIcon image = new ImageIcon(chooser.getSelectedFile().getAbsolutePath());
+//                 Style style = textPane.getStyledDocument().addStyle("StyleName", null);
+//                 StyleConstants.setIcon(style, image);
+//                 textPane.getStyledDocument().insertString(
+//                         textPane.getCaretPosition(), "image", style);
+
+                String imgTagData = kit.insertImage(textPane.getStyledDocument(), textPane.getCaretPosition(), chooser.getSelectedFile());
+//              Actions.ActionInsertImage action = new Actions.ActionInsertImage(textPane.getCharacterAttributes());
+//              action.setStartPosition(textPane.getCaretPosition());
+//              action.setContent(imgTagData);
+//              sendAction(action);
             } catch (Exception ex) {
 
             }
@@ -200,7 +208,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         return textPane;
     }
 
-
     public void SaveAsDocument() {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
@@ -212,8 +219,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         try {
             if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 currentFile = chooser.getSelectedFile();
-                
-                
+
                 SaveDocument();
             }
         } catch (HeadlessException e) {
@@ -222,46 +228,53 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
 
     //This listens for and reports caret movements.
-    protected class MyCaretListener 
+    protected class MyCaretListener
             implements CaretListener {
 
         public MyCaretListener() {
-            
+
         }
 
         //Might not be invoked from the event dispatch thread.
         @Override
         public void caretUpdate(CaretEvent e) {
-            sendActionCaretUpdate(e.getDot(), e.getMark());       
+            sendActionCaretUpdate(e.getDot(), e.getMark());
         }
 
         protected void sendActionCaretUpdate(final int dot, final int mark) {
+
             SwingUtilities.invokeLater(() -> {
-                 ActionSelect action = new ActionSelect(textPane.getCharacterAttributes());
-                if (dot == mark) {  // no selection
-                    action.setStartPosition(dot);
-                    action.setEndPosition(dot);
-                } else {
-                   
-                    if (dot < mark) {
+                try {
+                    ActionSelect action = new ActionSelect(textPane.getCharacterAttributes());
+                    if (dot == mark) {  // no selection
                         action.setStartPosition(dot);
-                        action.setEndPosition(mark);
-                    } else {
-                        action.setStartPosition(mark);
                         action.setEndPosition(dot);
+                    } else {
+
+                        if (dot < mark) {
+                            action.setStartPosition(dot);
+                            action.setEndPosition(mark);
+                        } else {
+                            action.setStartPosition(mark);
+                            action.setEndPosition(dot);
+                        }
+
                     }
-                   
+                    sendAction(action);
+                } catch (Exception ex) {
+                     Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                 sendAction(action);
             });
+        }
+
+    }
+
+    public void addDocumentChangeListener(FireChangeDocumentListener listener) {
+        if (listener != null) {
+            listeners.add(listener);
         }
     }
 
-    public void addDocumentChangeListener(FireChangeDocumentListener listener){
-        if (listener != null)
-             listeners.add(listener);
-}
-    
     //And this one listens for any changes to the document.
     protected class MyDocumentListener
             implements DocumentListener {
@@ -294,7 +307,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             action.setStartPosition(e.getOffset());
             action.setEndPosition(e.getOffset() + e.getLength());
             //doSendAction(action);
-             sendAction(action);
+            sendAction(action);
         }
 
         @Override
@@ -303,15 +316,15 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             action.setStartPosition(e.getOffset());
             action.setEndPosition(e.getOffset() + e.getLength());
             //doSendAction(action);
-             sendAction(action);
+            sendAction(action);
         }
     }
-    
-    private void sendAction(Actions.Action action){
-        
+
+    private void sendAction(Actions.Action action) {
+
         listeners.stream().forEach((l) -> {
             l.FireChange(new ActionChangeEvent(action));
-         });
+        });
     }
 
     //Add a couple of emacs key bindings for navigation.
@@ -331,7 +344,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         inputMap.put(key, new StyledEditorKit.UnderlineAction());
     }
 
-    
     // Lấy chuỗi HTML của tài liệu
     public String getHTMLString() {
         String strResult = "";
@@ -339,13 +351,12 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             AdvancedHTMLEditorKit kit = new AdvancedHTMLEditorKit();
             Document d = textPane.getStyledDocument();
             StringWriter wt = new StringWriter();
-            kit.write(wt, d, d.getStartPosition().getOffset(), d.getLength());         
+            kit.write(wt, d, d.getStartPosition().getOffset(), d.getLength());
             strResult = wt.getBuffer().toString();
         } catch (IOException | BadLocationException ex) {
         }
         return strResult;
     }
-
 
     public void setHTMLString(String src) {
         NewDocument();
@@ -379,11 +390,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
-    
-    public void ApplyActionChange(Actions.Action action){
+    public void ApplyActionChange(Actions.Action action) {
         action.onDraw(textPane);
     }
-    
 
     protected SimpleAttributeSet[] initAttributes(int length) {
         //Hard-code some attributes.
