@@ -10,11 +10,11 @@ import Bus.Global;
 import CustomComponents.ActionChangeEvent;
 import Runnables.ReceiveThread;
 import Runnables.SendThread;
-<<<<<<< HEAD
+
 import java.awt.event.KeyEvent;
-=======
+
 import SwingWorkers.ShareTask;
->>>>>>> 16d2b211291a574c0c674cf1dd373634285132b1
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
