@@ -5,6 +5,7 @@
  */
 package Actions;
 
+import Bus.Global;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,6 +54,8 @@ public class ActionSelect extends Action{
        }
        textPane.setSelectionStart(selection_start);
        textPane.setSelectionEnd(selection_end);
+       textPane.invalidate();
+       Global.flag = false;
        //textPane.setSelectionStart(_startPosition);
       // textPane.setSelectionEnd(_endPosition);
        
