@@ -28,11 +28,9 @@ public class ActionSelect extends Action{
     @Override
     public void onDraw(JTextPane textPane) {
        System.err.println("Select: " + _startPosition + "->" + _endPosition);
-       if (_startPosition == _endPosition){
-          
-           
+       if (_startPosition == _endPosition){         
            textPane.getHighlighter().removeAllHighlights();
-           textPane.setCaretPosition(_endPosition);
+          // textPane.setCaretPosition(_endPosition);
            try {
                textPane.getHighlighter().addHighlight(_startPosition, _endPosition,
                        new DefaultHighlighter.DefaultHighlightPainter(Color.red));
