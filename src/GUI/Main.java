@@ -33,6 +33,8 @@ import javax.swing.UIManager;
  */
 public class Main extends javax.swing.JFrame {
 
+    String docCode;
+    
     private Socket Server;
     private ObjectOutputStream objectOutputStream;
 
@@ -48,9 +50,10 @@ public class Main extends javax.swing.JFrame {
         initComponents();
     }
 
-    public Main(int workingServerPort) {
+    public Main(int workingServerPort, String docCode) {
         initComponents();
 
+        this.docCode = docCode;
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         styledTextEditor1.addDocumentChangeListener(this::performSendActionChangeEvent);
 
@@ -231,7 +234,8 @@ public class Main extends javax.swing.JFrame {
         String username = JOptionPane.showInputDialog("Input username: ");
 
         if (username != null) {
-            //ShareTask shareTask = new ShareTask(Global._currentAccount.getID(), Global., username, this);
+            ShareTask shareTask = new ShareTask(Global._currentAccount.getID(), docCode, username, this);
+            shareTask.execute();
         }
 
 

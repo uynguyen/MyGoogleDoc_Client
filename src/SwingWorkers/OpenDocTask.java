@@ -25,8 +25,8 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
     int result;
     JFrame myDocForm;
 
-    public OpenDocTask(String docID, JFrame myDocForm){
-        this.docCode = docID;
+    public OpenDocTask(String docCode, JFrame myDocForm){
+        this.docCode = docCode;
         this.myDocForm = myDocForm;
     }
 
@@ -53,7 +53,7 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                 
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
-                    new Main(result).setVisible(true);
+                    new Main(result, docCode).setVisible(true);
                 }
                 
             }

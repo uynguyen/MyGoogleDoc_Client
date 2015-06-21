@@ -7,6 +7,7 @@ package CustomComponents;
 
 import Bus.Business;
 import Bus.Global;
+import SwingWorkers.ReplyInviteTask;
 import java.util.Date;
 
 /**
@@ -110,12 +111,14 @@ public class CollaborationItem extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_RejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RejectActionPerformed
-        Business.ReplyInvite(false, id, doc_Code, Global._currentAccount.getID());
+        ReplyInviteTask replyInviteTask = new ReplyInviteTask(false, id, doc_Code, Global._currentAccount.getID(), this);
+        replyInviteTask.execute();
         
     }//GEN-LAST:event_btn_RejectActionPerformed
 
     private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
-        Business.ReplyInvite(true, id, doc_Code, Global._currentAccount.getID());
+        ReplyInviteTask replyInviteTask = new ReplyInviteTask(true, id, doc_Code, Global._currentAccount.getID(), this);
+        replyInviteTask.execute();
     }//GEN-LAST:event_btn_acceptActionPerformed
 
 
