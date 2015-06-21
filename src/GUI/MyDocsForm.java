@@ -7,25 +7,27 @@ package GUI;
 
 import Bus.Global;
 import CommunicatePackage.LoginReturnPackage;
+import CustomComponents.CollaborationItem;
 import CustomComponents.MyDocument;
 import CustomComponents.WrapLayout;
+import Pojo.Invite;
 
 import java.awt.Dimension;
 
 import SwingWorkers.CreateDocTask;
 
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import javax.swing.ImageIcon;
-
+import javax.swing.JDialog;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.text.Document;
-
-
 
 /**
  *
@@ -34,50 +36,46 @@ import javax.swing.text.Document;
 public class MyDocsForm extends javax.swing.JFrame {
 
     LoginReturnPackage _loginReturnPackage = null;
-    
+
     /**
      * Creates new form MyDocsForm
      */
     public MyDocsForm(LoginReturnPackage result) {
         initComponents();
         this._loginReturnPackage = result;
-        
+
         txt_UserName.setText(result.user.getUsername());
-        
-        
+
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
 
         int lstDocSize = result.documentList.length;
-        
-           
+
         ArrayList<Pojo.Document> returnListDocument = new ArrayList<Pojo.Document>();
 
-           
         panel_MyDocs.setLayout(new WrapLayout(java.awt.FlowLayout.LEFT, 10, 10));
         for (int i = 0; i < lstDocSize; i++) {
             String name = result.documentList[i].getName();
             Date date = result.documentList[i].getDateCreate();
             String path = result.documentList[i].getPath();
             int idOwner = result.documentList[i].getIDOwner();
-       
+
             int id = result.documentList[i].getID();
             String code = result.documentList[i].getCode();
-            panel_MyDocs.add(new MyDocument(id,name,path,date,idOwner,code));
+            panel_MyDocs.add(new MyDocument(id, name, path, date, idOwner, code));
             returnListDocument.add(result.documentList[i]);
-           // jScrollPane.add(panel_MyDocs);
+            // jScrollPane.add(panel_MyDocs);
         }
-       
-        
-        
-        
-        ImageIcon icon = new ImageIcon("src\\Resources\\avatar_default.png"); 
-        lb_avatar.setLocation(150,5);
-        lb_avatar.setIcon(icon); 
-      
-        
+
+        ImageIcon icon = new ImageIcon("src\\Resources\\avatar_default.png");
+        lb_avatar.setLocation(150, 5);
+        lb_avatar.setIcon(icon);
+
+        lbl_countNoti.setText(String.valueOf(result.inviteList.length) + " NEWs");
+
         Global._currentAccount = result.user;
         Global._currentListDocument = returnListDocument;
+        Global._currentListInvite = new ArrayList<Invite>(Arrays.asList(result.inviteList));
     }
 
     /**
@@ -100,6 +98,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         btn_logout3 = new javax.swing.JButton();
         btn_createDoc = new javax.swing.JButton();
         btn_Collaboration = new javax.swing.JButton();
+        lbl_countNoti = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         panel_MyDocs = new javax.swing.JPanel();
 
@@ -136,6 +135,13 @@ public class MyDocsForm extends javax.swing.JFrame {
         });
 
         btn_Collaboration.setText("Collaboration");
+        btn_Collaboration.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CollaborationActionPerformed(evt);
+            }
+        });
+
+        lbl_countNoti.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -143,11 +149,6 @@ public class MyDocsForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btn_logout2)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_createDoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -167,9 +168,17 @@ public class MyDocsForm extends javax.swing.JFrame {
                                         .addComponent(txt_UserName))
                                     .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_Collaboration)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_logout2)
+                            .addComponent(btn_Collaboration))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lbl_countNoti)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btn_createDoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -185,9 +194,11 @@ public class MyDocsForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_logout2)
                     .addComponent(btn_createDoc))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(btn_Collaboration)
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_Collaboration)
+                    .addComponent(lbl_countNoti))
+                .addGap(18, 18, 18)
                 .addComponent(btn_logout)
                 .addGap(18, 18, 18)
                 .addComponent(btn_logout3)
@@ -198,7 +209,7 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        panel_MyDocs.setBackground(new java.awt.Color(204, 255, 204));
+        panel_MyDocs.setBackground(new java.awt.Color(51, 204, 255));
         panel_MyDocs.setMinimumSize(new java.awt.Dimension(400, 400));
         panel_MyDocs.setPreferredSize(new java.awt.Dimension(400, 400));
         panel_MyDocs.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
@@ -211,7 +222,7 @@ public class MyDocsForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -230,13 +241,29 @@ public class MyDocsForm extends javax.swing.JFrame {
     private void btn_createDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_createDocActionPerformed
         // TODO add your handling code here:
         String title = JOptionPane.showInputDialog("Please input document title: ");
-        
-        if(title != null){
+
+        if (title != null) {
             CreateDocTask createDoc = new CreateDocTask(_loginReturnPackage.user.getID(), title, this);
             createDoc.execute();
         }
-        
+
     }//GEN-LAST:event_btn_createDocActionPerformed
+
+    private void btn_CollaborationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CollaborationActionPerformed
+        // TODO add your handling code here:
+        final JDialog frame = new JDialog(this, "Collaboration", true);
+       // frame.pack();
+       // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+       // frame.setLocation(dim.width - frame.getSize().width / 2, dim.height - frame.getSize().height / 2);
+        frame.setLocationRelativeTo(null);
+        frame.getContentPane().add(new MyListCollaboration(Global._currentListInvite));
+
+        frame.setSize(new Dimension(900, 500));
+        frame.setResizable(false);
+        frame.setVisible(true);
+        // new MyListInvite(Global._currentListInvite).setVisible(true);
+    }//GEN-LAST:event_btn_CollaborationActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,6 +312,7 @@ public class MyDocsForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lb_avatar;
+    private javax.swing.JLabel lbl_countNoti;
     private javax.swing.JPanel panel_MyDocs;
     private javax.swing.JLabel txt_UserName;
     // End of variables declaration//GEN-END:variables

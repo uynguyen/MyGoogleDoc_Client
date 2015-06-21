@@ -70,7 +70,7 @@ public class MyDocument extends javax.swing.JPanel {
         jButton1.setText("jButton1");
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        setBorder(new javax.swing.border.MatteBorder(null));
         setMaximumSize(new java.awt.Dimension(200, 220));
         setMinimumSize(new java.awt.Dimension(200, 220));
         setName(""); // NOI18N

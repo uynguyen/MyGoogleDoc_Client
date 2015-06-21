@@ -5,6 +5,7 @@
  */
 package Runnables;
 
+import Bus.Global;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
@@ -20,9 +21,9 @@ public class SendThread implements Runnable{
     ObjectOutputStream objectOutputStream;
     Actions.Action action;
     
-    public SendThread(ObjectOutputStream oos, Actions.Action _action){
+    public SendThread(ObjectOutputStream oos, Actions.Action action){
         this.objectOutputStream = oos;
-        this.action = _action;
+        this.action = action;
         t = new Thread(this);
         t.start();       
     }
@@ -30,8 +31,9 @@ public class SendThread implements Runnable{
     @Override
     public void run() {
         try {            
-            objectOutputStream.writeObject(this.action);
+            objectOutputStream.writeObject(action);
             objectOutputStream.flush();
+            
         } catch (IOException ex) {
             Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
         }            
