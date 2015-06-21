@@ -161,7 +161,7 @@ public class Main extends javax.swing.JFrame {
         String username = JOptionPane.showInputDialog("Input username: ");
 
         if (username != null) {
-            ShareTask shareTask = new ShareTask(Global._currentAccount.getID(), Global., username, this);
+            //ShareTask shareTask = new ShareTask(Global._currentAccount.getID(), Global., username, this);
         }
 
 
