@@ -7,13 +7,16 @@ package Runnables;
 
 import Actions.Action;
 import Actions.ActionChat;
+import Actions.ActionJoin;
 import Bus.Global;
 import CustomComponents.StyledTextEditor;
+import java.awt.Container;
 import java.awt.TextArea;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
@@ -63,10 +66,19 @@ public class ReceiveThread implements Runnable {
                 Global.flag = false;
                 if (action instanceof ActionChat) {
 
-                    textArea_ChatRoom.append(((ActionChat)action).getUsername()+ " : " +((ActionChat)action).getContent());
+                    textArea_ChatRoom.append(((ActionChat) action).getUsername() + " : " + ((ActionChat) action).getContent());
                     textArea_ChatRoom.append("\n");
+
                 } else {
-                    styledTextEditor.ApplyActionChange(action);
+                    if (action instanceof ActionJoin) {
+                          
+                        Container con = styledTextEditor.getParent();
+                        JOptionPane.showMessageDialog(con, ((ActionJoin)action).getUsername() + " was joined to the document");
+                      
+
+                    } else {
+                        styledTextEditor.ApplyActionChange(action);
+                    }
                 }
             });
         }
