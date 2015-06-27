@@ -8,27 +8,27 @@ package CustomComponents;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
-import javax.swing.text.StyledEditorKit;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -42,22 +42,58 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
     protected UndoManager undo = new UndoManager();
     UndoAction undoAction = new UndoAction();
     RedoAction redoAction = new RedoAction();
-    Color forcegroundColor = Color.black;
-    //JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-   
+    
+    protected SimpleAttributeSet attributeSets;
+
+    List<FormatDocumentListener> eventListeners = new ArrayList<>();
+
     /**
      * Creates new form AdvancedFormatToolBar
      */
     public AdvancedFormatToolBar() {
         initComponents();
-      
         initFontComboBox();
-        FontSize.setAction(new StyledEditorKit.FontSizeAction(FontSize.getActionCommand(), Integer.parseInt(FontSize.getSelectedItem().toString())));
-        FontChooser.setAction(new StyledEditorKit.FontFamilyAction(FontChooser.getActionCommand(), FontChooser.getSelectedItem().toString()));
+        attributeSets = new SimpleAttributeSet();
+        
+        initAttribute();     
     }
 
-    public void setTextEditor(StyledTextEditor editor){
-        textEditor = editor;
+    private void initAttribute() {
+        StyleConstants.setForeground(attributeSets, Color.black);
+        StyleConstants.setBold(attributeSets, false);
+        StyleConstants.setItalic(attributeSets, false);
+        StyleConstants.setUnderline(attributeSets, false);
+        StyleConstants.setFontSize(attributeSets, 12);
+        StyleConstants.setFontFamily(attributeSets, FontChooser.getSelectedItem().toString());
+        StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_LEFT);
+        UpdateToolbar();
+    }
+
+    private void UpdateToolbar(){
+        btnBold.setSelected(StyleConstants.isBold(attributeSets));
+        btnColorChooser.setForeground(StyleConstants.getForeground(attributeSets));
+        btnItalic.setSelected(StyleConstants.isItalic(attributeSets));
+        btnUnderline.setSelected(StyleConstants.isUnderline(attributeSets));
+        btnStrikeThrough.setSelected(StyleConstants.isStrikeThrough(attributeSets));
+        btnSubscript.setSelected(StyleConstants.isSubscript(attributeSets));
+        btnSuperscript.setSelected(StyleConstants.isSuperscript(attributeSets));
+        btnLeftAlign.setSelected(StyleConstants.getAlignment(attributeSets)==StyleConstants.ALIGN_LEFT);
+        btnCenterAlign.setSelected(StyleConstants.getAlignment(attributeSets)==StyleConstants.ALIGN_CENTER);
+        btnRightAlign.setSelected(StyleConstants.getAlignment(attributeSets)==StyleConstants.ALIGN_RIGHT);
+        btnJustifyAlign.setSelected(StyleConstants.getAlignment(attributeSets)==StyleConstants.ALIGN_JUSTIFIED);
+        FontChooser.setSelectedItem(StyleConstants.getFontFamily(attributeSets));
+        FontSize.setSelectedItem(StyleConstants.getFontSize(attributeSets));
+    }
+    
+    public void addFormatDocumentListener(FormatDocumentListener f) {
+        eventListeners.add(f);
+    }
+
+    private void PerformAction(ActionFormatEvent evt) {       
+        eventListeners.forEach((l) -> {
+            l.performAction(evt);
+        });
+        UpdateToolbar();
     }
 
     /**
@@ -68,25 +104,25 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jToolBar1 = new javax.swing.JToolBar();
-        btnSaveDocument = new javax.swing.JButton();
         btnSaveAsDocument = new javax.swing.JButton();
-        btnOpenDocument = new javax.swing.JButton();
         btnUndo = new javax.swing.JButton();
         btnRedo = new javax.swing.JButton();
-        btnBold = new javax.swing.JButton();
-        btnItalic = new javax.swing.JButton();
-        btnUnderline = new javax.swing.JButton();
+        btnBold = new javax.swing.JToggleButton();
+        btnItalic = new javax.swing.JToggleButton();
+        btnUnderline = new javax.swing.JToggleButton();
+        btnStrikeThrough = new javax.swing.JToggleButton();
+        btnSubscript = new javax.swing.JToggleButton();
+        btnSuperscript = new javax.swing.JToggleButton();
         FontChooser = new javax.swing.JComboBox();
         FontSize = new javax.swing.JComboBox();
         btnInsertImage = new javax.swing.JButton();
         btnColorChooser = new javax.swing.JButton();
-        btnLeftAlign = new javax.swing.JButton();
-        btnCenterAlign = new javax.swing.JButton();
-        btnRightAlign = new javax.swing.JButton();
-        btnJustifyAlign = new javax.swing.JButton();
+        btnLeftAlign = new javax.swing.JToggleButton();
+        btnCenterAlign = new javax.swing.JToggleButton();
+        btnRightAlign = new javax.swing.JToggleButton();
+        btnJustifyAlign = new javax.swing.JToggleButton();
 
         setMaximumSize(new java.awt.Dimension(900, 30));
         setMinimumSize(new java.awt.Dimension(600, 30));
@@ -101,20 +137,8 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.setMinimumSize(new java.awt.Dimension(215, 30));
         jToolBar1.setPreferredSize(new java.awt.Dimension(100, 30));
 
-        btnSaveDocument.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btnSaveDocument.setToolTipText("Save");
-        btnSaveDocument.setFocusable(false);
-        btnSaveDocument.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSaveDocument.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnSaveDocument.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveDocumentActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnSaveDocument);
-
         btnSaveAsDocument.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save_as.png"))); // NOI18N
-        btnSaveAsDocument.setToolTipText("Save As...");
+        btnSaveAsDocument.setToolTipText("Export...");
         btnSaveAsDocument.setFocusable(false);
         btnSaveAsDocument.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSaveAsDocument.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -124,18 +148,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
             }
         });
         jToolBar1.add(btnSaveAsDocument);
-
-        btnOpenDocument.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/open.png"))); // NOI18N
-        btnOpenDocument.setToolTipText("Open");
-        btnOpenDocument.setFocusable(false);
-        btnOpenDocument.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenDocument.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnOpenDocument.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOpenDocumentActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnOpenDocument);
 
         btnUndo.setAction(undoAction);
         btnUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow_undo.png"))); // NOI18N
@@ -156,12 +168,14 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         btnRedo.setFocusable(false);
         btnRedo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRedo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRedo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRedoActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnRedo);
 
-        btnBold.setAction(new StyledEditorKit.BoldAction());
-        btnBold.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnBold.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bold.png"))); // NOI18N
-        btnBold.setText("");
         btnBold.setToolTipText("Bold");
         btnBold.setFocusable(false);
         btnBold.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -173,31 +187,68 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnBold);
 
-        btnItalic.setAction(new StyledEditorKit.ItalicAction());
-        btnItalic.setFont(new java.awt.Font("Times New Roman", 2, 14)); // NOI18N
         btnItalic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/italic.png"))); // NOI18N
-        btnItalic.setText("");
         btnItalic.setToolTipText("Italic");
         btnItalic.setFocusable(false);
         btnItalic.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnItalic.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, btnBold, org.jdesktop.beansbinding.ELProperty.create("${border}"), btnItalic, org.jdesktop.beansbinding.BeanProperty.create("border"));
-        bindingGroup.addBinding(binding);
-
+        btnItalic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnItalicActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnItalic);
 
-        btnUnderline.setAction(new StyledEditorKit.UnderlineAction());
-        btnUnderline.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         btnUnderline.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/underline.png"))); // NOI18N
-        btnUnderline.setText("");
         btnUnderline.setToolTipText("Underline");
         btnUnderline.setFocusable(false);
         btnUnderline.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnUnderline.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnUnderline.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUnderlineActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnUnderline);
 
+        btnStrikeThrough.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/strikethrough.png"))); // NOI18N
+        btnStrikeThrough.setToolTipText("Strikethrough");
+        btnStrikeThrough.setFocusable(false);
+        btnStrikeThrough.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnStrikeThrough.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnStrikeThrough.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStrikeThroughActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnStrikeThrough);
+
+        btnSubscript.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/subscript.png"))); // NOI18N
+        btnSubscript.setToolTipText("Subscript");
+        btnSubscript.setFocusable(false);
+        btnSubscript.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSubscript.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSubscript.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubscriptActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnSubscript);
+
+        btnSuperscript.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/superscript.png"))); // NOI18N
+        btnSuperscript.setToolTipText("Superscript");
+        btnSuperscript.setFocusable(false);
+        btnSuperscript.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSuperscript.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSuperscript.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuperscriptActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnSuperscript);
+
         FontChooser.setEditable(true);
+        FontChooser.setToolTipText("Choose Font");
         FontChooser.setFocusable(false);
         FontChooser.setInheritsPopupMenu(true);
         FontChooser.setMaximumSize(new java.awt.Dimension(300, 30));
@@ -214,6 +265,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         FontSize.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         FontSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5", "6", "7", "8", "9", "10", "11", "12", "14", "16", "18", "20", "22", "24", "28", "36", "42", " " }));
         FontSize.setSelectedIndex(7);
+        FontSize.setToolTipText("Choose Font Size");
         FontSize.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         FontSize.setDoubleBuffered(true);
         FontSize.setFocusable(false);
@@ -228,7 +280,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.add(FontSize);
 
         btnInsertImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/insert_image.png"))); // NOI18N
-        btnInsertImage.setToolTipText("");
+        btnInsertImage.setToolTipText("Insert Image");
         btnInsertImage.setFocusable(false);
         btnInsertImage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnInsertImage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -241,6 +293,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
 
         btnColorChooser.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         btnColorChooser.setText("A");
+        btnColorChooser.setToolTipText("Choose Text Color");
         btnColorChooser.setFocusable(false);
         btnColorChooser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnColorChooser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -252,6 +305,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.add(btnColorChooser);
 
         btnLeftAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/left_align.png"))); // NOI18N
+        btnLeftAlign.setToolTipText("Align Left");
         btnLeftAlign.setFocusable(false);
         btnLeftAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnLeftAlign.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -263,6 +317,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.add(btnLeftAlign);
 
         btnCenterAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/center_align.png"))); // NOI18N
+        btnCenterAlign.setToolTipText("Align Center");
         btnCenterAlign.setFocusable(false);
         btnCenterAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCenterAlign.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -274,6 +329,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.add(btnCenterAlign);
 
         btnRightAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/right_align.png"))); // NOI18N
+        btnRightAlign.setToolTipText("Align Right");
         btnRightAlign.setFocusable(false);
         btnRightAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRightAlign.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -285,7 +341,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.add(btnRightAlign);
 
         btnJustifyAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/justify_align.png"))); // NOI18N
-        btnJustifyAlign.setToolTipText("Justify");
+        btnJustifyAlign.setToolTipText("Align Justify");
         btnJustifyAlign.setFocusable(false);
         btnJustifyAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnJustifyAlign.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -300,89 +356,122 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-
-        bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnBoldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoldActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btnBoldActionPerformed
 
     private void btnColorChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorChooserActionPerformed
         // TODO add your handling code here:
-        Color color = JColorChooser.showDialog(this, "Chọn màu chữ", forcegroundColor);
+        Color color = JColorChooser.showDialog(this, "Chọn màu chữ", StyleConstants.getForeground(attributeSets));
         if (color != null) {
-            forcegroundColor = color;
+            StyleConstants.setForeground(attributeSets, color);
             btnColorChooser.setForeground(color);
-            (new StyledEditorKit.ForegroundAction("Color", color)).actionPerformed(evt);
+            PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
         }
     }//GEN-LAST:event_btnColorChooserActionPerformed
 
     private void FontSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontSizeActionPerformed
         // TODO add your handling code here:
-        (new StyledEditorKit.FontSizeAction(FontSize.getActionCommand(), Integer.parseInt(FontSize.getSelectedItem().toString()))).actionPerformed(evt);
-          
+        StyleConstants.setFontSize(attributeSets, Integer.parseInt(FontSize.getSelectedItem().toString()));
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
     }//GEN-LAST:event_FontSizeActionPerformed
 
     private void FontChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontChooserActionPerformed
         // TODO add your handling code here:
-        (new StyledEditorKit.FontFamilyAction(FontChooser.getActionCommand(), FontChooser.getSelectedItem().toString())).actionPerformed(evt);
+        try{
+        StyleConstants.setFontFamily(attributeSets, FontChooser.getSelectedItem().toString());
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+        }
+        catch(Exception ex){
+        
+        }
     }//GEN-LAST:event_FontChooserActionPerformed
 
     private void btnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndoActionPerformed
         // TODO add your handling code here:
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.UndoAction, attributeSets));
     }//GEN-LAST:event_btnUndoActionPerformed
 
     private void btnSaveAsDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAsDocumentActionPerformed
         // TODO add your handling code here:
-        textEditor.SaveAsDocument();
-        
-//        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.ExportDocument, attributeSets));
     }//GEN-LAST:event_btnSaveAsDocumentActionPerformed
-
-    private void btnSaveDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDocumentActionPerformed
-        // TODO add your handling code here:
-        textEditor.SaveDocument();
-//        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
-    }//GEN-LAST:event_btnSaveDocumentActionPerformed
-
-    private void btnOpenDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenDocumentActionPerformed
-        // TODO add your handling code here:
-        textEditor.OpenDocument();
-//        topFrame.setTitle(textEditor.currentFile.getAbsolutePath());
-    }//GEN-LAST:event_btnOpenDocumentActionPerformed
-
-    private void btnLeftAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeftAlignActionPerformed
-        // TODO add your handling code here:
-        (new StyledEditorKit.AlignmentAction(btnLeftAlign.getActionCommand(), 0)).actionPerformed(evt);
-    }//GEN-LAST:event_btnLeftAlignActionPerformed
-
-    private void btnCenterAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCenterAlignActionPerformed
-        // TODO add your handling code here:
-          (new StyledEditorKit.AlignmentAction(btnCenterAlign.getActionCommand(), 1)).actionPerformed(evt);
-    }//GEN-LAST:event_btnCenterAlignActionPerformed
-
-    private void btnRightAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRightAlignActionPerformed
-        // TODO add your handling code here:
-          (new StyledEditorKit.AlignmentAction(btnRightAlign.getActionCommand(), 2)).actionPerformed(evt);
-    }//GEN-LAST:event_btnRightAlignActionPerformed
-
-    private void btnJustifyAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustifyAlignActionPerformed
-        // TODO add your handling code here:
-        (new StyledEditorKit.AlignmentAction(btnJustifyAlign.getActionCommand(), 3)).actionPerformed(evt);
-    }//GEN-LAST:event_btnJustifyAlignActionPerformed
 
     private void btnInsertImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertImageActionPerformed
         // TODO add your handling code here:
-        textEditor.InsertImage();
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.InsertImageAction, attributeSets));
     }//GEN-LAST:event_btnInsertImageActionPerformed
+
+    private void btnSuperscriptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuperscriptActionPerformed
+        // TODO add your handling code here:
+        StyleConstants.setSuperscript(attributeSets, !StyleConstants.isSuperscript(attributeSets));
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnSuperscriptActionPerformed
+
+    private void btnRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRedoActionPerformed
+        // TODO add your handling code here:
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.RedoAction, attributeSets));
+    }//GEN-LAST:event_btnRedoActionPerformed
+
+    private void btnSubscriptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubscriptActionPerformed
+        // TODO add your handling code here:
+        StyleConstants.setSubscript(attributeSets, !StyleConstants.isSubscript(attributeSets));
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnSubscriptActionPerformed
+
+    private void btnBoldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoldActionPerformed
+        // TODO add your handling code here:
+        StyleConstants.setBold(attributeSets, !StyleConstants.isBold(attributeSets));
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnBoldActionPerformed
+
+    private void btnItalicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItalicActionPerformed
+        // TODO add your handling code here:
+          StyleConstants.setItalic(attributeSets, !StyleConstants.isItalic(attributeSets));
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnItalicActionPerformed
+
+    private void btnUnderlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnderlineActionPerformed
+        // TODO add your handling code here:
+          StyleConstants.setUnderline(attributeSets, !StyleConstants.isUnderline(attributeSets));
+          
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnUnderlineActionPerformed
+
+    private void btnStrikeThroughActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStrikeThroughActionPerformed
+        // TODO add your handling code here:
+          StyleConstants.setStrikeThrough(attributeSets, !StyleConstants.isStrikeThrough(attributeSets));
+          
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnStrikeThroughActionPerformed
+
+    private void btnLeftAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeftAlignActionPerformed
+        // TODO add your handling code here:
+        StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_LEFT);
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnLeftAlignActionPerformed
+
+    private void btnJustifyAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustifyAlignActionPerformed
+        // TODO add your handling code here:
+          StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_JUSTIFIED);
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnJustifyAlignActionPerformed
+
+    private void btnRightAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRightAlignActionPerformed
+        // TODO add your handling code here:
+          StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_RIGHT);
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnRightAlignActionPerformed
+
+    private void btnCenterAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCenterAlignActionPerformed
+        // TODO add your handling code here:
+          StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_CENTER);
+        PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
+    }//GEN-LAST:event_btnCenterAlignActionPerformed
 
     public void initFontComboBox() {
         List<String> fonts = Arrays.asList(GraphicsEnvironment
@@ -392,34 +481,47 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         FontChooser.setRenderer(new ComboRenderer(FontChooser));
         FontChooser.setSelectedItem("Times New Roman");
     }
-    private StyledTextEditor textEditor;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox FontChooser;
     private javax.swing.JComboBox FontSize;
-    private javax.swing.JButton btnBold;
-    private javax.swing.JButton btnCenterAlign;
+    private javax.swing.JToggleButton btnBold;
+    private javax.swing.JToggleButton btnCenterAlign;
     private javax.swing.JButton btnColorChooser;
     private javax.swing.JButton btnInsertImage;
-    private javax.swing.JButton btnItalic;
-    private javax.swing.JButton btnJustifyAlign;
-    private javax.swing.JButton btnLeftAlign;
-    private javax.swing.JButton btnOpenDocument;
+    private javax.swing.JToggleButton btnItalic;
+    private javax.swing.JToggleButton btnJustifyAlign;
+    private javax.swing.JToggleButton btnLeftAlign;
     private javax.swing.JButton btnRedo;
-    private javax.swing.JButton btnRightAlign;
+    private javax.swing.JToggleButton btnRightAlign;
     private javax.swing.JButton btnSaveAsDocument;
-    private javax.swing.JButton btnSaveDocument;
-    private javax.swing.JButton btnUnderline;
+    private javax.swing.JToggleButton btnStrikeThrough;
+    private javax.swing.JToggleButton btnSubscript;
+    private javax.swing.JToggleButton btnSuperscript;
+    private javax.swing.JToggleButton btnUnderline;
     private javax.swing.JButton btnUndo;
     private javax.swing.JToolBar jToolBar1;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     public UndoableEditListener getUndoableEditLitener() {
         return new MyUndoableEditListener();
     }
 
+    /**
+     * @return the attributeSets
+     */
+    public SimpleAttributeSet getAttributeSets() {
+        return attributeSets;
+    }
 
-     class UndoAction extends AbstractAction {
+    /**
+     * @param attributeSets the attributeSets to set
+     */
+    public void setAttributeSets(AttributeSet attributeSets) {
+        this.attributeSets = (SimpleAttributeSet) attributeSets;
+        UpdateToolbar();
+    }
+
+    class UndoAction extends AbstractAction {
 
         public UndoAction() {
             super();
@@ -440,10 +542,10 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         protected void updateUndoState() {
             if (undo.canUndo()) {
                 setEnabled(true);
-               // putValue(Action.NAME, undo.getUndoPresentationName());
+                // putValue(Action.NAME, undo.getUndoPresentationName());
             } else {
                 setEnabled(false);
-              //  putValue(Action.NAME, "Undo");
+                //  putValue(Action.NAME, "Undo");
             }
         }
     }
@@ -469,16 +571,15 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         protected void updateRedoState() {
             if (undo.canRedo()) {
                 setEnabled(true);
-              //  putValue(Action.NAME, undo.getRedoPresentationName());
+                //  putValue(Action.NAME, undo.getRedoPresentationName());
             } else {
                 setEnabled(false);
-               // putValue(Action.NAME, "Redo");
+                // putValue(Action.NAME, "Redo");
             }
         }
     }
 
     //This one listens for edits that can be undone.
-
     protected class MyUndoableEditListener
             implements UndoableEditListener {
 
@@ -490,7 +591,67 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
             redoAction.updateRedoState();
         }
     }
-    
+
+    public interface FormatDocumentListener extends java.util.EventListener {
+        public void performAction(ActionFormatEvent evt);
+    }
+
+    public class ActionFormatEvent {
+
+        public static final int ExportDocument = 0;
+        public static final int BoldAction = 1;
+        public static final int ItalicAction = 2;
+        public static final int UnderlineAction = 3;
+        public static final int StrikeThrouhAction = 4;
+        public static final int SubscriptAction = 5;
+        public static final int SuperscriptAction = 6;
+        public static final int FontFamilyAction = 7;
+        public static final int FontSizeAction = 8;
+        public static final int InsertImageAction = 9;
+        public static final int AlignLeftAction = 10;
+        public static final int AlignCenterAction = 11;
+        public static final int AlignRightAction = 12;
+        public static final int AlignJustifyAction = 13;
+        public static final int UndoAction = 14;
+        public static final int RedoAction = 15;
+        public static final int FormatAction = 16;
+
+        public ActionFormatEvent(int type, SimpleAttributeSet attrs) {
+            setTypeAction(type);
+            setAttributeSet(attrs);
+        }
+
+        protected int _typeAction;
+        protected SimpleAttributeSet attributeSet;
+
+        /**
+         * @return the _typeAction
+         */
+        public int getTypeAction() {
+            return _typeAction;
+        }
+
+        /**
+         * @param _typeAction the _typeAction to set
+         */
+        public final void setTypeAction(int _typeAction) {
+            this._typeAction = _typeAction;
+        }
+
+        /**
+         * @return the attributeSet
+         */
+        public SimpleAttributeSet getAttributeSet() {
+            return attributeSet;
+        }
+
+        /**
+         * @param attributeSet the attributeSet to set
+         */
+        public final void setAttributeSet(SimpleAttributeSet attributeSet) {
+            this.attributeSet = attributeSet;
+        }
+    }
 }
 
 class ComboRenderer extends BasicComboBoxRenderer {
@@ -530,6 +691,6 @@ class ComboRenderer extends BasicComboBoxRenderer {
         final String fontFamilyName = (String) fntObj;
         setFont(new java.awt.Font(fontFamilyName, java.awt.Font.PLAIN, 16));
         return this;
-    }  
-}
+    }
 
+}

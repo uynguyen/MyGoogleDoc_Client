@@ -27,10 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -42,7 +40,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTMLDocument;
@@ -56,31 +53,52 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     private final List<FireChangeDocumentListener> listeners = new ArrayList<>();
 
-    final long MAX_CHARACTERS = Long.MAX_VALUE;
-    Color forcegroundColor = Color.black;
     public File currentFile = null;
     protected MyCaretListener caretListener;
     protected DocumentListener myDocumentListener;
 
     public StyledTextEditor() {
+        initComponents();
+        FormatToolbar.addFormatDocumentListener((AdvancedFormatToolBar.ActionFormatEvent evt) -> {
+            performToolbarAction(evt);
+        });
         myDocumentListener = new MyDocumentListener();
         caretListener = new MyCaretListener();
-        initComponents();
         textPane.setMargin(new Insets(50, 50, 50, 50));
-        // textPane.setCaretPosition(0);
+
         NewDocument();
         addBindings();
 
-        //   textPane.setHighlighter(new CursorHighlighter());
-//        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-//        textPane.getStyledDocument().addDocumentListener(new MyDocumentListener());
-//        textPane.addCaretListener(new MyCaretListener());
-        FormatToolbar.setTextEditor(this);
         this.setFocusCycleRoot(false);
 
     }
 
+    public void performToolbarAction(AdvancedFormatToolBar.ActionFormatEvent evt) {
+       switch(evt.getTypeAction()){
+           case AdvancedFormatToolBar.ActionFormatEvent.FormatAction: doFormatAction(evt); break;
+           case AdvancedFormatToolBar.ActionFormatEvent.ExportDocument:{
+               
+              break;
+           }    
+            case AdvancedFormatToolBar.ActionFormatEvent.UndoAction:{
+               
+              break;
+           }   
+            case AdvancedFormatToolBar.ActionFormatEvent.RedoAction:{
+               
+              break;
+           }   
+            case AdvancedFormatToolBar.ActionFormatEvent.InsertImageAction:{
+               InsertImage();
+              break;
+           }   
+            default:
+                break;
+       }
+    }
+
     // Tạo một tài liệu mới
+
     public void NewDocument() {
         textPane.setEditorKit(new AdvancedHTMLEditorKit());
         textPane.setContentType(textPane.getEditorKit().getContentType());
@@ -232,6 +250,17 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     }
 
+    private void doFormatAction(AdvancedFormatToolBar.ActionFormatEvent evt) {
+        if (textPane.getSelectedText() != null && textPane.getSelectedText().length() > 0){
+        textPane.setCharacterAttributes(evt.getAttributeSet(), false);
+        }
+        else
+        {
+            textPane.getInputAttributes().addAttributes(evt.getAttributeSet());
+            textPane.setCharacterAttributes(evt.getAttributeSet(), false);
+        }
+    }
+
     //This listens for and reports caret movements.
     protected class MyCaretListener
             implements CaretListener {
@@ -243,6 +272,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         //Might not be invoked from the event dispatch thread.
         @Override
         public void caretUpdate(CaretEvent e) {
+          //  FormatToolbar.setAttributeSets((SimpleAttributeSet) textPane.getCharacterAttributes());
+            textPane.setCharacterAttributes(textPane.getCharacterAttributes(), true);
             sendActionCaretUpdate(e.getDot(), e.getMark());
         }
 
@@ -252,6 +283,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                 try {
                     ActionSelect action = new ActionSelect(textPane.getCharacterAttributes());
                     if (dot == mark) {  // no selection
+                       
                         action.setStartPosition(dot);
                         action.setEndPosition(dot);
                     } else {
