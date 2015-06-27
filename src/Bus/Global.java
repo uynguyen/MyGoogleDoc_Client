@@ -9,7 +9,6 @@ import Pojo.Account;
 import Pojo.Document;
 import Pojo.Invite;
 import java.util.ArrayList;
-import java.util.Deque;
 import sun.misc.Queue;
 
 
@@ -31,5 +30,5 @@ public  class Global {
     public static int _ServerPort = 51399;
     public static int _DocsPort = 13599;
     
-    public static Queue<Action> _myQueue = new Queue<Action>();
+    public static Queue<Action> _myQueue = new Queue<>();
 }
