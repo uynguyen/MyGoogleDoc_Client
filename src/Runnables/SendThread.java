@@ -33,7 +33,7 @@ public class SendThread implements Runnable {
         try {
             while (true) {
                 while (!Global._myQueue.isEmpty()) {
-                    Actions.Action ac = Global._myQueue.poll();
+                    Actions.Action ac = Global._myQueue.dequeue();
                     objectOutputStream.writeObject(ac);
                     objectOutputStream.flush();
                     objectOutputStream.reset();
@@ -41,6 +41,8 @@ public class SendThread implements Runnable {
             }
 
         } catch (IOException ex) {
+            Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
