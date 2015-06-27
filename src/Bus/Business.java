@@ -6,6 +6,7 @@
 package Bus;
 
 import CommunicatePackage.CreateDocPackage;
+import CommunicatePackage.LeavePackage;
 import CommunicatePackage.LoginPackage;
 import CommunicatePackage.LoginReturnPackage;
 
@@ -173,6 +174,68 @@ public class Business {
             SharePackage sharePackage = new SharePackage(idClient, docCode, username);
             
             objectOutputStream.writeObject(sharePackage);
+            objectOutputStream.flush();
+            //Receive result
+            result = objectInputStream.readBoolean();
+
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public static boolean LeaveDocument(int idClient, String docCode) {        
+        boolean result = false;
+        try {
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
+
+            System.out.print(server.getPort());
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+
+            //Send signal
+            objectOutputStream.writeInt(EnumUserAction.SHARE.getValue());
+            objectOutputStream.flush();
+            
+            LeavePackage message = new LeavePackage(idClient, docCode);
+            
+            objectOutputStream.writeObject(message);
+            objectOutputStream.flush();
+            //Receive result
+            result = objectInputStream.readBoolean();
+
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public static boolean DeleteDocument(String docCode) {        
+        boolean result = false;
+        try {
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
+
+            System.out.print(server.getPort());
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+
+            //Send signal
+            objectOutputStream.writeInt(EnumUserAction.SHARE.getValue());
+            objectOutputStream.flush();
+            
+            objectOutputStream.writeUTF(docCode);
             objectOutputStream.flush();
             //Receive result
             result = objectInputStream.readBoolean();
