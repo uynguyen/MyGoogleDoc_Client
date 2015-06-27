@@ -9,7 +9,8 @@ import Pojo.Account;
 import Pojo.Document;
 import Pojo.Invite;
 import java.util.ArrayList;
-import sun.misc.Queue;
+
+
 
 /**
  *
@@ -21,9 +22,9 @@ public  class Global {
     public static ArrayList<Document> _currentListDocument;
     public static ArrayList<Invite> _currentListInvite;
    // public static boolean flag = true;
-    public static String _IPServer = "192.168.43.68";
+    public static String _IPServer = "192.168.1.117";
     public static int _ServerPort = 51399;
     public static int _DocsPort = 13599;
     
-    public static Queue<Action> _myQueue = new Queue<Action>();
+    
 }

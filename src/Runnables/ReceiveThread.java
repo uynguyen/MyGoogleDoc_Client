@@ -8,10 +8,8 @@ package Runnables;
 import Actions.Action;
 import Actions.ActionChat;
 import Actions.ActionJoin;
-import Bus.Global;
 import CustomComponents.StyledTextEditor;
 import java.awt.Container;
-import java.awt.TextArea;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
@@ -57,11 +55,12 @@ public class ReceiveThread implements Runnable {
 
         while (true) {
             try {
+                System.out.println("Waiting...");
                 action = (Action) objectInputStream.readObject();
-
+                System.err.println("Got action!");
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(ReceiveThread.class.getName()).log(Level.SEVERE, null, ex);
-                
+                System.err.println("error!");
                 continue;
             }
             SwingUtilities.invokeLater(() -> {

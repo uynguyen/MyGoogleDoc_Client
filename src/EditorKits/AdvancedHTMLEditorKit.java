@@ -5,19 +5,10 @@
  */
 package EditorKits;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Shape;
-import java.awt.Toolkit;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.logging.Level;
@@ -27,7 +18,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.ParagraphView;
-import javax.swing.text.Position;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
