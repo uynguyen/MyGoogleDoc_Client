@@ -21,18 +21,18 @@ import javax.swing.SwingWorker;
  */
 public class OpenDocTask extends SwingWorker<Object, Object>{
     
-    String docID;
+    String docCode;
     int result;
     JFrame myDocForm;
 
-    public OpenDocTask(String docID, JFrame myDocForm){
-        this.docID = docID;
+    public OpenDocTask(String docCode, JFrame myDocForm){
+        this.docCode = docCode;
         this.myDocForm = myDocForm;
     }
 
     @Override
     protected Object doInBackground() throws Exception {
-        result = Bus.Business.OpenDoc(docID);
+        result = Bus.Business.OpenDoc(docCode);
         System.out.println(result);
     
         
@@ -53,7 +53,7 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                 
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
-                    new Main(result).setVisible(true);
+                    new Main(result, docCode).setVisible(true);
                 }
                 
             }

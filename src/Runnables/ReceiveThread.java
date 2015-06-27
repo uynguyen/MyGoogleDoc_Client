@@ -6,12 +6,15 @@
 package Runnables;
 
 import Actions.Action;
+import Actions.ActionChat;
 import Bus.Global;
 import CustomComponents.StyledTextEditor;
+import java.awt.TextArea;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 /**
@@ -23,12 +26,14 @@ public class ReceiveThread implements Runnable {
     Thread t;
     ObjectInputStream objectInputStream;
     StyledTextEditor styledTextEditor;
+    JTextArea textArea_ChatRoom;
     String initDocument = "";
     Action action;
 
-    public ReceiveThread(ObjectInputStream ois, StyledTextEditor ste) {
+    public ReceiveThread(ObjectInputStream ois, StyledTextEditor ste, JTextArea chatRoom) {
         this.objectInputStream = ois;
         this.styledTextEditor = ste;
+        this.textArea_ChatRoom = chatRoom;
         t = new Thread(this);
         t.start();
     }
@@ -42,20 +47,27 @@ public class ReceiveThread implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(ReceiveThread.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         SwingUtilities.invokeLater(() -> {
             styledTextEditor.setHTMLString(initDocument);
         });
 
-        while (true) {            
+        while (true) {
             try {
                 action = (Action) objectInputStream.readObject();
+
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(ReceiveThread.class.getName()).log(Level.SEVERE, null, ex);
             }
             SwingUtilities.invokeLater(() -> {
                 Global.flag = false;
-                styledTextEditor.ApplyActionChange(action);
+                if (action instanceof ActionChat) {
+
+                    textArea_ChatRoom.append(((ActionChat)action).getUsername()+ " : " +((ActionChat)action).getContent());
+                    textArea_ChatRoom.append("\n");
+                } else {
+                    styledTextEditor.ApplyActionChange(action);
+                }
             });
         }
 

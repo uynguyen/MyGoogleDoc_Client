@@ -5,6 +5,9 @@
  */
 package CustomComponents;
 
+import Bus.Business;
+import Bus.Global;
+import SwingWorkers.ReplyInviteTask;
 import java.util.Date;
 
 /**
@@ -57,6 +60,11 @@ public class CollaborationItem extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         btn_accept.setText("Accept");
+        btn_accept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_acceptActionPerformed(evt);
+            }
+        });
 
         btn_Reject.setText("Reject");
         btn_Reject.addActionListener(new java.awt.event.ActionListener() {
@@ -103,18 +111,15 @@ public class CollaborationItem extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_RejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RejectActionPerformed
-        // TODO add your handling code here:
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        ReplyInviteTask replyInviteTask = new ReplyInviteTask(false, id, doc_Code, Global._currentAccount.getID(), this);
+        replyInviteTask.execute();
         
     }//GEN-LAST:event_btn_RejectActionPerformed
+
+    private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
+        ReplyInviteTask replyInviteTask = new ReplyInviteTask(true, id, doc_Code, Global._currentAccount.getID(), this);
+        replyInviteTask.execute();
+    }//GEN-LAST:event_btn_acceptActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

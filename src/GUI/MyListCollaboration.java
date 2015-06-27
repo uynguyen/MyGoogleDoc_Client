@@ -31,7 +31,6 @@ public class MyListCollaboration extends javax.swing.JPanel {
         for (int i = 0; i < size; i++) {
 
             Invite temp = lst_Invite.get(i);
-
             panel.add(new CollaborationItem(temp.getId(), temp.getDoc_Code(), temp.getId_sender(), temp.getUsername_Sender(), temp.getDate_Invite(), temp.getDoc_title()));
         }
     }

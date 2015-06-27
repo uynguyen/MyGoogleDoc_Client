@@ -69,7 +69,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
                 } else {
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
-                    new Main(result).setVisible(true);
+                    new Main(result, "").setVisible(true);
                 }
             }
         });
