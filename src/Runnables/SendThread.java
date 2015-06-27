@@ -40,7 +40,7 @@ public class SendThread implements Runnable {
                             Actions.Action ac = Global._myQueue.dequeue();
                             objectOutputStream.writeObject(ac);
                             objectOutputStream.flush();
-//                            objectOutputStream.reset();
+
                             
                         }
 
