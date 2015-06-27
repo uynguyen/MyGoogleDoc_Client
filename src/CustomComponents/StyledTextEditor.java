@@ -366,7 +366,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         
         
         
-        Global._myQueue.enqueue(action);
+        Global._myQueue.add(action);
     }
 
     //Add a couple of emacs key bindings for navigation.
