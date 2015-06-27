@@ -55,16 +55,19 @@ public class ReceiveThread implements Runnable {
 
         while (true) {
             try {
-                System.out.println("Waiting...");
-                action = (Action) objectInputStream.readObject();
-                System.err.println("Got action!");
+                //  System.out.println("Waiting...");
+                synchronized (objectInputStream) {
+                    action = (Action) objectInputStream.readObject();
+                    System.err.println("Got action!");
+                }
+
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(ReceiveThread.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("error!");
-                continue;
+                // continue;
             }
             SwingUtilities.invokeLater(() -> {
-              //  Global.flag = false;
+                //  Global.flag = false;
                 if (action instanceof ActionChat) {
 
                     textArea_ChatRoom.append(((ActionChat) action).getUsername() + " : " + ((ActionChat) action).getContent());
@@ -72,10 +75,9 @@ public class ReceiveThread implements Runnable {
 
                 } else {
                     if (action instanceof ActionJoin) {
-                          
+
                         Container con = styledTextEditor.getParent();
-                        JOptionPane.showMessageDialog(con, ((ActionJoin)action).getUsername() + " was joined to the document");
-                      
+                        JOptionPane.showMessageDialog(con, ((ActionJoin) action).getUsername() + " was joined to the document");
 
                     } else {
                         styledTextEditor.ApplyActionChange(action);

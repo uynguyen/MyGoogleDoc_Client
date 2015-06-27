@@ -32,11 +32,19 @@ public class SendThread implements Runnable {
     public void run() {
         try {
             while (true) {
+
                 while (!Global._myQueue.isEmpty()) {
-                    Actions.Action ac = Global._myQueue.dequeue();
-                    objectOutputStream.writeObject(ac);
-                    objectOutputStream.flush();
-                    objectOutputStream.reset();
+                    synchronized (Global._myQueue) {
+                        
+                        synchronized (objectOutputStream) {
+                            Actions.Action ac = Global._myQueue.dequeue();
+                            objectOutputStream.writeObject(ac);
+                            objectOutputStream.flush();
+
+                            
+                        }
+
+                    }
                 }
             }
 

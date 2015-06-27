@@ -314,7 +314,11 @@ public class Main extends javax.swing.JFrame {
         ActionChat actionChat = new ActionChat(null);
         actionChat.setUsername(Global._currentAccount.getUsername());
         actionChat.setContent(text);
-        SendThread sendThread = new SendThread(objectOutputStream, actionChat);
+        
+        synchronized(Global._myQueue){
+            Global._myQueue.enqueue(actionChat);
+        }
+        //SendThread sendThread = new SendThread(objectOutputStream, actionChat);
 
         UpdateChatRoom(text);
 
