@@ -11,6 +11,7 @@ import CustomComponents.CollaborationItem;
 import CustomComponents.MyDocument;
 import CustomComponents.WrapLayout;
 import Pojo.Invite;
+import Runnables.ReceivePushNotificationThread;
 
 import java.awt.Dimension;
 
@@ -87,6 +88,8 @@ public class MyDocsForm extends javax.swing.JFrame {
         frame.getContentPane().add(this.myListConllaboration);
         frame.setSize(new Dimension(900, 500));
         frame.setResizable(false);
+        
+        ReceivePushNotificationThread receivePushNotificationThread = new ReceivePushNotificationThread(this, panel_MyDocs, Global._currentAccount.getUsername());
 
     }
 
