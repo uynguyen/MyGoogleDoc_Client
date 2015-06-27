@@ -95,6 +95,9 @@ public class Main extends javax.swing.JFrame {
 
             //Create receive thread
             ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1, jTextArea_Room);
+            
+            SendThread sendThread = new SendThread(objectOutputStream, null);
+            
 
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,10 +109,10 @@ public class Main extends javax.swing.JFrame {
     public final void performSendActionChangeEvent(ActionChangeEvent evt) {
         Actions.Action action = evt.getAction();
 
-        if (Global.flag == false) {
-            Global.flag = true;
-            return;
-        }
+//        if (Global.flag == false) {
+//            Global.flag = true;
+//            return;
+//        }
 
         try {
             Thread.sleep(10);

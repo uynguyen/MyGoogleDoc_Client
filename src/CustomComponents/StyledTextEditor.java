@@ -9,6 +9,7 @@ import Actions.ActionDelete;
 import Actions.ActionFormat;
 import Actions.ActionInsert;
 import Actions.ActionSelect;
+import Bus.Global;
 import EditorKits.AdvancedHTMLEditorKit;
 import EditorKits.AdvancedRTFEditorKit;
 import java.awt.Color;
@@ -54,7 +55,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     private final List<FireChangeDocumentListener> listeners = new ArrayList<>();
 
     public File currentFile = null;
-    protected MyCaretListener caretListener;
+    //protected MyCaretListener caretListener = null;
     protected DocumentListener myDocumentListener;
 
     public StyledTextEditor() {
@@ -63,7 +64,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             performToolbarAction(evt);
         });
         myDocumentListener = new MyDocumentListener();
-        caretListener = new MyCaretListener();
+     //   caretListener = new MyCaretListener();
         textPane.setMargin(new Insets(50, 50, 50, 50));
 
         NewDocument();
@@ -359,9 +360,13 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     private void sendAction(Actions.Action action) {
 
-        listeners.stream().forEach((l) -> {
-            l.FireChange(new ActionChangeEvent(action));
-        });
+//        listeners.stream().forEach((l) -> {
+//            l.FireChange(new ActionChangeEvent(action));
+//        });
+        
+        
+        
+        Global._myQueue.enqueue(action);
     }
 
     //Add a couple of emacs key bindings for navigation.
@@ -401,7 +406,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setCaretPosition(0);
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
         textPane.getStyledDocument().addDocumentListener(myDocumentListener);
-        textPane.addCaretListener(caretListener);
+//        textPane.addCaretListener(caretListener);
     }
 
     public String getRTFString() {
@@ -429,10 +434,10 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     public void ApplyActionChange(Actions.Action action) {
         textPane.getStyledDocument().removeDocumentListener(myDocumentListener);
-        textPane.removeCaretListener(caretListener);
+//        textPane.removeCaretListener(caretListener);
         action.onDraw(textPane);
         textPane.getStyledDocument().addDocumentListener(myDocumentListener);
-        textPane.addCaretListener(caretListener);
+      //  textPane.addCaretListener(caretListener);
     }
 
     protected SimpleAttributeSet[] initAttributes(int length) {

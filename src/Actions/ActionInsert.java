@@ -32,6 +32,9 @@ public class ActionInsert extends Action{
         try {           
             textPane.getDocument().insertString(_startPosition, getContent(), _attributeset);          
         } catch (BadLocationException ex) {
+            
+            
+            
             Logger.getLogger(ActionInsert.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
