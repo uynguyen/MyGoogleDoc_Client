@@ -93,7 +93,8 @@ public class MyDocument extends javax.swing.JPanel {
         txt_CreatedDate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txt_CreatedDate.setText("19/09/1994");
 
-        btn_Delete.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        btn_Delete.setBackground(new java.awt.Color(255, 255, 255));
+        btn_Delete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_Delete.setText("Delete");
         btn_Delete.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -116,7 +117,8 @@ public class MyDocument extends javax.swing.JPanel {
             }
         });
 
-        btn_Leave.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        btn_Leave.setBackground(new java.awt.Color(255, 255, 255));
+        btn_Leave.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_Leave.setText("Leave");
         btn_Leave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -134,6 +136,11 @@ public class MyDocument extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btn_Leave, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addComponent(btn_Delete))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
@@ -143,12 +150,7 @@ public class MyDocument extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(44, 44, 44)
                                 .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btn_Leave)
-                        .addGap(68, 68, 68)
-                        .addComponent(btn_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -160,11 +162,11 @@ public class MyDocument extends javax.swing.JPanel {
                 .addComponent(txt_Name)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_CreatedDate)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_Delete, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                     .addComponent(btn_Leave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(17, 17, 17))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
