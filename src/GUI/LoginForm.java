@@ -9,6 +9,7 @@ import SwingWorkers.ForgotPasswordTask;
 import SwingWorkers.LoginTask;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
@@ -64,6 +65,11 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel1.setText("User Name:");
 
         txt_userName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_userName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_userNameKeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Password:");
@@ -101,6 +107,11 @@ public class LoginForm extends javax.swing.JFrame {
         });
 
         txt_Password.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_Password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_PasswordKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -192,6 +203,22 @@ public class LoginForm extends javax.swing.JFrame {
         ForgotPasswordTask forgotPasswordTask = new ForgotPasswordTask(username, this);
         forgotPasswordTask.execute();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void txt_userNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_userNameKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            jButton1.doClick();
+        }
+    }//GEN-LAST:event_txt_userNameKeyReleased
+
+    private void txt_PasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_PasswordKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            jButton1.doClick();
+        }
+    }//GEN-LAST:event_txt_PasswordKeyReleased
 
     /**
      * @param args the command line arguments
