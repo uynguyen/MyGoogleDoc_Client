@@ -18,7 +18,6 @@ import javax.swing.JPanel;
  * @author UyNguyen.ITUS
  */
 public class MyListCollaboration extends javax.swing.JPanel {
-    JPanel panel_MyDocs;
 
     /**
      * Creates new form MyListCollaboration
@@ -26,7 +25,6 @@ public class MyListCollaboration extends javax.swing.JPanel {
     public MyListCollaboration(ArrayList<Invite> lst_Invite, JPanel panel_MyDocs) {
         initComponents();
         
-        this.panel_MyDocs = panel_MyDocs;
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
         this.setLocation(dim.width - this.getSize().width / 2, dim.height - this.getSize().height / 2);
@@ -35,15 +33,10 @@ public class MyListCollaboration extends javax.swing.JPanel {
         for (int i = 0; i < size; i++) {
 
             Invite temp = lst_Invite.get(i);
-            panel.add(new CollaborationItem(temp.getId(), temp.getDoc_Code(), temp.getId_sender(), temp.getUsername_Sender(), temp.getDate_Invite(), temp.getDoc_title()));
+            panel.add(new CollaborationItem(panel_MyDocs, temp.getId(), temp.getDoc_Code(), temp.getId_sender(), temp.getUsername_Sender(), temp.getDate_Invite(), temp.getDoc_title()));
         }
     }
 
-    public JPanel getPanel_MyDocs() {
-        return panel_MyDocs;
-    }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

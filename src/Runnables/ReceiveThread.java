@@ -82,8 +82,9 @@ public class ReceiveThread implements Runnable {
             }
             
             if(action instanceof ActionQuit){
-                if(((ActionQuit)action).getLeftUser().equalsIgnoreCase(username));              
-                break;
+                if(((ActionQuit)action).getLeftUser().equalsIgnoreCase(username)){
+                    break;
+                }         
             }
             
             SwingUtilities.invokeLater(() -> {

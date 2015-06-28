@@ -62,6 +62,11 @@ public class DocumentExporter {
 
     public static void ConvertToPDF(String htmlString, String output) {
 
+        String out = "";
+       out = htmlString.substring(0, htmlString.indexOf("<body>")).replaceAll("<br>", "");
+       out += htmlString.substring(htmlString.indexOf("<body>"), htmlString.indexOf("</body>"));
+       out += htmlString.substring(htmlString.indexOf("</body>"), htmlString.length()).replaceAll("<br>", "");
+       out = out.replaceAll("<br>", "<br/>");
         try {
             Document document = new Document(PageSize.A4);
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(output));
@@ -70,7 +75,7 @@ public class DocumentExporter {
 
             XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
 
-            worker.parseXHtml(pdfWriter, document, new StringReader(htmlString));
+            worker.parseXHtml(pdfWriter, document, new StringReader(out));
             document.close();
             System.out.println("Done.");
         } catch (FileNotFoundException | DocumentException e) {
@@ -80,6 +85,12 @@ public class DocumentExporter {
     }
 
     public static void ConvertToDocx(String htmlString, String output) {
+          String out = "";
+       out = htmlString.substring(0, htmlString.indexOf("<body>")).replaceAll("<br>", "");
+       out += htmlString.substring(htmlString.indexOf("<body>"), htmlString.indexOf("</body>"));
+       out += htmlString.substring(htmlString.indexOf("</body>"), htmlString.length()).replaceAll("<br>", "");
+       out = out.replaceAll("<br>", "<br/>");
+       htmlString = out;
 		WordprocessingMLPackage wordMLPackage = null;
         try {
             wordMLPackage = WordprocessingMLPackage.createPackage();

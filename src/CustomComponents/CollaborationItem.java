@@ -9,6 +9,7 @@ import Bus.Business;
 import Bus.Global;
 import SwingWorkers.ReplyInviteTask;
 import java.util.Date;
+import javax.swing.JPanel;
 
 /**
  *
@@ -16,6 +17,7 @@ import java.util.Date;
  */
 public class CollaborationItem extends javax.swing.JPanel {
 
+    private JPanel panel_MyDocs;
     private int id;
     private String doc_Code;
 
@@ -28,8 +30,9 @@ public class CollaborationItem extends javax.swing.JPanel {
     /**
      * Creates new form CollaborationItem
      */
-    public CollaborationItem(int id, String doc_Code, int id_sender, String username_Sender, Date date_Invite, String doc_title) {
+    public CollaborationItem(JPanel panel_MyDocs, int id, String doc_Code, int id_sender, String username_Sender, Date date_Invite, String doc_title) {
         initComponents();
+        this.panel_MyDocs = panel_MyDocs;
         this.id = id;
         this.doc_Code = doc_Code;
         this.id_sender = id_sender;
@@ -111,13 +114,13 @@ public class CollaborationItem extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_RejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RejectActionPerformed
-        ReplyInviteTask replyInviteTask = new ReplyInviteTask(false, id, doc_Code, Global._currentAccount.getID(), this);
+        ReplyInviteTask replyInviteTask = new ReplyInviteTask(false, id, doc_Code, Global._currentAccount.getID(), panel_MyDocs, this);
         replyInviteTask.execute();
         
     }//GEN-LAST:event_btn_RejectActionPerformed
 
     private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
-        ReplyInviteTask replyInviteTask = new ReplyInviteTask(true, id, doc_Code, Global._currentAccount.getID(), this);
+        ReplyInviteTask replyInviteTask = new ReplyInviteTask(true, id, doc_Code, Global._currentAccount.getID(), panel_MyDocs, this);
         replyInviteTask.execute();
     }//GEN-LAST:event_btn_acceptActionPerformed
 
