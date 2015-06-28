@@ -119,6 +119,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         mapFileFilter.put("RTF", new FileNameExtensionFilter("Rich Text File (*.rtf)", "rtf"));
         mapFileFilter.put("HTML", new FileNameExtensionFilter("HTML (*.html, *.htm)", "html", "htm"));
         mapFileFilter.put("PDF", new FileNameExtensionFilter("Portalble Document Format (*.pdf)", "pdf"));
+         mapFileFilter.put("DOCX", new FileNameExtensionFilter("Microsoft Office Document (*.docx)", "docx"));
         
     }
     
@@ -195,7 +196,10 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                         if (chooser.getFileFilter() == mapFileFilter.get("PDF"))
                                     DocumentExporter.ConvertToPDF(getHTMLString(),
                                        getFileWithExtesion(chooser.getSelectedFile(), ".pdf").getAbsolutePath());
-                        
+                        else
+                              if (chooser.getFileFilter() == mapFileFilter.get("DOCX"))
+                                    DocumentExporter.ConvertToDocx(getHTMLString(),
+                                       getFileWithExtesion(chooser.getSelectedFile(), ".docx").getAbsolutePath());
             } catch (IOException ex) {
                 Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
             }

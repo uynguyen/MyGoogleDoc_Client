@@ -5,7 +5,6 @@
  */
 package EditorKits;
 
-
 import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -21,9 +20,16 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.docx4j.XmlUtils;
+import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
+import org.docx4j.convert.out.html.BrWriter;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.exceptions.InvalidFormatException;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 
 /**
  *
@@ -55,26 +61,45 @@ public class DocumentExporter {
     }
 
     public static void ConvertToPDF(String htmlString, String output) {
-        
-       try {
-		      Document document = new Document(PageSize.A4);
-		      PdfWriter pdfWriter = PdfWriter.getInstance
-		           (document, new FileOutputStream(output));
-		      document.open();
-		      document.addCreationDate();
-	
-		      XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
 
-		     
-		      worker.parseXHtml(pdfWriter, document, new StringReader(htmlString));
-		      document.close();
-		      System.out.println("Done.");
-		      }
-		    catch (FileNotFoundException | DocumentException e) {
-		    } catch (IOException ex) {
+        try {
+            Document document = new Document(PageSize.A4);
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(output));
+            document.open();
+            document.addCreationDate();
+
+            XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
+
+            worker.parseXHtml(pdfWriter, document, new StringReader(htmlString));
+            document.close();
+            System.out.println("Done.");
+        } catch (FileNotFoundException | DocumentException e) {
+        } catch (IOException ex) {
             Logger.getLogger(DocumentExporter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+    }
+
+    public static void ConvertToDocx(String htmlString, String output) {
+		WordprocessingMLPackage wordMLPackage = null;
+        try {
+            wordMLPackage = WordprocessingMLPackage.createPackage();
+        } catch (InvalidFormatException ex) {
+            Logger.getLogger(DocumentExporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+		
+        XHTMLImporterImpl XHTMLImporter = new XHTMLImporterImpl(wordMLPackage);
+        try {
+            wordMLPackage.getMainDocumentPart().getContent().addAll(
+                    XHTMLImporter.convert( htmlString, null) );
+        } catch (Docx4JException ex) {
+            Logger.getLogger(DocumentExporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            wordMLPackage.save(new File(output));
+        } catch (Docx4JException ex) {
+            Logger.getLogger(DocumentExporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	
     }
 }

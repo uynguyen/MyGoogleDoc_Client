@@ -338,5 +338,43 @@ public class Business {
         }
         return result;
     }
+    
+    public static void Working(String username){
+        try {
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
+            
+            ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
+            oos.flush();
+            ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
+
+            //send signal
+            oos.writeInt(EnumUserAction.WORKING.getValue());
+            oos.flush();
+            
+            oos.writeUTF(username);
+            oos.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Business.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void Logout(String username){
+        try {
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
+            
+            ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
+            oos.flush();
+            ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
+
+            //send signal
+            oos.writeInt(EnumUserAction.LOGOUT.getValue());
+            oos.flush();
+            
+            oos.writeUTF(username);
+            oos.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Business.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }

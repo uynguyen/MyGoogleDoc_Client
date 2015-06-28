@@ -58,7 +58,7 @@ public class OpenDocTask extends SwingWorker<Object, Object> {
 
                    Global._MyDocForm.setVisible(false);
                  //  myDocForm.dispose();
-//                    final JDialog frame = new JDialog(myDocForm ,Global._currentAccount.getUsername() , true);
+                    Bus.Business.Working(username);
 //                    
 //                    
 //                    Main main = new Main(result, docCode);
