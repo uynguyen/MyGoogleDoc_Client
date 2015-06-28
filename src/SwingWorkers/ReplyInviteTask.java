@@ -27,13 +27,15 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
     String docCode;
     int idClient;
     Document result;
+    JPanel panel;
     CollaborationItem item;
     
-    public ReplyInviteTask(boolean reply, int idInvite, String docCode, int idClient, CollaborationItem item){
+    public ReplyInviteTask(boolean reply, int idInvite, String docCode, int idClient, JPanel panel, CollaborationItem item){
         this.reply = reply;
         this.idInvite = idInvite;
         this.docCode = docCode;
         this.idClient = idClient;
+        this.panel = panel;
         this.item = item;
     }
 
@@ -59,11 +61,10 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
                     con.repaint();
 
                     if(reply){
-                        JPanel panel_MyDocs = ((MyListCollaboration)item.getParent()).getPanel_MyDocs();
-                        panel_MyDocs.add(new MyDocument(result.getID(), result.getName(), result.getPath(),
+                        panel.add(new MyDocument(result.getID(), result.getName(), result.getPath(),
                                 result.getDateCreate(), result.getIDOwner(), result.getCode()));
-                        panel_MyDocs.revalidate();
-                        panel_MyDocs.repaint();
+                        panel.revalidate();
+                        panel.repaint();
                     }
                     
                 }
