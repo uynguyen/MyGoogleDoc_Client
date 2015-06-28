@@ -39,14 +39,12 @@ public class SendThread implements Runnable {
                     synchronized (Global._myQueue) {
                         
                         synchronized (objectOutputStream) {
-                            ac = Global._myQueue.dequeue();
-                            if(ac instanceof ActionQuit){
-                                break;
-                            }
+                            ac = Global._myQueue.dequeue();                            
                             objectOutputStream.writeObject(ac);
                             objectOutputStream.flush();
-
-                            
+                            if(ac instanceof ActionQuit){
+                                break;
+                            }                            
                         }
 
                     }
@@ -56,7 +54,6 @@ public class SendThread implements Runnable {
                 }
             }
             
-            objectOutputStream.flush();
 
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
