@@ -240,7 +240,7 @@ public class Business {
     }
 
     public static String ResetPassword(String username) {
-        String result = "";
+        String result = "Reset password fail!\nPlease try again!";
         try {
             Socket server = new Socket(Global._IPServer, Global._ServerPort);
 
@@ -265,6 +265,7 @@ public class Business {
 
         } catch (IOException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+            result = "Error when reset password!\nPlease try again!";
         }
         return result;
     }

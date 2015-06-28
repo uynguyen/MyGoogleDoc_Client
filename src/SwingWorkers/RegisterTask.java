@@ -6,6 +6,7 @@
 package SwingWorkers;
 
 import Bus.Business;
+import Bus.Global;
 import GUI.LoginForm;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -59,6 +60,7 @@ public class RegisterTask extends SwingWorker<Object, Object>{
             }
         }
         );
+        Global.HideLoading();
     }
 
     @Override

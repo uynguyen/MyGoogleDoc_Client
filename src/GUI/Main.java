@@ -239,6 +239,7 @@ public class Main extends javax.swing.JFrame {
         if (username != null) {
             ShareTask shareTask = new ShareTask(Global._currentAccount.getID(), docCode, username, this);
             shareTask.execute();
+            Global.ShowLoading(this);
         }
 
 

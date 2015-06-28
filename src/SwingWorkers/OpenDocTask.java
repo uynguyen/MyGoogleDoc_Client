@@ -5,6 +5,7 @@
  */
 package SwingWorkers;
 
+import Bus.Global;
 import GUI.Main;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -58,6 +59,7 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                 
             }
         });
+        Global.HideLoading();
     }
     
 }

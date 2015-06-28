@@ -5,6 +5,7 @@
  */
 package SwingWorkers;
 
+import Bus.Global;
 import CustomComponents.CollaborationItem;
 import java.awt.Container;
 import javax.swing.JOptionPane;
@@ -59,6 +60,7 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
                 }
             }
         });
+        Global.HideLoading();
     }
     
     

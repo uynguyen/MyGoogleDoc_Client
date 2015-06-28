@@ -19,8 +19,6 @@ public class NewJFrame extends javax.swing.JFrame {
         styledTextEditor1.addDocumentChangeListener((ActionChangeEvent evt) -> {
             styledTextEditor2.ApplyActionChange(evt.getAction());
         });
-        styledTextEditor1.setHTMLString("<html><head></head><body>abc</body></html>");
-        styledTextEditor2.setHTMLString("<html><head></head><body>abc</body></html>");
     }
 
     /**

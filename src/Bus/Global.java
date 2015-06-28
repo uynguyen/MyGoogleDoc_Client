@@ -5,10 +5,13 @@
 package Bus;
 
 import Actions.Action;
+import CustomComponents.ProcessBar;
 import Pojo.Account;
 import Pojo.Document;
 import Pojo.Invite;
 import java.util.ArrayList;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import sun.misc.Queue;
 
 
@@ -31,4 +34,16 @@ public  class Global {
     public static int _DocsPort = 13599;
     
     public static Queue<Action> _myQueue = new Queue<>();
+    
+    private static final JDialog Loading = new ProcessBar();
+    
+    public static void ShowLoading(JFrame parent){
+        Loading.setLocationRelativeTo(parent);
+        Loading.setVisible(true);
+    }
+    
+    public static void HideLoading(){
+ 
+        Loading.setVisible(false);
+    }
 }
