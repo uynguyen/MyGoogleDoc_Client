@@ -5,48 +5,76 @@
  */
 package EditorKits;
 
+
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Vin
  */
 public class DocumentExporter {
-    
-    
-    public static String ConvertToRTF(String htmlString) throws IOException{
+
+    public static String ConvertToRTF(String htmlString) throws IOException {
         String result = "";
-        
+
         OutputStream os = new ByteArrayOutputStream();
-        HTMLEditorKit htmlEditorKit = new HTMLEditorKit();
+        AdvancedHTMLEditorKit htmlEditorKit = new AdvancedHTMLEditorKit();
         RTFEditorKit rtfEditorKit = new RTFEditorKit();
-        
 
         htmlString = htmlString.replaceAll("<br.*?>", "#NEW_LINE#");
         htmlString = htmlString.replaceAll("</p>", "#NEW_LINE#");
         htmlString = htmlString.replaceAll("<p.*?>", "");
         InputStream is = new ByteArrayInputStream(htmlString.getBytes());
         try {
-            Document doc = htmlEditorKit.createDefaultDocument();
+            javax.swing.text.Document doc = htmlEditorKit.createDefaultDocument();
             htmlEditorKit.read(is, doc, 0);
             rtfEditorKit.write(os, doc, 0, doc.getLength());
             result = os.toString();
             result = result.replaceAll("#NEW_LINE#", "\\\\par ");
         } catch (BadLocationException e) {
         }
-        
+
         return result;
     }
 
-    public static String ConvertToPDF(String htmlString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static void ConvertToPDF(String htmlString, String output) {
+        
+       try {
+		      Document document = new Document(PageSize.A4);
+		      PdfWriter pdfWriter = PdfWriter.getInstance
+		           (document, new FileOutputStream(output));
+		      document.open();
+		      document.addCreationDate();
+	
+		      XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
+
+		     
+		      worker.parseXHtml(pdfWriter, document, new StringReader(htmlString));
+		      document.close();
+		      System.out.println("Done.");
+		      }
+		    catch (FileNotFoundException | DocumentException e) {
+		    } catch (IOException ex) {
+            Logger.getLogger(DocumentExporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 }
