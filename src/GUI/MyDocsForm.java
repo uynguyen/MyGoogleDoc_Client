@@ -79,7 +79,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         Global._currentListDocument = returnListDocument;
         Global._currentListInvite = new ArrayList<Invite>(Arrays.asList(result.inviteList));
 
-        this.myListConllaboration = new MyListCollaboration(Global._currentListInvite);
+        this.myListConllaboration = new MyListCollaboration(Global._currentListInvite, panel_MyDocs);
 
        // frame.pack();
         // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

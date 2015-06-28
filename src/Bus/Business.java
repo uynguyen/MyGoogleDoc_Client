@@ -15,6 +15,7 @@ import CommunicatePackage.RegisterPackage;
 import CommunicatePackage.ReplyInvitePackage;
 import CommunicatePackage.SharePackage;
 import GUI.RegisterForm;
+import Pojo.Document;
 import Pojo.EnumUserAction;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -127,8 +128,8 @@ public class Business {
         return result;
     }
     
-    public static boolean ReplyInvite(boolean reply, int idInvite, String docCode, int idClient) {        
-        boolean result = false;
+    public static Document ReplyInvite(boolean reply, int idInvite, String docCode, int idClient) {        
+        Document result = new Document(-1, null, null, null, -1, null);
         try {
             Socket server = new Socket(Global._IPServer, Global._DocsPort);
 
@@ -147,7 +148,7 @@ public class Business {
             objectOutputStream.writeObject(replyInvitePackage);
             objectOutputStream.flush();
             //Receive result
-            result = objectInputStream.readBoolean();
+            result = (Document)objectInputStream.readObject();
 
             objectOutputStream.flush();
             objectOutputStream.close();
@@ -155,6 +156,8 @@ public class Business {
 
         } catch (IOException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Business.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
