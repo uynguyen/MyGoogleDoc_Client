@@ -55,6 +55,7 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                    
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
+                    Bus.Business.Working(username);
                     new Main(result, docCode).setVisible(true); 
                     
                 }               
