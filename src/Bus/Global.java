@@ -6,6 +6,7 @@ package Bus;
 
 import Actions.Action;
 import CustomComponents.ProcessBar;
+import GUI.MyDocsForm;
 import Pojo.Account;
 import Pojo.Document;
 import Pojo.Invite;
@@ -37,6 +38,7 @@ public  class Global {
     public static Queue<Action> _myQueue = new Queue<>();
     
     private static final JDialog Loading = new ProcessBar();
+    public static MyDocsForm _MyDocForm;
     
     public static void ShowLoading(JFrame parent){
         Loading.setLocationRelativeTo(parent);

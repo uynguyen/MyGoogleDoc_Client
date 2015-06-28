@@ -146,6 +146,7 @@ public class Main extends javax.swing.JFrame {
         btn_BackToHome = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(600, 59));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -287,7 +288,8 @@ public class Main extends javax.swing.JFrame {
      //   receiveThread.stopThread();
     }//GEN-LAST:event_formWindowClosed
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    private void closeConnectionDocument()
+    {
         Global._myQueue.enqueue(new ActionQuit(null, Global._currentAccount.getUsername()));
         try {
             while(objectInputStream.available() > 0){                
@@ -298,6 +300,12 @@ public class Main extends javax.swing.JFrame {
         } catch (InterruptedException | IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }        
+        
+        Global._MyDocForm.setVisible(true);
+    }
+    
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        closeConnectionDocument();
     }//GEN-LAST:event_formWindowClosing
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -309,7 +317,7 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         
        // receiveThread.stopThread();
-       
+       closeConnectionDocument();
         
         
         

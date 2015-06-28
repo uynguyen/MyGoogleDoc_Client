@@ -252,9 +252,9 @@ public class MyDocument extends javax.swing.JPanel {
     private void imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseClicked
         // TODO add your handling code here:
         image.setEnabled(false); //Khỏi click nhiều lần
-        OpenDocTask openDocTask = new OpenDocTask(_Code,Global._currentAccount.getUsername(),(JFrame) SwingUtilities.getWindowAncestor(this));
+        OpenDocTask openDocTask = new OpenDocTask(_Code,Global._currentAccount.getUsername(),(JFrame) SwingUtilities.getWindowAncestor(this), image);
         openDocTask.execute();    
-          Global.ShowLoading((JFrame) SwingUtilities.getWindowAncestor(this));       
+      //  Global.ShowLoading((JFrame) SwingUtilities.getWindowAncestor(this));       
         
     }//GEN-LAST:event_imageMouseClicked
 

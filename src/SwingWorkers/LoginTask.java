@@ -37,7 +37,7 @@ public class LoginTask extends SwingWorker<Object, Object> {
 
     @Override
     protected Object doInBackground() throws Exception {
-        
+
         result = Business.Login(username, password);
         return result;
     }
@@ -50,29 +50,33 @@ public class LoginTask extends SwingWorker<Object, Object> {
 
             @Override
             public void run() {
-                if(loginForm == null){
-                    if(result != null && result.result == true){
-                        new MyDocsForm(result).setVisible(true);
-                    } else{
+                if (loginForm == null) {
+                    if (result != null && result.result == true) {
+
+                        Global._MyDocForm = new MyDocsForm(result);
+                        Global._MyDocForm.setVisible(true);
+                    } else {
                         new LoginForm().setVisible(true);
-                    }                    
+                    }
                     return;
                 }
-                if ( result != null && result.result == true ) {
+                if (result != null && result.result == true) {
                     // Main Form to show after the Login Form..
                     loginForm.setVisible(false);
-                    
+
 //                    Pojo.Account user = new Pojo.Account(1234, "Vin", "abc", "xyz");
 //                    
 //                    result = new LoginReturnPackage(true, user, new Document[0]);
-                    new MyDocsForm(result).setVisible(true);
-                                    
-                } else {                
+                    // new MyDocsForm(result).setVisible(true);
+                    Global._MyDocForm = new MyDocsForm(result);
+                    Global._MyDocForm.setVisible(true);
+
+                } else {
                     btn_login.setEnabled(true);
                     JOptionPane.showMessageDialog(loginForm, "Username or password not correct", "Login Error", 0);
-                  
+
                 }
-                
+
             }
         });
         Global.HideLoading();
