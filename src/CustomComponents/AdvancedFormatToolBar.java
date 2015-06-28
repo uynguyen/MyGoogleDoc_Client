@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -52,6 +53,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
      */
     public AdvancedFormatToolBar() {
         initComponents();
+        initImage();
         initFontComboBox();
         attributeSets = new SimpleAttributeSet();
         
@@ -504,6 +506,23 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
     public void setAttributeSets(AttributeSet attributeSets) {
         this.attributeSets = (SimpleAttributeSet) attributeSets;
         UpdateToolbar();
+    }
+
+    private void initImage() {
+        btnSaveAsDocument.setIcon(new ImageIcon("images\\save_as.png"));
+        btnRedo.setIcon(new ImageIcon("images\\arrow_redo.png"));
+        btnUndo.setIcon(new ImageIcon("images\\arrow_undo.png"));
+        btnBold.setIcon(new ImageIcon("images\\bold.png"));
+        btnItalic.setIcon(new ImageIcon("images\\italic.png"));
+        btnUnderline.setIcon(new ImageIcon("images\\underline.png"));
+        btnStrikeThrough.setIcon(new ImageIcon("images\\strikethrough.png"));
+        btnSuperscript.setIcon(new ImageIcon("images\\superscript.png"));
+        btnSubscript.setIcon(new ImageIcon("images\\subscript.png"));
+        btnLeftAlign.setIcon(new ImageIcon("images\\left_align.png"));
+        btnRightAlign.setIcon(new ImageIcon("images\\right_align.png"));
+        btnCenterAlign.setIcon(new ImageIcon("images\\center_align.png"));
+        btnJustifyAlign.setIcon(new ImageIcon("images\\justify_align.png"));
+        btnInsertImage.setIcon(new ImageIcon("images\\insert_image.png"));
     }
 
     class UndoAction extends AbstractAction {
