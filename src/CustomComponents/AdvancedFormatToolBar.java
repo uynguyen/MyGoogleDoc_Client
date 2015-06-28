@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -52,6 +53,7 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
      */
     public AdvancedFormatToolBar() {
         initComponents();
+        initImage();
         initFontComboBox();
         attributeSets = new SimpleAttributeSet();
         
@@ -137,7 +139,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.setMinimumSize(new java.awt.Dimension(215, 30));
         jToolBar1.setPreferredSize(new java.awt.Dimension(100, 30));
 
-        btnSaveAsDocument.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save_as.png"))); // NOI18N
         btnSaveAsDocument.setToolTipText("Export...");
         btnSaveAsDocument.setFocusable(false);
         btnSaveAsDocument.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -150,7 +151,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.add(btnSaveAsDocument);
 
         btnUndo.setAction(undoAction);
-        btnUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow_undo.png"))); // NOI18N
         btnUndo.setToolTipText("Undo");
         btnUndo.setFocusable(false);
         btnUndo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -163,7 +163,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         jToolBar1.add(btnUndo);
 
         btnRedo.setAction(redoAction);
-        btnRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow_redo.png"))); // NOI18N
         btnRedo.setToolTipText("Redo");
         btnRedo.setFocusable(false);
         btnRedo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -175,7 +174,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnRedo);
 
-        btnBold.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bold.png"))); // NOI18N
         btnBold.setToolTipText("Bold");
         btnBold.setFocusable(false);
         btnBold.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -187,7 +185,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnBold);
 
-        btnItalic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/italic.png"))); // NOI18N
         btnItalic.setToolTipText("Italic");
         btnItalic.setFocusable(false);
         btnItalic.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -199,7 +196,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnItalic);
 
-        btnUnderline.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/underline.png"))); // NOI18N
         btnUnderline.setToolTipText("Underline");
         btnUnderline.setFocusable(false);
         btnUnderline.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -211,7 +207,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnUnderline);
 
-        btnStrikeThrough.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/strikethrough.png"))); // NOI18N
         btnStrikeThrough.setToolTipText("Strikethrough");
         btnStrikeThrough.setFocusable(false);
         btnStrikeThrough.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -223,7 +218,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnStrikeThrough);
 
-        btnSubscript.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/subscript.png"))); // NOI18N
         btnSubscript.setToolTipText("Subscript");
         btnSubscript.setFocusable(false);
         btnSubscript.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -235,7 +229,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnSubscript);
 
-        btnSuperscript.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/superscript.png"))); // NOI18N
         btnSuperscript.setToolTipText("Superscript");
         btnSuperscript.setFocusable(false);
         btnSuperscript.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -279,8 +272,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(FontSize);
 
-        btnInsertImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/insert_image.png"))); // NOI18N
-        btnInsertImage.setToolTipText("Insert Image");
         btnInsertImage.setFocusable(false);
         btnInsertImage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnInsertImage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -304,7 +295,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnColorChooser);
 
-        btnLeftAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/left_align.png"))); // NOI18N
         btnLeftAlign.setToolTipText("Align Left");
         btnLeftAlign.setFocusable(false);
         btnLeftAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -316,7 +306,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnLeftAlign);
 
-        btnCenterAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/center_align.png"))); // NOI18N
         btnCenterAlign.setToolTipText("Align Center");
         btnCenterAlign.setFocusable(false);
         btnCenterAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -328,7 +317,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnCenterAlign);
 
-        btnRightAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/right_align.png"))); // NOI18N
         btnRightAlign.setToolTipText("Align Right");
         btnRightAlign.setFocusable(false);
         btnRightAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -340,7 +328,6 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
         });
         jToolBar1.add(btnRightAlign);
 
-        btnJustifyAlign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/justify_align.png"))); // NOI18N
         btnJustifyAlign.setToolTipText("Align Justify");
         btnJustifyAlign.setFocusable(false);
         btnJustifyAlign.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -519,6 +506,23 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
     public void setAttributeSets(AttributeSet attributeSets) {
         this.attributeSets = (SimpleAttributeSet) attributeSets;
         UpdateToolbar();
+    }
+
+    private void initImage() {
+        btnSaveAsDocument.setIcon(new ImageIcon("images\\save_as.png"));
+        btnRedo.setIcon(new ImageIcon("images\\arrow_redo.png"));
+        btnUndo.setIcon(new ImageIcon("images\\arrow_undo.png"));
+        btnBold.setIcon(new ImageIcon("images\\bold.png"));
+        btnItalic.setIcon(new ImageIcon("images\\italic.png"));
+        btnUnderline.setIcon(new ImageIcon("images\\underline.png"));
+        btnStrikeThrough.setIcon(new ImageIcon("images\\strikethrough.png"));
+        btnSuperscript.setIcon(new ImageIcon("images\\superscript.png"));
+        btnSubscript.setIcon(new ImageIcon("images\\subscript.png"));
+        btnLeftAlign.setIcon(new ImageIcon("images\\left_align.png"));
+        btnRightAlign.setIcon(new ImageIcon("images\\right_align.png"));
+        btnCenterAlign.setIcon(new ImageIcon("images\\center_align.png"));
+        btnJustifyAlign.setIcon(new ImageIcon("images\\justify_align.png"));
+        btnInsertImage.setIcon(new ImageIcon("images\\insert_image.png"));
     }
 
     class UndoAction extends AbstractAction {

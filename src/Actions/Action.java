@@ -5,6 +5,7 @@
  */
 package Actions;
 
+import java.awt.Color;
 import java.io.Serializable;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
@@ -14,12 +15,13 @@ import javax.swing.text.AttributeSet;
  * @author UyNguyen.ITUS
  */
 public abstract class Action implements Serializable{
-    protected static final long serialVersionUID = 6529685098267757690L;
+    private static final long serialVersionUID = 1L;
     protected int _startPosition;
     protected int _endPosition;
     protected int _userID;
     protected String _userName;
-      protected AttributeSet _attributeset;
+    private Color _color;
+    protected AttributeSet _attributeset;
     public Action(AttributeSet attributeset){
         this._attributeset = attributeset;
     }
@@ -97,6 +99,20 @@ public abstract class Action implements Serializable{
      */
     public void setUserName(String _userName) {
         this._userName = _userName;
+    }
+
+    /**
+     * @return the _color
+     */
+    public Color getColor() {
+        return _color;
+    }
+
+    /**
+     * @param _color the _color to set
+     */
+    public void setColor(Color _color) {
+        this._color = _color;
     }
 
 }

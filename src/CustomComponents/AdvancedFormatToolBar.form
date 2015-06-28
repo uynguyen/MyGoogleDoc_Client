@@ -65,9 +65,6 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnSaveAsDocument">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/save_as.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Export..."/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -81,9 +78,6 @@
           <Properties>
             <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="undoAction" type="code"/>
-            </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/arrow_undo.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Undo"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -99,9 +93,6 @@
             <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="redoAction" type="code"/>
             </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/arrow_redo.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Redo"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -113,9 +104,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnBold">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/bold.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Bold"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -127,9 +115,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnItalic">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/italic.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Italic"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -141,9 +126,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnUnderline">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/underline.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Underline"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -155,9 +137,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnStrikeThrough">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/strikethrough.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Strikethrough"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -169,9 +148,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnSubscript">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/subscript.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Subscript"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -183,9 +159,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnSuperscript">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/superscript.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Superscript"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -264,10 +237,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnInsertImage">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/insert_image.png"/>
-            </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Insert Image"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
@@ -293,9 +262,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnLeftAlign">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/left_align.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Align Left"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -307,9 +273,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnCenterAlign">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/center_align.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Align Center"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -321,9 +284,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnRightAlign">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/right_align.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Align Right"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -335,9 +295,6 @@
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnJustifyAlign">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/justify_align.png"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Align Justify"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>

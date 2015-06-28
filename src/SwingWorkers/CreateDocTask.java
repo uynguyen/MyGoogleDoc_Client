@@ -6,6 +6,7 @@
 package SwingWorkers;
 
 import Bus.Business;
+import Bus.Global;
 import CommunicatePackage.CreateDocReturnPackage;
 import GUI.Main;
 import javax.swing.JDialog;
@@ -74,6 +75,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
                 }
             }
         });
+        Global.HideLoading();
 
     }
 

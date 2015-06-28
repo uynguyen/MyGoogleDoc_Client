@@ -6,6 +6,7 @@
 package GUI;
 
 import Bus.Business;
+import Bus.Global;
 import SwingWorkers.RegisterTask;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -51,11 +52,7 @@ public class RegisterForm extends javax.swing.JFrame {
         lbl_Error = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("User Name:");
@@ -200,20 +197,15 @@ public class RegisterForm extends javax.swing.JFrame {
         lbl_Error.setText("Wating...");
         RegisterTask registerTask = new RegisterTask(username, pass, email, lbl_Error, btn_Register, btn_Back, this);
         registerTask.execute();
-               
+        Global.ShowLoading(this);      
     }//GEN-LAST:event_btn_RegisterActionPerformed
 
     private void btn_BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BackActionPerformed
         this.setVisible(false);
         this.dispose();
         new LoginForm().setVisible(true);
+        
     }//GEN-LAST:event_btn_BackActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        this.setVisible(false);
-        this.dispose();
-        new LoginForm().setVisible(true);
-    }//GEN-LAST:event_formWindowClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

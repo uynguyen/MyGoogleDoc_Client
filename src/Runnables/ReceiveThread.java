@@ -61,12 +61,12 @@ public class ReceiveThread implements Runnable {
                 //  System.out.println("Waiting...");
                 synchronized (objectInputStream) {
                     action = (Action) objectInputStream.readObject();
-                    System.err.println("Got action!");
+                 //   System.err.println("Got action!");
                 }
 
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(ReceiveThread.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("error!");
+             //   System.err.println("error!");
                 // continue;
             }
             

@@ -5,6 +5,7 @@
  */
 package SwingWorkers;
 
+import Bus.Global;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -40,8 +41,7 @@ public class ForgotPasswordTask extends SwingWorker<Object, Object>{
                 JOptionPane.showMessageDialog(loginForm, result);
             }
         });
+        Global.HideLoading();
     }
-    
-    
-    
+       
 }
