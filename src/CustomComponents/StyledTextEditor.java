@@ -11,7 +11,7 @@ import Actions.ActionInsert;
 import Actions.ActionSelect;
 import Bus.Global;
 import EditorKits.AdvancedHTMLEditorKit;
-import EditorKits.AdvancedRTFEditorKit;
+import EditorKits.DocumentExporter;
 import com.sun.java.swing.SwingUtilities3;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -28,7 +28,9 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.InputMap;
@@ -62,6 +64,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     public StyledTextEditor() {
         initComponents();
+        initFileFilters();
         FormatToolbar.addFormatDocumentListener((AdvancedFormatToolBar.ActionFormatEvent evt) -> {
             performToolbarAction(evt);
         });
@@ -79,7 +82,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                 doFormatAction(evt);
                 break;
             case AdvancedFormatToolBar.ActionFormatEvent.ExportDocument: {
-
+                 ExportDocument();
                 break;
             }
             case AdvancedFormatToolBar.ActionFormatEvent.UndoAction: {
@@ -109,16 +112,26 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setCaretPosition(0);
     }
 
+    private HashMap<String, FileNameExtensionFilter> mapFileFilter = new HashMap<>();
+    
+    private void initFileFilters(){
+        mapFileFilter = new HashMap<>();
+        mapFileFilter.put("RTF", new FileNameExtensionFilter("Rich Text File (*.rtf)", "rtf"));
+        mapFileFilter.put("HTML", new FileNameExtensionFilter("HTML (*.html, *.htm)", "html", "htm"));
+        mapFileFilter.put("PDF", new FileNameExtensionFilter("Portalble Document Format (*.pdf)", "pdf"));
+        
+    }
+    
     private void addChooseFileFilters(JFileChooser chooser) {
-        chooser.addChoosableFileFilter(new FileNameExtensionFilter("Rich Text File (*.rtf)", "rtf"));
-        chooser.addChoosableFileFilter(new FileNameExtensionFilter("HTML (*.html, *.htm)", "html", "htm"));
+        mapFileFilter.keySet().stream().forEach((key)->{
+            chooser.addChoosableFileFilter(mapFileFilter.get(key));
+        });
     }
 
     private void addChooseImageFilters(JFileChooser chooser) {
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
         chooser.addChoosableFileFilter(new FileNameExtensionFilter("Bitmap (*.bmp)", "bmp"));
         chooser.addChoosableFileFilter(new FileNameExtensionFilter("JPG (*.jpg)", "jpg"));
-        chooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
-
     }
 
     public void InsertImage() {
@@ -127,25 +140,12 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         addChooseImageFilters(chooser);
         chooser.setAcceptAllFileFilterUsed(true);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.setMultiSelectionEnabled(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
                 AdvancedHTMLEditorKit kit = (AdvancedHTMLEditorKit) textPane.getEditorKit();
-//                ImageIcon image = new ImageIcon(chooser.getSelectedFile().getAbsolutePath());
-//                 Style style = textPane.getStyledDocument().addStyle("StyleName", null);
-//                 StyleConstants.setIcon(style, image);
-//                 textPane.getStyledDocument().insertString(
-//                         textPane.getCaretPosition(), "image", style);
+                String imgTagData = kit.insertImage(textPane.getStyledDocument(), 
+                        textPane.getCaretPosition(), chooser.getSelectedFile());
 
-                
-
-               
-
-                String imgTagData = kit.insertImage(textPane.getStyledDocument(), textPane.getCaretPosition(), chooser.getSelectedFile());
-//              Actions.ActionInsertImage action = new Actions.ActionInsertImage(textPane.getCharacterAttributes());
-//              action.setStartPosition(textPane.getCaretPosition());
-//              action.setContent(imgTagData);
-//              sendAction(action);
             } catch (Exception ex) {
 
             }
@@ -160,15 +160,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         return textPane;
     }
 
-    public void SaveAsDocument() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(false);
-        addChooseFileFilters(chooser);
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.setMultiSelectionEnabled(false);
-    }
-
     private void doFormatAction(AdvancedFormatToolBar.ActionFormatEvent evt) {
         if (textPane.getSelectedText() != null && textPane.getSelectedText().length() > 0) {
             textPane.setCharacterAttributes(evt.getAttributeSet(), false);
@@ -178,6 +169,46 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         }
     }
 
+    private void ExportDocument() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+        addChooseFileFilters(chooser);     
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
+        int saveResult = chooser.showSaveDialog(this);
+        if (saveResult == JFileChooser.APPROVE_OPTION){
+            try {
+                if (chooser.getFileFilter() == mapFileFilter.get("RTF"))
+                
+                Files.write(getFileWithExtesion(chooser.getSelectedFile(), ".rtf").toPath(),
+                        DocumentExporter.ConvertToRTF(getHTMLString()).getBytes());
+                
+                else
+                
+                    if (chooser.getFileFilter() == mapFileFilter.get("HTML"))
+                        Files.write(getFileWithExtesion(chooser.getSelectedFile(), ".html").toPath(),
+                                getHTMLString().getBytes());
+                
+                else
+                
+                        if (chooser.getFileFilter() == mapFileFilter.get("PDF"))
+                            Files.write(getFileWithExtesion(chooser.getSelectedFile(), ".pdf").toPath(),
+                                    DocumentExporter.ConvertToPDF(getHTMLString()).getBytes());
+                        
+            } catch (IOException ex) {
+                Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private File getFileWithExtesion(File f, String extension){
+        if (!f.toPath().endsWith(extension)){
+            return new File(f.toPath() + extension);
+        }
+        return f;
+    }
+    
     //This listens for and reports caret movements.
     protected class MyCaretListener implements CaretListener {
 
@@ -341,16 +372,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         } catch (IOException | BadLocationException ex) {
         }
         return strResult;
-    }
-
-    public void setRTFString(String src) {
-        RTFEditorKit kit = new AdvancedRTFEditorKit();
-        textPane.setEditorKit(kit);
-        textPane.setDocument(kit.createDefaultDocument());
-        textPane.setText(src);
-        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-        textPane.getStyledDocument().addDocumentListener(myDocumentListener);
-        //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     public void ApplyActionChange(Actions.Action action) {
