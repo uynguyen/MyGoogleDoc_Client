@@ -57,7 +57,7 @@ public class MyListCollaboration extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         panel = new javax.swing.JPanel();
 
-        panel.setBackground(new java.awt.Color(102, 204, 255));
+        panel.setBackground(new java.awt.Color(255, 255, 204));
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);

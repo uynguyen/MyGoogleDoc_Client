@@ -120,16 +120,15 @@ public class MyDocsForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
 
-        jPanel1.setBackground(new java.awt.Color(255, 153, 51));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lb_avatar.setText("23");
 
-        txt_UserName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txt_UserName.setForeground(new java.awt.Color(255, 255, 255));
+        txt_UserName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txt_UserName.setText("Nguyễn Long Uy");
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Uynguyen1212505", "VinLe1212513", "ThanhTung499", "MyUsername", " " };
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -172,8 +171,6 @@ public class MyDocsForm extends javax.swing.JFrame {
             }
         });
 
-        lbl_countNoti.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        lbl_countNoti.setForeground(new java.awt.Color(255, 255, 255));
         lbl_countNoti.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -224,7 +221,7 @@ public class MyDocsForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_logout2)
                     .addComponent(btn_createDoc))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Collaboration)
                     .addComponent(lbl_countNoti))
@@ -239,7 +236,7 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        panel_MyDocs.setBackground(new java.awt.Color(255, 204, 102));
+        panel_MyDocs.setBackground(new java.awt.Color(51, 204, 255));
         panel_MyDocs.setMinimumSize(new java.awt.Dimension(400, 400));
         panel_MyDocs.setPreferredSize(new java.awt.Dimension(400, 400));
         panel_MyDocs.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
@@ -300,7 +297,11 @@ public class MyDocsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_logout3ActionPerformed
 
     private void btn_logout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logout1ActionPerformed
+<<<<<<< HEAD
+        // TODO add your handling code here:
+=======
         Bus.Business.Logout(Global._currentAccount.getUsername());
+>>>>>>> 4076861a6dd23a8a2cc853d8a876d94899c7ecb3
         this.setVisible(false);
         this.dispose();
         new LoginForm().setVisible(true);
