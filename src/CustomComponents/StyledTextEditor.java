@@ -108,7 +108,6 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setContentType(textPane.getEditorKit().getContentType());
         textPane.setDocument(textPane.getEditorKit().createDefaultDocument());
         textPane.setStyledDocument(new HTMLDocument());
-
         textPane.setCaretPosition(0);
     }
 
@@ -167,6 +166,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         } else {
             textPane.getInputAttributes().addAttributes(evt.getAttributeSet());
             textPane.setCharacterAttributes(evt.getAttributeSet(), false);
+            
         }
     }
 
@@ -207,7 +207,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     }
 
     private File getFileWithExtesion(File f, String extension){
-        if (!f.toPath().endsWith(extension)){
+        if (!f.getAbsolutePath().endsWith(extension)){
             return new File(f.toPath() + extension);
         }
         return f;
@@ -353,7 +353,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             strResult = wt.getBuffer().toString();
         } catch (IOException | BadLocationException ex) {
         }
-        return strResult;
+        strResult = strResult.replaceAll("\n", "<br>");
+         strResult =  strResult.replaceAll("\r", "<br>");
+        return strResult.replaceAll("\r\n", "<br>");
     }
 
     public void setHTMLString(String src) {
@@ -365,18 +367,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.addCaretListener(caretListener);
     }
 
-    public String getRTFString() {
-        String strResult = "";
-        try {
-            RTFEditorKit kit = new RTFEditorKit();
-            Document d = textPane.getStyledDocument();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            kit.write(baos, d, d.getStartPosition().getOffset(), d.getLength());
-            strResult = baos.toString(StandardCharsets.UTF_8.name());
-        } catch (IOException | BadLocationException ex) {
-        }
-        return strResult;
-    }
+    
 
     public void ApplyActionChange(Actions.Action action) {
 
