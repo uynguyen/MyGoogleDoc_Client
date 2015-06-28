@@ -22,17 +22,19 @@ import javax.swing.SwingWorker;
 public class OpenDocTask extends SwingWorker<Object, Object>{
     
     String docCode;
+    String username;
     int result;
     JFrame myDocForm;
 
-    public OpenDocTask(String docCode, JFrame myDocForm){
+    public OpenDocTask(String docCode, String username, JFrame myDocForm){
         this.docCode = docCode;
         this.myDocForm = myDocForm;
+        this.username = username;
     }
 
     @Override
     protected Object doInBackground() throws Exception {
-        result = Bus.Business.OpenDoc(docCode);
+        result = Bus.Business.OpenDoc(docCode, username);
         System.out.println(result);
     
         
