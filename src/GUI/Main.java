@@ -11,6 +11,7 @@ import Bus.Global;
 import CustomComponents.ActionChangeEvent;
 import Runnables.ReceiveThread;
 import Runnables.SendThread;
+import SwingWorkers.LoginTask;
 
 import java.awt.event.KeyEvent;
 
@@ -38,7 +39,6 @@ public class Main extends javax.swing.JFrame {
     private Socket Server;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
-    private JFrame myDocForm;
 
     private int WorkingServerPort;
     private Object e;
@@ -52,12 +52,11 @@ public class Main extends javax.swing.JFrame {
         initComponents();
     }
 
-    public Main(int workingServerPort, String docCode, JFrame myDocForm) {
+    public Main(int workingServerPort, String docCode) {
         initComponents();
 
         this.docCode = docCode;
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.myDocForm = myDocForm;
         styledTextEditor1.addDocumentChangeListener(this::performSendActionChangeEvent);
 
         initChatRoom();
@@ -273,11 +272,11 @@ public class Main extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Global._myQueue.enqueue(new ActionQuit(null, Global._currentAccount.getUsername()));
         try {
-            while(objectInputStream.available() > 0){
-                objectOutputStream.close();
-                Thread.sleep(100);
-            }            
-            myDocForm.setVisible(true);
+            while(objectInputStream.available() > 0){                
+                Thread.sleep(10);
+            }   
+            objectOutputStream.close();
+            LoginTask loginTask = new LoginTask(Global._currentAccount.getUsername(), Global.password, null, null);
         } catch (InterruptedException | IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }        

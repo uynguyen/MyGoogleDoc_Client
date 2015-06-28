@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Bus.Global;
 import SwingWorkers.ForgotPasswordTask;
 import SwingWorkers.LoginTask;
 import java.awt.Dimension;
@@ -185,7 +186,7 @@ public class LoginForm extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username = txt_userName.getText();
         String password = txt_Password.getText();
-        
+        Global.password = password;
         LoginTask loginTask = new LoginTask(username, password, this, jButton1);
         jButton1.setEnabled(false);
         loginTask.execute();

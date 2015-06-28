@@ -53,7 +53,8 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                 } else {
              
                     myDocForm.setVisible(false);
-                    new Main(result, docCode, myDocForm).setVisible(true);
+                    myDocForm.dispose();
+                    new Main(result, docCode).setVisible(true);
                 }
                 
             }
