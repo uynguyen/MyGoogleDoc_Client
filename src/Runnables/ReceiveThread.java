@@ -8,6 +8,7 @@ package Runnables;
 import Actions.Action;
 import Actions.ActionChat;
 import Actions.ActionJoin;
+import Actions.ActionQuit;
 import CustomComponents.StyledTextEditor;
 import java.awt.Container;
 import java.io.IOException;
@@ -28,13 +29,15 @@ public class ReceiveThread implements Runnable {
     ObjectInputStream objectInputStream;
     StyledTextEditor styledTextEditor;
     JTextArea textArea_ChatRoom;
+    String username;
     String initDocument = "";
     Action action;
 
-    public ReceiveThread(ObjectInputStream ois, StyledTextEditor ste, JTextArea chatRoom) {
+    public ReceiveThread(ObjectInputStream ois, StyledTextEditor ste, JTextArea chatRoom, String username) {
         this.objectInputStream = ois;
         this.styledTextEditor = ste;
         this.textArea_ChatRoom = chatRoom;
+        this.username = username;
         t = new Thread(this);
         t.start();
     }
@@ -66,9 +69,20 @@ public class ReceiveThread implements Runnable {
              //   System.err.println("error!");
                 // continue;
             }
+            
+            if(action instanceof ActionQuit){
+                if(((ActionQuit)action).getLeftUser().equalsIgnoreCase(username));              
+                break;
+            }
+            
             SwingUtilities.invokeLater(() -> {
                 //  Global.flag = false;
-                if (action instanceof ActionChat) {
+                if (action instanceof ActionQuit){
+                    
+                    textArea_ChatRoom.append(((ActionQuit) action).getLeftUser()+ " left");
+                    textArea_ChatRoom.append("\n");
+                    
+                } else if (action instanceof ActionChat) {
 
                     textArea_ChatRoom.append(((ActionChat) action).getUsername() + " : " + ((ActionChat) action).getContent());
                     textArea_ChatRoom.append("\n");
@@ -84,6 +98,11 @@ public class ReceiveThread implements Runnable {
                     }
                 }
             });
+        }
+        try {
+            objectInputStream.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ReceiveThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

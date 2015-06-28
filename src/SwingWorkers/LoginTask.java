@@ -8,6 +8,7 @@ package SwingWorkers;
 import Bus.Business;
 import Bus.Global;
 import CommunicatePackage.LoginReturnPackage;
+import GUI.LoginForm;
 import GUI.MyDocsForm;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,6 +50,14 @@ public class LoginTask extends SwingWorker<Object, Object> {
 
             @Override
             public void run() {
+                if(loginForm == null){
+                    if(result != null && result.result == true){
+                        new MyDocsForm(result).setVisible(true);
+                    } else{
+                        new LoginForm().setVisible(true);
+                    }                    
+                    return;
+                }
                 if ( result != null && result.result == true ) {
                     // Main Form to show after the Login Form..
                     loginForm.setVisible(false);

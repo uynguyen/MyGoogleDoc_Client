@@ -28,6 +28,7 @@ public  class Global {
     public static Account _currentAccount;
     public static ArrayList<Document> _currentListDocument;
     public static ArrayList<Invite> _currentListInvite;
+    public static String password = "";
    // public static boolean flag = true;
     public static String _IPServer = "localhost";
     public static int _ServerPort = 51399;
