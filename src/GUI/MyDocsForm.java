@@ -69,7 +69,7 @@ public class MyDocsForm extends javax.swing.JFrame {
             // jScrollPane.add(panel_MyDocs);
         }
 
-        ImageIcon icon = new ImageIcon("src\\Resources\\avatar_default.png");
+        ImageIcon icon = new ImageIcon("Resources\\avatar_default.png");
         lb_avatar.setLocation(150, 5);
         lb_avatar.setIcon(icon);
 
@@ -79,7 +79,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         Global._currentListDocument = returnListDocument;
         Global._currentListInvite = new ArrayList<Invite>(Arrays.asList(result.inviteList));
 
-        this.myListConllaboration = new MyListCollaboration(Global._currentListInvite);
+        this.myListConllaboration = new MyListCollaboration(Global._currentListInvite, panel_MyDocs);
 
        // frame.pack();
         // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

@@ -16,9 +16,11 @@ import com.sun.java.swing.SwingUtilities3;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Event;
+import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -134,6 +136,10 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 //                 StyleConstants.setIcon(style, image);
 //                 textPane.getStyledDocument().insertString(
 //                         textPane.getCaretPosition(), "image", style);
+
+                
+
+               
 
                 String imgTagData = kit.insertImage(textPane.getStyledDocument(), textPane.getCaretPosition(), chooser.getSelectedFile());
 //              Actions.ActionInsertImage action = new Actions.ActionInsertImage(textPane.getCharacterAttributes());

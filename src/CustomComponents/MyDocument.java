@@ -47,7 +47,7 @@ public class MyDocument extends javax.swing.JPanel {
        this._Code = code;
        txt_Name.setText(name);
        txt_CreatedDate.setText(date.toLocaleString());
-       ImageIcon icon = new ImageIcon("src\\Resources\\Icon-Document.png"); 
+       ImageIcon icon = new ImageIcon("Resources\\Icon-Document.png"); 
      
        image.setIcon(icon); 
       
