@@ -222,9 +222,9 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         public void caretUpdate(CaretEvent e) {
             //  FormatToolbar.setAttributeSets((SimpleAttributeSet) textPane.getCharacterAttributes());
             //  textPane.setCharacterAttributes(textPane.getCharacterAttributes(), true);
-            if (isListening) {
-                sendActionCaretUpdate(e.getDot(), e.getMark());
-            }
+//            if (isListening) {
+//                sendActionCaretUpdate(e.getDot(), e.getMark());
+//            }
         }
 
         protected void sendActionCaretUpdate(final int dot, final int mark) {

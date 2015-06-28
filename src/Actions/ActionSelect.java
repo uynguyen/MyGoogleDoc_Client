@@ -34,13 +34,13 @@ public class ActionSelect extends Action{
        if (_startPosition == _endPosition){  
             SwingUtilities.invokeLater(()->{
                try {    
-                   if (textPane.getStyledDocument().getLength() == 0) return;
-                   if (textPane.getStyledDocument().getLength() == _endPosition)
-                   {
-                       _startPosition--;
-                   }
-                   else
-                       _endPosition++;
+//                   if (textPane.getStyledDocument().getLength() == 0) return;
+//                   if (textPane.getStyledDocument().getLength() == _endPosition)
+//                   {
+//                       _startPosition--;
+//                   }
+//                   else
+//                       _endPosition++;
                textPane.getHighlighter().addHighlight(_startPosition, _endPosition,
                        new DefaultHighlighter.DefaultHighlightPainter(getColor()));                     
            } catch (BadLocationException ex) {

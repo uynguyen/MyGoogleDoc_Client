@@ -146,7 +146,6 @@ public class Main extends javax.swing.JFrame {
         btn_BackToHome = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(600, 59));
         addWindowListener(new java.awt.event.WindowAdapter() {
