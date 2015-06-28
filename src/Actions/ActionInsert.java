@@ -5,6 +5,7 @@
  */
 package Actions;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextPane;
@@ -15,8 +16,9 @@ import javax.swing.text.BadLocationException;
  *
  * @author UyNguyen.ITUS
  */
-public class ActionInsert extends Action{
+public class ActionInsert extends Action implements Serializable{
 
+    private static final long serialVersionUID = 2L;
     private String _Content;
 
     public ActionInsert(AttributeSet attributeset) {
