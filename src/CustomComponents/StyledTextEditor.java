@@ -193,8 +193,8 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                 else
                 
                         if (chooser.getFileFilter() == mapFileFilter.get("PDF"))
-                            Files.write(getFileWithExtesion(chooser.getSelectedFile(), ".pdf").toPath(),
-                                    DocumentExporter.ConvertToPDF(getHTMLString()).getBytes());
+                                    DocumentExporter.ConvertToPDF(getHTMLString(),
+                                       getFileWithExtesion(chooser.getSelectedFile(), ".pdf").getAbsolutePath());
                         
             } catch (IOException ex) {
                 Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);

@@ -206,7 +206,7 @@ public class Business {
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
 
             //Send signal
-            objectOutputStream.writeInt(EnumUserAction.SHARE.getValue());
+            objectOutputStream.writeInt(EnumUserAction.LEAVE.getValue());
             objectOutputStream.flush();
             
             LeavePackage message = new LeavePackage(idClient, docCode);
@@ -238,7 +238,7 @@ public class Business {
             ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
 
             //Send signal
-            objectOutputStream.writeInt(EnumUserAction.SHARE.getValue());
+            objectOutputStream.writeInt(EnumUserAction.DELETE.getValue());
             objectOutputStream.flush();
             
             objectOutputStream.writeUTF(docCode);
