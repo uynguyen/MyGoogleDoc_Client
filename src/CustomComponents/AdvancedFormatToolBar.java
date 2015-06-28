@@ -30,6 +30,7 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledEditorKit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -438,25 +439,29 @@ public final class AdvancedFormatToolBar extends javax.swing.JPanel {
 
     private void btnLeftAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeftAlignActionPerformed
         // TODO add your handling code here:
-        StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_LEFT);
+       (new StyledEditorKit.AlignmentAction("", StyleConstants.ALIGN_LEFT)).actionPerformed(evt);
+         StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_LEFT);       
         PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
     }//GEN-LAST:event_btnLeftAlignActionPerformed
 
     private void btnJustifyAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustifyAlignActionPerformed
         // TODO add your handling code here:
-          StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_JUSTIFIED);
+        (new StyledEditorKit.AlignmentAction("", StyleConstants.ALIGN_JUSTIFIED)).actionPerformed(evt);
+          StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_JUSTIFIED);       
         PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
     }//GEN-LAST:event_btnJustifyAlignActionPerformed
 
     private void btnRightAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRightAlignActionPerformed
         // TODO add your handling code here:
-          StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_RIGHT);
+        (new StyledEditorKit.AlignmentAction("", StyleConstants.ALIGN_RIGHT)).actionPerformed(evt);
+          StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_RIGHT);       
         PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
     }//GEN-LAST:event_btnRightAlignActionPerformed
 
     private void btnCenterAlignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCenterAlignActionPerformed
         // TODO add your handling code here:
-          StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_CENTER);
+        (new StyledEditorKit.AlignmentAction("", StyleConstants.ALIGN_CENTER)).actionPerformed(evt);
+          StyleConstants.setAlignment(attributeSets, StyleConstants.ALIGN_CENTER);       
         PerformAction(new ActionFormatEvent(ActionFormatEvent.FormatAction, attributeSets));
     }//GEN-LAST:event_btnCenterAlignActionPerformed
 
