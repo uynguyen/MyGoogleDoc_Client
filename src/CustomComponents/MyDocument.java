@@ -6,6 +6,8 @@
 package CustomComponents;
 
 import Bus.Global;
+import SwingWorkers.DeleteTask;
+import SwingWorkers.LeaveTask;
 import SwingWorkers.OpenDocTask;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -14,6 +16,7 @@ import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
@@ -104,6 +107,11 @@ public class MyDocument extends javax.swing.JPanel {
                 btn_DeleteMouseExited(evt);
             }
         });
+        btn_Delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_DeleteActionPerformed(evt);
+            }
+        });
 
         image.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -126,6 +134,11 @@ public class MyDocument extends javax.swing.JPanel {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn_LeaveMouseExited(evt);
+            }
+        });
+        btn_Leave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_LeaveActionPerformed(evt);
             }
         });
 
@@ -239,7 +252,7 @@ public class MyDocument extends javax.swing.JPanel {
     private void imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseClicked
         // TODO add your handling code here:
         image.setEnabled(false); //Khỏi click nhiều lần
-        OpenDocTask openDocTask = new OpenDocTask(_Code,(JFrame) SwingUtilities.getWindowAncestor(this));
+        OpenDocTask openDocTask = new OpenDocTask(_Code,Global._currentAccount.getUsername(),(JFrame) SwingUtilities.getWindowAncestor(this));
         openDocTask.execute();
       //  System.out.print("open" + this._Code);
         
@@ -260,6 +273,23 @@ public class MyDocument extends javax.swing.JPanel {
         // TODO add your handling code here:
             formMouseExited(evt);
     }//GEN-LAST:event_btn_LeaveMouseExited
+
+    private void btn_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteActionPerformed
+        int result = JOptionPane.showConfirmDialog(this.getRootPane(), "Are you sure you want to delete this document?");
+        if(result > 0){
+            DeleteTask deleteTask = new DeleteTask(_Code, this);
+            deleteTask.execute();    
+        }
+        
+    }//GEN-LAST:event_btn_DeleteActionPerformed
+
+    private void btn_LeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LeaveActionPerformed
+        int result = JOptionPane.showConfirmDialog(this.getRootPane(), "Are you sure you want to leave this document?");
+        if(result > 0){
+            LeaveTask  leaveTask = new LeaveTask(_Code, Global._currentAccount.getID(), this);
+            leaveTask.execute();
+        }
+    }//GEN-LAST:event_btn_LeaveActionPerformed
 
 
     

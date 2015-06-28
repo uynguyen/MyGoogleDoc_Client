@@ -6,6 +6,9 @@
 package SwingWorkers;
 
 import CustomComponents.CollaborationItem;
+import CustomComponents.MyDocument;
+import GUI.MyListCollaboration;
+import Pojo.Document;
 import java.awt.Container;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,7 +25,7 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
     int idInvite;
     String docCode;
     int idClient;
-    boolean result;
+    Document result;
     CollaborationItem item;
     
     public ReplyInviteTask(boolean reply, int idInvite, String docCode, int idClient, CollaborationItem item){
@@ -45,17 +48,23 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
 
             @Override
             public void run() {
-                if(result){
-                    //item.getParent().remove(item);
-                  Container con =  item.getParent();
-                  con.remove(item);
-                  con.revalidate();
-                  con.repaint();
-                  
-                   
-                } else {
+                if(result.getID() < -1){
                     JOptionPane.showMessageDialog(item.getRootPane(), "Fail to reply invitation");
-                   
+                    
+                } else {
+                    Container con =  item.getParent();
+                    con.remove(item);
+                    con.revalidate();
+                    con.repaint();
+
+                    if(reply){
+                        JPanel panel_MyDocs = ((MyListCollaboration)item.getParent()).getPanel_MyDocs();
+                        panel_MyDocs.add(new MyDocument(result.getID(), result.getName(), result.getPath(),
+                                result.getDateCreate(), result.getIDOwner(), result.getCode()));
+                        panel_MyDocs.revalidate();
+                        panel_MyDocs.repaint();
+                    }
+                    
                 }
             }
         });

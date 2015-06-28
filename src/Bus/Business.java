@@ -6,6 +6,8 @@
 package Bus;
 
 import CommunicatePackage.CreateDocPackage;
+import CommunicatePackage.CreateDocReturnPackage;
+import CommunicatePackage.LeavePackage;
 import CommunicatePackage.LoginPackage;
 import CommunicatePackage.LoginReturnPackage;
 
@@ -13,6 +15,7 @@ import CommunicatePackage.RegisterPackage;
 import CommunicatePackage.ReplyInvitePackage;
 import CommunicatePackage.SharePackage;
 import GUI.RegisterForm;
+import Pojo.Document;
 import Pojo.EnumUserAction;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -60,8 +63,8 @@ public class Business {
         return false;
     }
 
-    public static int CreateDoc(String title, int ID_Owner) {
-        int result = -1;
+    public static CreateDocReturnPackage CreateDoc(String title, int ID_Owner) {
+        CreateDocReturnPackage result = new CreateDocReturnPackage("", -1);
         try {
             Socket server = new Socket(Global._IPServer, Global._DocsPort);
 
@@ -80,7 +83,7 @@ public class Business {
             objectOutputStream.writeObject(message);
             objectOutputStream.flush();
             //Receive return port (-1 mean fail to create)
-            result = objectInputStream.readInt();
+            result = (CreateDocReturnPackage) objectInputStream.readObject();
 
             objectOutputStream.flush();
             objectOutputStream.close();
@@ -88,11 +91,13 @@ public class Business {
 
         } catch (IOException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Business.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
-    public static int OpenDoc(String docID) {
+    public static int OpenDoc(String docID, String username) {
         int result = -1;
         try {
             Socket server = new Socket(Global._IPServer, Global._DocsPort);
@@ -106,10 +111,10 @@ public class Business {
             //Send doc id
             objectOutputStream.writeInt(EnumUserAction.OPENDOC.getValue());
             objectOutputStream.flush();
-
-            System.out.println(docID);
+            
             objectOutputStream.writeUTF(docID);
             objectOutputStream.flush();
+            
             //Receive return port (-1 mean fail to open)            
             result = objectInputStream.readInt();
 
@@ -123,8 +128,8 @@ public class Business {
         return result;
     }
     
-    public static boolean ReplyInvite(boolean reply, int idInvite, String docCode, int idClient) {        
-        boolean result = false;
+    public static Document ReplyInvite(boolean reply, int idInvite, String docCode, int idClient) {        
+        Document result = new Document(-1, null, null, null, -1, null);
         try {
             Socket server = new Socket(Global._IPServer, Global._DocsPort);
 
@@ -143,7 +148,7 @@ public class Business {
             objectOutputStream.writeObject(replyInvitePackage);
             objectOutputStream.flush();
             //Receive result
-            result = objectInputStream.readBoolean();
+            result = (Document)objectInputStream.readObject();
 
             objectOutputStream.flush();
             objectOutputStream.close();
@@ -151,6 +156,8 @@ public class Business {
 
         } catch (IOException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Business.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -173,6 +180,68 @@ public class Business {
             SharePackage sharePackage = new SharePackage(idClient, docCode, username);
             
             objectOutputStream.writeObject(sharePackage);
+            objectOutputStream.flush();
+            //Receive result
+            result = objectInputStream.readBoolean();
+
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public static boolean LeaveDocument(int idClient, String docCode) {        
+        boolean result = false;
+        try {
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
+
+            System.out.print(server.getPort());
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+
+            //Send signal
+            objectOutputStream.writeInt(EnumUserAction.SHARE.getValue());
+            objectOutputStream.flush();
+            
+            LeavePackage message = new LeavePackage(idClient, docCode);
+            
+            objectOutputStream.writeObject(message);
+            objectOutputStream.flush();
+            //Receive result
+            result = objectInputStream.readBoolean();
+
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            objectInputStream.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public static boolean DeleteDocument(String docCode) {        
+        boolean result = false;
+        try {
+            Socket server = new Socket(Global._IPServer, Global._DocsPort);
+
+            System.out.print(server.getPort());
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(server.getOutputStream());
+            objectOutputStream.flush();
+            ObjectInputStream objectInputStream = new ObjectInputStream(server.getInputStream());
+
+            //Send signal
+            objectOutputStream.writeInt(EnumUserAction.SHARE.getValue());
+            objectOutputStream.flush();
+            
+            objectOutputStream.writeUTF(docCode);
             objectOutputStream.flush();
             //Receive result
             result = objectInputStream.readBoolean();

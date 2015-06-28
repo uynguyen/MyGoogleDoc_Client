@@ -6,6 +6,7 @@
 package SwingWorkers;
 
 import Bus.Business;
+import CommunicatePackage.CreateDocReturnPackage;
 import GUI.Main;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -22,7 +23,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
 
     int idOwner;
     String docTitle;
-    int result;
+    CreateDocReturnPackage result;
     JFrame myDocForm;
     JDialog notiDialog;
 
@@ -63,13 +64,13 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
             public void run() {
                 notiDialog.setVisible(false);
                 notiDialog.dispose();
-                if (result == -1) {
+                if (result.port == -1) {
                     System.out.print("fail");
                     JOptionPane.showMessageDialog(myDocForm, "Fail to create document");                    
                 } else {
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
-                    new Main(result, "").setVisible(true);
+                    new Main(result.port,result.docCode).setVisible(true);
                 }
             }
         });

@@ -5,6 +5,8 @@
  */
 package Runnables;
 
+import Actions.Action;
+import Actions.ActionQuit;
 import Bus.Global;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -32,12 +34,15 @@ public class SendThread implements Runnable {
     public void run() {
         try {
             while (true) {
-
+                Action ac = null;
                 while (!Global._myQueue.isEmpty()) {
                     synchronized (Global._myQueue) {
                         
                         synchronized (objectOutputStream) {
-                            Actions.Action ac = Global._myQueue.dequeue();
+                            ac = Global._myQueue.dequeue();
+                            if(ac instanceof ActionQuit){
+                                break;
+                            }
                             objectOutputStream.writeObject(ac);
                             objectOutputStream.flush();
 
@@ -46,11 +51,14 @@ public class SendThread implements Runnable {
 
                     }
                 }
+                if(ac instanceof ActionQuit){
+                    break;
+                }
             }
+            
+            objectOutputStream.flush();
 
-        } catch (IOException ex) {
-            Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
+        } catch (IOException | InterruptedException ex) {
             Logger.getLogger(SendThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
