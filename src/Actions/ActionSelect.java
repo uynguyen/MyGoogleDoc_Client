@@ -28,18 +28,29 @@ public class ActionSelect extends Action{
     @Override
     public void onDraw(JTextPane textPane) {
        System.err.println("Select: " + _startPosition + "->" + _endPosition);
-         textPane.getHighlighter().removeAllHighlights();
+       textPane.getHighlighter().removeAllHighlights();
+       int start = textPane.getSelectionStart();
+      int end = textPane.getSelectionEnd();
        if (_startPosition == _endPosition){  
             SwingUtilities.invokeLater(()->{
-               try {       
+               try {    
+                   if (textPane.getStyledDocument().getLength() == 0) return;
+                   if (textPane.getStyledDocument().getLength() == _endPosition)
+                   {
+                       _startPosition--;
+                   }
+                   else
+                       _endPosition++;
                textPane.getHighlighter().addHighlight(_startPosition, _endPosition,
                        new DefaultHighlighter.DefaultHighlightPainter(getColor()));                     
            } catch (BadLocationException ex) {
                Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
            }
                });    
+             
        }
        else{
+           
            SwingUtilities.invokeLater(()->{
               try {              
                textPane.getHighlighter().addHighlight(_startPosition, _endPosition,
@@ -49,8 +60,14 @@ public class ActionSelect extends Action{
                Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
            }
                });   
-          // textPane.select(selection_start, selection_end);
-       }       
+           
+          
+        
+       }    
+       
+          textPane.invalidate();
+          textPane.setSelectionStart(start);
+          textPane.setSelectionEnd(end);
     }
     
 }

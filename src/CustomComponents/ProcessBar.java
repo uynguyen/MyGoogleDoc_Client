@@ -36,6 +36,7 @@ public class ProcessBar extends JDialog {
       //  this.imageLabel.getRootPane().setOpaque(false);
       //  this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         this.setVisible(false);
+        
     }
 
    
@@ -53,7 +54,7 @@ public class ProcessBar extends JDialog {
 
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(0, 0, 0));
-        setLocationByPlatform(true);
+        setLocation(new java.awt.Point(0, 0));
         setMaximumSize(new java.awt.Dimension(200, 200));
         setMinimumSize(new java.awt.Dimension(200, 200));
         setModal(true);
@@ -65,6 +66,8 @@ public class ProcessBar extends JDialog {
 
         imageLabel.setIconTextGap(0);
         getContentPane().add(imageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 200));
+
+        getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
 
 
