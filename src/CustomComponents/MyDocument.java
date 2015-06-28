@@ -274,7 +274,7 @@ public class MyDocument extends javax.swing.JPanel {
 
     private void btn_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteActionPerformed
         int result = JOptionPane.showConfirmDialog(this.getRootPane(), "Are you sure you want to delete this document?");
-        if(result > 0){
+        if(result == 0){
             DeleteTask deleteTask = new DeleteTask(_Code, this);
             deleteTask.execute();    
         }
@@ -283,7 +283,7 @@ public class MyDocument extends javax.swing.JPanel {
 
     private void btn_LeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LeaveActionPerformed
         int result = JOptionPane.showConfirmDialog(this.getRootPane(), "Are you sure you want to leave this document?");
-        if(result > 0){
+        if(result == 0){
             LeaveTask  leaveTask = new LeaveTask(_Code, Global._currentAccount.getID(), this);
             leaveTask.execute();
         }
