@@ -11,7 +11,8 @@ import Actions.ActionInsert;
 import Actions.ActionSelect;
 import Bus.Global;
 import EditorKits.AdvancedHTMLEditorKit;
-import EditorKits.AdvancedRTFEditorKit;
+import EditorKits.DocumentExporter;
+import com.sun.java.swing.SwingUtilities3;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Event;
@@ -27,7 +28,9 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.InputMap;
@@ -56,24 +59,21 @@ public final class StyledTextEditor extends javax.swing.JPanel {
 
     private final List<FireChangeDocumentListener> listeners = new ArrayList<>();
 
-    public File currentFile = null;
-    //protected MyCaretListener caretListener = null;
-    protected DocumentListener myDocumentListener;
+    protected MyCaretListener caretListener = null;
+    protected MyDocumentListener myDocumentListener;
 
     public StyledTextEditor() {
         initComponents();
+        initFileFilters();
         FormatToolbar.addFormatDocumentListener((AdvancedFormatToolBar.ActionFormatEvent evt) -> {
             performToolbarAction(evt);
         });
         myDocumentListener = new MyDocumentListener();
-        //   caretListener = new MyCaretListener();
+        caretListener = new MyCaretListener();
         textPane.setMargin(new Insets(50, 50, 50, 50));
 
         NewDocument();
         addBindings();
-
-        this.setFocusCycleRoot(false);
-
     }
 
     public void performToolbarAction(AdvancedFormatToolBar.ActionFormatEvent evt) {
@@ -82,7 +82,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                 doFormatAction(evt);
                 break;
             case AdvancedFormatToolBar.ActionFormatEvent.ExportDocument: {
-
+                 ExportDocument();
                 break;
             }
             case AdvancedFormatToolBar.ActionFormatEvent.UndoAction: {
@@ -112,16 +112,26 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setCaretPosition(0);
     }
 
+    private HashMap<String, FileNameExtensionFilter> mapFileFilter = new HashMap<>();
+    
+    private void initFileFilters(){
+        mapFileFilter = new HashMap<>();
+        mapFileFilter.put("RTF", new FileNameExtensionFilter("Rich Text File (*.rtf)", "rtf"));
+        mapFileFilter.put("HTML", new FileNameExtensionFilter("HTML (*.html, *.htm)", "html", "htm"));
+        mapFileFilter.put("PDF", new FileNameExtensionFilter("Portalble Document Format (*.pdf)", "pdf"));
+        
+    }
+    
     private void addChooseFileFilters(JFileChooser chooser) {
-        chooser.addChoosableFileFilter(new FileNameExtensionFilter("Rich Text File (*.rtf)", "rtf"));
-        chooser.addChoosableFileFilter(new FileNameExtensionFilter("HTML (*.html, *.htm)", "html", "htm"));
+        mapFileFilter.keySet().stream().forEach((key)->{
+            chooser.addChoosableFileFilter(mapFileFilter.get(key));
+        });
     }
 
     private void addChooseImageFilters(JFileChooser chooser) {
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
         chooser.addChoosableFileFilter(new FileNameExtensionFilter("Bitmap (*.bmp)", "bmp"));
         chooser.addChoosableFileFilter(new FileNameExtensionFilter("JPG (*.jpg)", "jpg"));
-        chooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
-
     }
 
     public void InsertImage() {
@@ -130,132 +140,24 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         addChooseImageFilters(chooser);
         chooser.setAcceptAllFileFilterUsed(true);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.setMultiSelectionEnabled(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
                 AdvancedHTMLEditorKit kit = (AdvancedHTMLEditorKit) textPane.getEditorKit();
-//                ImageIcon image = new ImageIcon(chooser.getSelectedFile().getAbsolutePath());
-//                 Style style = textPane.getStyledDocument().addStyle("StyleName", null);
-//                 StyleConstants.setIcon(style, image);
-//                 textPane.getStyledDocument().insertString(
-//                         textPane.getCaretPosition(), "image", style);
+                String imgTagData = kit.insertImage(textPane.getStyledDocument(), 
+                        textPane.getCaretPosition(), chooser.getSelectedFile());
 
-                
-
-               
-
-                String imgTagData = kit.insertImage(textPane.getStyledDocument(), textPane.getCaretPosition(), chooser.getSelectedFile());
-//              Actions.ActionInsertImage action = new Actions.ActionInsertImage(textPane.getCharacterAttributes());
-//              action.setStartPosition(textPane.getCaretPosition());
-//              action.setContent(imgTagData);
-//              sendAction(action);
             } catch (Exception ex) {
 
             }
         }
     }
 
-    public void OpenDocument() {
-        //addCaret(10, Color.BLUE);
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(false);
-        addChooseFileFilters(chooser);
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.setMultiSelectionEnabled(false);
-
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            currentFile = chooser.getSelectedFile();
-            try {
-                byte[] buff = Files.readAllBytes(currentFile.toPath());
-                String content = new String(buff);
-                if (getExtensionFile().equals("HTML")) {
-                    setHTMLString(content);
-                } else {
-                    setRTFString(content);
-                }
-                textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-                textPane.getStyledDocument().addDocumentListener(myDocumentListener);
-            } catch (IOException ex) {
-
-            }
-        }
-    }
-
-    private String getExtensionFile() {
-        if (currentFile == null) {
-            return "";
-        }
-        String filename = currentFile.getAbsolutePath();
-        String extension = filename.substring(filename.lastIndexOf("."));
-        switch (extension) {
-            case ".html":
-                return "HTML";
-            case ".rtf":
-                return "RTF";
-            default:
-                return "";
-        }
-    }
-
-    private StyledEditorKit getChoosenEditorKit(JFileChooser chooser) {
-        String filename = chooser.getSelectedFile().getName();
-        String extension = filename.substring(filename.lastIndexOf("."));
-        switch (extension) {
-            case ".html":
-                return new AdvancedHTMLEditorKit();
-            case ".rtf":
-                return new AdvancedRTFEditorKit();
-            default:
-                return null;
-        }
-    }
-
     /**
      *
+     * @return
      */
-    public void SaveDocument() {
-        if (currentFile == null) {
-            SaveAsDocument();
-            return;
-        }
-        if (currentFile == null) {
-            return;
-        }
-
-        try {
-            if (getExtensionFile().equals("HTML")) {
-                Files.write(currentFile.toPath(), getHTMLString().getBytes());
-            } else {
-                Files.write(currentFile.toPath(), getRTFString().getBytes());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
     public JTextPane getJTextPane() {
         return textPane;
-    }
-
-    public void SaveAsDocument() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(false);
-        addChooseFileFilters(chooser);
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.setMultiSelectionEnabled(false);
-
-        try {
-            if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-                currentFile = chooser.getSelectedFile();
-
-                SaveDocument();
-            }
-        } catch (HeadlessException e) {
-        }
-
     }
 
     private void doFormatAction(AdvancedFormatToolBar.ActionFormatEvent evt) {
@@ -267,29 +169,69 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         }
     }
 
+    private void ExportDocument() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+        addChooseFileFilters(chooser);     
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
+        int saveResult = chooser.showSaveDialog(this);
+        if (saveResult == JFileChooser.APPROVE_OPTION){
+            try {
+                if (chooser.getFileFilter() == mapFileFilter.get("RTF"))
+                
+                Files.write(getFileWithExtesion(chooser.getSelectedFile(), ".rtf").toPath(),
+                        DocumentExporter.ConvertToRTF(getHTMLString()).getBytes());
+                
+                else
+                
+                    if (chooser.getFileFilter() == mapFileFilter.get("HTML"))
+                        Files.write(getFileWithExtesion(chooser.getSelectedFile(), ".html").toPath(),
+                                getHTMLString().getBytes());
+                
+                else
+                
+                        if (chooser.getFileFilter() == mapFileFilter.get("PDF"))
+                            Files.write(getFileWithExtesion(chooser.getSelectedFile(), ".pdf").toPath(),
+                                    DocumentExporter.ConvertToPDF(getHTMLString()).getBytes());
+                        
+            } catch (IOException ex) {
+                Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private File getFileWithExtesion(File f, String extension){
+        if (!f.toPath().endsWith(extension)){
+            return new File(f.toPath() + extension);
+        }
+        return f;
+    }
+    
     //This listens for and reports caret movements.
-    protected class MyCaretListener
-            implements CaretListener {
+    protected class MyCaretListener implements CaretListener {
 
         public MyCaretListener() {
-
         }
+        public boolean isListening = true;
 
         //Might not be invoked from the event dispatch thread.
+
         @Override
         public void caretUpdate(CaretEvent e) {
             //  FormatToolbar.setAttributeSets((SimpleAttributeSet) textPane.getCharacterAttributes());
-            textPane.setCharacterAttributes(textPane.getCharacterAttributes(), true);
-            sendActionCaretUpdate(e.getDot(), e.getMark());
+            //  textPane.setCharacterAttributes(textPane.getCharacterAttributes(), true);
+            if (isListening) {
+                sendActionCaretUpdate(e.getDot(), e.getMark());
+            }
         }
 
         protected void sendActionCaretUpdate(final int dot, final int mark) {
-
             SwingUtilities.invokeLater(() -> {
                 try {
                     ActionSelect action = new ActionSelect(textPane.getCharacterAttributes());
                     if (dot == mark) {  // no selection
-
                         action.setStartPosition(dot);
                         action.setEndPosition(dot);
                     } else {
@@ -301,13 +243,13 @@ public final class StyledTextEditor extends javax.swing.JPanel {
                             action.setStartPosition(mark);
                             action.setEndPosition(dot);
                         }
-
                     }
                     sendAction(action);
                 } catch (Exception ex) {
                     Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
+
         }
 
     }
@@ -322,25 +264,30 @@ public final class StyledTextEditor extends javax.swing.JPanel {
     protected class MyDocumentListener
             implements DocumentListener {
 
-//        private void doSendAction(Actions.Action action) {
-//                    Runnable doSend = () -> {
-//                        sendAction(action);
-//                    };
-//                    SwingUtilities.invokeLater(doSend);
-//                }
+        public boolean isListening = true;
+
+        private void doSendAction(Actions.Action action) {
+            if (isListening) {
+                Runnable doSend = () -> {
+                    sendAction(action);
+                };
+                SwingUtilities.invokeLater(doSend);
+            }
+        }
+
         @Override
         public void insertUpdate(DocumentEvent e) {
             ActionInsert action = new ActionInsert(textPane.getCharacterAttributes());
 
             try {
                 action.setStartPosition(e.getOffset());
-                action.setContent(e.getDocument().getText(e.getOffset(), e.getLength()));
+                action.setContent(textPane.getStyledDocument().getText(e.getOffset(), e.getLength()));
 
             } catch (BadLocationException ex) {
                 Logger.getLogger(StyledTextEditor.class.getName()).log(Level.SEVERE, null, ex);
             }
             //doSendAction(action);
-            sendAction(action);
+            doSendAction(action);
         }
 
         @Override
@@ -350,7 +297,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             action.setStartPosition(e.getOffset());
             action.setEndPosition(e.getOffset() + e.getLength());
             //doSendAction(action);
-            sendAction(action);
+            doSendAction(action);
         }
 
         @Override
@@ -359,7 +306,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
             action.setStartPosition(e.getOffset());
             action.setEndPosition(e.getOffset() + e.getLength());
             //doSendAction(action);
-            sendAction(action);
+            doSendAction(action);
         }
     }
 
@@ -411,7 +358,7 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         textPane.setCaretPosition(0);
         textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
         textPane.getStyledDocument().addDocumentListener(myDocumentListener);
-//        textPane.addCaretListener(caretListener);
+        textPane.addCaretListener(caretListener);
     }
 
     public String getRTFString() {
@@ -427,22 +374,14 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         return strResult;
     }
 
-    public void setRTFString(String src) {
-        RTFEditorKit kit = new AdvancedRTFEditorKit();
-        textPane.setEditorKit(kit);
-        textPane.setDocument(kit.createDefaultDocument());
-        textPane.setText(src);
-        textPane.getStyledDocument().addUndoableEditListener(FormatToolbar.getUndoableEditLitener());
-        textPane.getStyledDocument().addDocumentListener(myDocumentListener);
-        //  textPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-    }
-
     public void ApplyActionChange(Actions.Action action) {
-        textPane.getStyledDocument().removeDocumentListener(myDocumentListener);
-//        textPane.removeCaretListener(caretListener);
+
+        caretListener.isListening = false;
+        myDocumentListener.isListening = false;
+
         action.onDraw(textPane);
-        textPane.getStyledDocument().addDocumentListener(myDocumentListener);
-        //  textPane.addCaretListener(caretListener);
+        caretListener.isListening = true;
+        myDocumentListener.isListening = true;
     }
 
     protected SimpleAttributeSet[] initAttributes(int length) {

@@ -35,10 +35,9 @@ public class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
-       
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 
     /**
@@ -61,6 +60,7 @@ public class LoginForm extends javax.swing.JFrame {
         txt_Password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("User Name:");
@@ -169,54 +169,48 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        
-        
+
         this.setVisible(false);
+        this.dispose();
         new RegisterForm().setVisible(true); // Main Form to show after the Login Form..
-        
-        
-        
-        
-           
-        
+     
     }//GEN-LAST:event_jButton3ActionPerformed
 
-   
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username = txt_userName.getText();
         String password = txt_Password.getText();
-        Global.password = password;
-        LoginTask loginTask = new LoginTask(username, password, this, jButton1);
         jButton1.setEnabled(false);
+
+        LoginTask loginTask = new LoginTask(username, password, this, jButton1);
         loginTask.execute();
-        
+        Global.ShowLoading(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setVisible(false);
-        this.dispose();       
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         String username = JOptionPane.showInputDialog("Please enter your username");
+        if (username == null || username.equals("")) return;
         this.setEnabled(false);
         ForgotPasswordTask forgotPasswordTask = new ForgotPasswordTask(username, this);
         forgotPasswordTask.execute();
+        Global.ShowLoading(this);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txt_userNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_userNameKeyReleased
         // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             jButton1.doClick();
         }
     }//GEN-LAST:event_txt_userNameKeyReleased
 
     private void txt_PasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_PasswordKeyReleased
         // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             jButton1.doClick();
         }
     }//GEN-LAST:event_txt_PasswordKeyReleased
@@ -237,7 +231,7 @@ public class LoginForm extends javax.swing.JFrame {
 //                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
 //                    break;
 //                }
-          //  }
+            //  }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {

@@ -5,6 +5,7 @@
  */
 package SwingWorkers;
 
+import Bus.Global;
 import GUI.Main;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -33,10 +34,9 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
     }
 
     @Override
-    protected Object doInBackground() throws Exception {
+    protected Object doInBackground() throws Exception {    
         result = Bus.Business.OpenDoc(docCode, username);
         System.out.println(result);
-    
         
         return result;
     }
@@ -50,15 +50,17 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
             public void run() {
                 if(result == -1){
                     JOptionPane.showMessageDialog(myDocForm, "Fail to open Document. Please try again later");
-                } else {
-             
+                    Global.HideLoading();
+                } else {    
+                   
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
-                    new Main(result, docCode).setVisible(true);
-                }
-                
+                    new Main(result, docCode).setVisible(true); 
+                    
+                }               
             }
         });
+       
     }
     
 }

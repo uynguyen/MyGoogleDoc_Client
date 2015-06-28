@@ -5,6 +5,7 @@
  */
 package SwingWorkers;
 
+import Bus.Global;
 import CustomComponents.CollaborationItem;
 import CustomComponents.MyDocument;
 import GUI.MyListCollaboration;
@@ -68,6 +69,7 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
                 }
             }
         });
+        Global.HideLoading();
     }
     
     

@@ -5,6 +5,7 @@
  */
 package SwingWorkers;
 
+import Bus.Global;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -48,6 +49,7 @@ public class ShareTask extends SwingWorker<Object, Object>{
                 }
             }
         });
+        Global.HideLoading();
     }
     
     

@@ -6,6 +6,7 @@
 package SwingWorkers;
 
 import Bus.Business;
+import Bus.Global;
 import CommunicatePackage.LoginReturnPackage;
 import GUI.LoginForm;
 import GUI.MyDocsForm;
@@ -71,8 +72,10 @@ public class LoginTask extends SwingWorker<Object, Object> {
                     JOptionPane.showMessageDialog(loginForm, "Username or password not correct", "Login Error", 0);
                   
                 }
+                
             }
         });
+        Global.HideLoading();
     }
 
 }

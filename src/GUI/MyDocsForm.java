@@ -137,10 +137,25 @@ public class MyDocsForm extends javax.swing.JFrame {
         btn_logout.setText("Find people");
 
         btn_logout1.setText("Log out");
+        btn_logout1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_logout1ActionPerformed(evt);
+            }
+        });
 
         btn_logout2.setText("Change password");
+        btn_logout2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_logout2ActionPerformed(evt);
+            }
+        });
 
         btn_logout3.setText("Activity log");
+        btn_logout3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_logout3ActionPerformed(evt);
+            }
+        });
 
         btn_createDoc.setText("Create Doc");
         btn_createDoc.addActionListener(new java.awt.event.ActionListener() {
@@ -190,9 +205,7 @@ public class MyDocsForm extends javax.swing.JFrame {
                             .addComponent(btn_Collaboration))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lbl_countNoti)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lbl_countNoti)
                             .addComponent(btn_createDoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -259,8 +272,11 @@ public class MyDocsForm extends javax.swing.JFrame {
         String title = JOptionPane.showInputDialog("Please input document title: ");
 
         if (title != null) {
+           
             CreateDocTask createDoc = new CreateDocTask(_loginReturnPackage.user.getID(), title, this);
+            Global.HideLoading();
             createDoc.execute();
+            Global.ShowLoading(this);
         }
 
     }//GEN-LAST:event_btn_createDocActionPerformed
@@ -272,6 +288,18 @@ public class MyDocsForm extends javax.swing.JFrame {
         frame.setVisible(true);
       
     }//GEN-LAST:event_btn_CollaborationActionPerformed
+
+    private void btn_logout2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logout2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_logout2ActionPerformed
+
+    private void btn_logout3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logout3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_logout3ActionPerformed
+
+    private void btn_logout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logout1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_logout1ActionPerformed
 
     /**
      * @param args the command line arguments
