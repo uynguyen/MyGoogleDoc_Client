@@ -292,9 +292,8 @@ public class Main extends javax.swing.JFrame {
     {
         Global._myQueue.enqueue(new ActionQuit(null, Global._currentAccount.getUsername()));
         try {
-            while(objectInputStream.available() > 0){                
-                Thread.sleep(10);
-            }   
+            Thread.sleep(1000);
+            objectOutputStream.flush();
             objectOutputStream.close();
             LoginTask loginTask = new LoginTask(Global._currentAccount.getUsername(), Global.password, null, null);
         } catch (InterruptedException | IOException ex) {
