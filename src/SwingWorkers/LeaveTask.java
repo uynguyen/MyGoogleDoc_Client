@@ -7,6 +7,8 @@ package SwingWorkers;
 
 import Bus.Global;
 import CustomComponents.MyDocument;
+import java.awt.Container;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -41,7 +43,12 @@ public class LeaveTask extends SwingWorker{
             @Override
             public void run() {
                 if(result){
-                    
+                    Container con = myDocument.getParent();
+                    con.remove(myDocument);
+                    con.revalidate();
+                    con.repaint();
+                } else {
+                    JOptionPane.showMessageDialog(myDocument.getRootPane(), "Fail to leave doc");
                 }
             }
         });
