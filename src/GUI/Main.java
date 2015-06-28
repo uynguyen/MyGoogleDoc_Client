@@ -6,6 +6,7 @@
 package GUI;
 
 import Actions.ActionChat;
+import Actions.ActionQuit;
 import Bus.Global;
 import CustomComponents.ActionChangeEvent;
 import Runnables.ReceiveThread;
@@ -14,7 +15,6 @@ import Runnables.SendThread;
 import java.awt.event.KeyEvent;
 
 import SwingWorkers.ShareTask;
-
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,9 +34,11 @@ import javax.swing.UIManager;
 public class Main extends javax.swing.JFrame {
 
     String docCode;
-    
+
     private Socket Server;
     private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+    private JFrame myDocForm;
 
     private int WorkingServerPort;
     private Object e;
@@ -50,11 +52,12 @@ public class Main extends javax.swing.JFrame {
         initComponents();
     }
 
-    public Main(int workingServerPort, String docCode) {
+    public Main(int workingServerPort, String docCode, JFrame myDocForm) {
         initComponents();
 
         this.docCode = docCode;
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.myDocForm = myDocForm;
         styledTextEditor1.addDocumentChangeListener(this::performSendActionChangeEvent);
 
         initChatRoom();
@@ -87,17 +90,16 @@ public class Main extends javax.swing.JFrame {
             Server = new Socket(Global._IPServer, workingServerPort);
             objectOutputStream = new ObjectOutputStream(Server.getOutputStream());
             objectOutputStream.flush();
-            ObjectInputStream objectInputStream = new ObjectInputStream(Server.getInputStream());
+            objectInputStream = new ObjectInputStream(Server.getInputStream());
 
             //Sending client info
             objectOutputStream.writeObject(Global._currentAccount);
             objectOutputStream.flush();
 
             //Create receive thread
-            ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1, jTextArea_Room);
-            
+            ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1, jTextArea_Room, Global._currentAccount.getUsername());
+
             SendThread sendThread = new SendThread(objectOutputStream, null);
-            
 
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -113,7 +115,6 @@ public class Main extends javax.swing.JFrame {
 //            Global.flag = true;
 //            return;
 //        }
-
         try {
             Thread.sleep(10);
         } catch (InterruptedException ex) {
@@ -145,6 +146,14 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(600, 59));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         btn_Share.setText("Share");
         btn_Share.addActionListener(new java.awt.event.ActionListener() {
@@ -212,7 +221,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_Share)
-                .addGap(94, 94, 94))
+                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,7 +241,6 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_ShareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ShareActionPerformed
-        
 
         String username = JOptionPane.showInputDialog("Input username: ");
 
@@ -257,6 +265,23 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         sendMessage(jTextField_Input.getText());
     }//GEN-LAST:event_btn_SendActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Global._myQueue.enqueue(new ActionQuit(null, Global._currentAccount.getUsername()));
+        try {
+            while(objectInputStream.available() > 0){
+                objectOutputStream.close();
+                Thread.sleep(100);
+            }            
+            myDocForm.setVisible(true);
+        } catch (InterruptedException | IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -294,8 +319,6 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Send;
     private javax.swing.JButton btn_Share;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea_Room;
@@ -314,8 +337,8 @@ public class Main extends javax.swing.JFrame {
         ActionChat actionChat = new ActionChat(null);
         actionChat.setUsername(Global._currentAccount.getUsername());
         actionChat.setContent(text);
-        
-        synchronized(Global._myQueue){
+
+        synchronized (Global._myQueue) {
             Global._myQueue.enqueue(actionChat);
         }
         //SendThread sendThread = new SendThread(objectOutputStream, actionChat);

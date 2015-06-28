@@ -52,10 +52,8 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                     JOptionPane.showMessageDialog(myDocForm, "Fail to open Document. Please try again later");
                 } else {
              
-                
                     myDocForm.setVisible(false);
-                    myDocForm.dispose();
-                    new Main(result, docCode).setVisible(true);
+                    new Main(result, docCode, myDocForm).setVisible(true);
                 }
                 
             }

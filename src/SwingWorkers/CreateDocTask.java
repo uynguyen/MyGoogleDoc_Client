@@ -68,8 +68,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
                     JOptionPane.showMessageDialog(myDocForm, "Fail to create document");                    
                 } else {
                     myDocForm.setVisible(false);
-                    myDocForm.dispose();
-                    new Main(result, "").setVisible(true);
+                    new Main(result, "", myDocForm).setVisible(true);
                 }
             }
         });
