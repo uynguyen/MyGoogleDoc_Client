@@ -68,7 +68,7 @@ public class MyDocsForm extends javax.swing.JFrame {
             // jScrollPane.add(panel_MyDocs);
         }
 
-        ImageIcon icon = new ImageIcon("src\\Resources\\avatar_default.png");
+        ImageIcon icon = new ImageIcon("Resources\\avatar_default.png");
         lb_avatar.setLocation(150, 5);
         lb_avatar.setIcon(icon);
 
