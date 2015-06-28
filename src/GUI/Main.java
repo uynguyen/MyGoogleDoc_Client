@@ -42,6 +42,8 @@ public class Main extends javax.swing.JFrame {
 
     private int WorkingServerPort;
     private Object e;
+    
+    ReceiveThread receiveThread;
 
     /**
      * Creates new form Main
@@ -96,7 +98,7 @@ public class Main extends javax.swing.JFrame {
             objectOutputStream.flush();
 
             //Create receive thread
-            ReceiveThread receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1, jTextArea_Room, Global._currentAccount.getUsername());
+            receiveThread = new ReceiveThread(objectInputStream, styledTextEditor1, jTextArea_Room, Global._currentAccount.getUsername());
 
             SendThread sendThread = new SendThread(objectOutputStream, null);
 
@@ -143,7 +145,7 @@ public class Main extends javax.swing.JFrame {
         btn_Send = new javax.swing.JButton();
         btn_BackToHome = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(600, 59));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -282,7 +284,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_SendActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        
+     //   receiveThread.stopThread();
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -305,6 +307,20 @@ public class Main extends javax.swing.JFrame {
 
     private void btn_BackToHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BackToHomeActionPerformed
         // TODO add your handling code here:
+        
+       // receiveThread.stopThread();
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }//GEN-LAST:event_btn_BackToHomeActionPerformed
 
     public static void main(String args[]) {

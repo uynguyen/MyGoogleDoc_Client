@@ -33,6 +33,17 @@ public class ReceiveThread implements Runnable {
     String initDocument = "";
     Action action;
 
+    public boolean stopThread(){
+        try{
+            
+            this.t.destroy();
+                    
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
     public ReceiveThread(ObjectInputStream ois, StyledTextEditor ste, JTextArea chatRoom, String username) {
         this.objectInputStream = ois;
         this.styledTextEditor = ste;

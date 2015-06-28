@@ -53,8 +53,8 @@ public class OpenDocTask extends SwingWorker<Object, Object>{
                     Global.HideLoading();
                 } else {    
                    
-                    myDocForm.setVisible(false);
-                    myDocForm.dispose();
+                   // myDocForm.setVisible(false);
+                   // myDocForm.dispose();
                     new Main(result, docCode).setVisible(true); 
                     
                 }               
