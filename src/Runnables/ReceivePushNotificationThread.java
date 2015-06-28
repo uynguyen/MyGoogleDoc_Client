@@ -10,8 +10,6 @@ import CommunicatePackage.InvitePackage;
 import CustomComponents.MyDocument;
 import Pojo.Document;
 import Pojo.EnumUserAction;
-import SwingWorkers.ReplyInviteTask;
-import com.sun.corba.se.impl.io.IIOPOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -74,7 +72,7 @@ public class ReceivePushNotificationThread implements Runnable {
                     
                     Document doc = invitePackage.document;
                     try {
-                        if (rs > 0) {
+                        if (rs == 0) {
                             oos.writeBoolean(true);
                             oos.flush();
                             panel_Docs.add(new MyDocument(doc.getID(), doc.getName(), doc.getPath(),

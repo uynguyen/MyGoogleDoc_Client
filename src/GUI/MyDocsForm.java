@@ -273,7 +273,7 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         if (title != null) {
            
-            CreateDocTask createDoc = new CreateDocTask(_loginReturnPackage.user.getID(), title, this);
+            CreateDocTask createDoc = new CreateDocTask(Global._currentAccount.getID(),Global._currentAccount.getUsername() , title, this);
             Global.HideLoading();
             createDoc.execute();
             Global.ShowLoading(this);
@@ -298,7 +298,10 @@ public class MyDocsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_logout3ActionPerformed
 
     private void btn_logout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logout1ActionPerformed
-        // TODO add your handling code here:
+        Bus.Business.Logout(Global._currentAccount.getUsername());
+        this.setVisible(false);
+        this.dispose();
+        new LoginForm().setVisible(true);
     }//GEN-LAST:event_btn_logout1ActionPerformed
 
     /**

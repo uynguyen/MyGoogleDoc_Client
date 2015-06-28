@@ -24,6 +24,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
 
     int idOwner;
     String docTitle;
+    String username;
     CreateDocReturnPackage result;
     JFrame myDocForm;
     JDialog notiDialog;
@@ -37,8 +38,9 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
         return dialog;
     }
 
-    public CreateDocTask(int idOwner, String docTitle, JFrame myDocForm) {
+    public CreateDocTask(int idOwner, String username, String docTitle, JFrame myDocForm) {
         this.idOwner = idOwner;
+        this.username = username;
         this.docTitle = docTitle;
         this.myDocForm = myDocForm;
         notiDialog = CreateModalDialog("Please wait...");
@@ -71,6 +73,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
                 } else {
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
+                    Bus.Business.Logout(username);
                     new Main(result.port,result.docCode).setVisible(true);
                 }
             }
