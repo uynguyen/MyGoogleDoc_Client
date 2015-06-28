@@ -6,6 +6,7 @@
 package Bus;
 
 import CommunicatePackage.CreateDocPackage;
+import CommunicatePackage.CreateDocReturnPackage;
 import CommunicatePackage.LeavePackage;
 import CommunicatePackage.LoginPackage;
 import CommunicatePackage.LoginReturnPackage;
@@ -61,8 +62,8 @@ public class Business {
         return false;
     }
 
-    public static int CreateDoc(String title, int ID_Owner) {
-        int result = -1;
+    public static CreateDocReturnPackage CreateDoc(String title, int ID_Owner) {
+        CreateDocReturnPackage result = new CreateDocReturnPackage("", -1);
         try {
             Socket server = new Socket(Global._IPServer, Global._DocsPort);
 
@@ -81,7 +82,7 @@ public class Business {
             objectOutputStream.writeObject(message);
             objectOutputStream.flush();
             //Receive return port (-1 mean fail to create)
-            result = objectInputStream.readInt();
+            result = (CreateDocReturnPackage) objectInputStream.readObject();
 
             objectOutputStream.flush();
             objectOutputStream.close();
@@ -89,6 +90,8 @@ public class Business {
 
         } catch (IOException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Business.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
