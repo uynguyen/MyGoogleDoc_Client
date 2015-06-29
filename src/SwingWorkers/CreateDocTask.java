@@ -70,6 +70,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
                 if (result.port == -1) {
                     System.out.print("fail");
                     JOptionPane.showMessageDialog(myDocForm, "Fail to create document");                    
+                    Global.HideLoading();
                 } else {
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
@@ -78,7 +79,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
                 }
             }
         });
-        Global.HideLoading();
+        
 
     }
 

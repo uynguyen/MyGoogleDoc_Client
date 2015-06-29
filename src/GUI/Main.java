@@ -56,6 +56,7 @@ public class Main extends javax.swing.JFrame {
 
     public Main(int workingServerPort, String docCode) {
         initComponents();
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         this.docCode = docCode;
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -294,12 +295,11 @@ public class Main extends javax.swing.JFrame {
             Thread.sleep(1000);
             objectOutputStream.flush();
             objectOutputStream.close();
-            LoginTask loginTask = new LoginTask(Global._currentAccount.getUsername(), Global.password, null, null);
+            LoginTask loginTask = new LoginTask(Global._currentAccount.getUsername(), Global.password, this, null);            
+            loginTask.execute();
         } catch (InterruptedException | IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        
-        Global._MyDocForm.setVisible(true);
+        }                
     }
     
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -308,7 +308,7 @@ public class Main extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        Global.HideLoading();
+        //Global.HideLoading();
     }//GEN-LAST:event_formWindowOpened
 
     private void btn_BackToHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BackToHomeActionPerformed

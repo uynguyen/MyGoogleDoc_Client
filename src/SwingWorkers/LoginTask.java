@@ -50,12 +50,16 @@ public class LoginTask extends SwingWorker<Object, Object> {
 
             @Override
             public void run() {
-                if (loginForm == null) {
+                if (btn_login == null) {
                     if (result != null && result.result == true) {
+                        loginForm.setVisible(false);
+                        loginForm.dispose();
 
-                        Global._MyDocForm = new MyDocsForm(result);
-                        Global._MyDocForm.setVisible(true);
+                        new MyDocsForm(result).setVisible(true);;
+
                     } else {
+                        loginForm.setVisible(false);
+                        loginForm.dispose();
                         new LoginForm().setVisible(true);
                     }
                     return;
@@ -63,20 +67,17 @@ public class LoginTask extends SwingWorker<Object, Object> {
                 if (result != null && result.result == true) {
                     // Main Form to show after the Login Form..
                     loginForm.setVisible(false);
+                    loginForm.dispose();
+                    Global.password = password;
 
-//                    Pojo.Account user = new Pojo.Account(1234, "Vin", "abc", "xyz");
-//                    
-//                    result = new LoginReturnPackage(true, user, new Document[0]);
-                    // new MyDocsForm(result).setVisible(true);
-                    Global._MyDocForm = new MyDocsForm(result);
-                    Global._MyDocForm.setVisible(true);
+                    new MyDocsForm(result).setVisible(true);
 
                 } else {
                     btn_login.setEnabled(true);
                     JOptionPane.showMessageDialog(loginForm, "Username or password not correct", "Login Error", 0);
 
                 }
-
+                
             }
         });
         Global.HideLoading();
