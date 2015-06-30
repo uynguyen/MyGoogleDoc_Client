@@ -5,7 +5,7 @@
 package Bus;
 
 import Actions.Action;
-import CustomComponents.ProcessBar;
+
 import GUI.MyDocsForm;
 import Pojo.Account;
 import Pojo.Document;
@@ -31,22 +31,14 @@ public  class Global {
     public static ArrayList<Invite> _currentListInvite;
     public static String password = "";
    // public static boolean flag = true;
-    public static String _IPServer = "localhost";
+    public static String _IPServer = "112.197.89.46";
     public static int _ServerPort = 51399;
     public static int _DocsPort = 13599;
     
     public static Queue<Action> _myQueue = new Queue<>();
     
-    private static final JDialog Loading = new ProcessBar();
+
     public static MyDocsForm _MyDocForm;
     
-    public static void ShowLoading(JFrame parent){
-        Loading.setLocationRelativeTo(parent);
-        Loading.setVisible(true);
-    }
-    
-    public static void HideLoading(){
  
-        Loading.setVisible(false);
-    }
 }

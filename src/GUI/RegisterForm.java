@@ -198,7 +198,7 @@ public class RegisterForm extends javax.swing.JFrame {
         lbl_Error.setText("Wating...");
         RegisterTask registerTask = new RegisterTask(username, pass, email, lbl_Error, btn_Register, btn_Back, this);
         registerTask.execute();
-        Global.ShowLoading(this);      
+       
     }//GEN-LAST:event_btn_RegisterActionPerformed
 
     private void btn_BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BackActionPerformed

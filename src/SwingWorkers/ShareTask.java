@@ -49,7 +49,7 @@ public class ShareTask extends SwingWorker<Object, Object>{
                 }
             }
         });
-        Global.HideLoading();
+
     }
     
     

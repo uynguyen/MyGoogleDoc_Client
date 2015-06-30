@@ -79,7 +79,7 @@ public class LoginTask extends SwingWorker<Object, Object> {
 
             }
         });
-        Global.HideLoading();
+       
     }
 
 }

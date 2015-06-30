@@ -53,7 +53,7 @@ public class OpenDocTask extends SwingWorker<Object, Object> {
                 image.setEnabled(true);
                 if (result == -1) {
                     JOptionPane.showMessageDialog(myDocForm, "Fail to open Document. Please try again later");
-                    Global.HideLoading();
+                   
                 } else {
 
                    Global._MyDocForm.setVisible(false);

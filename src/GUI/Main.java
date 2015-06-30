@@ -143,7 +143,6 @@ public class Main extends javax.swing.JFrame {
         jTextArea_Room = new javax.swing.JTextArea();
         jTextField_Input = new javax.swing.JTextField();
         btn_Send = new javax.swing.JButton();
-        btn_BackToHome = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -213,13 +212,6 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(btn_Send, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
         );
 
-        btn_BackToHome.setText("Back to Home");
-        btn_BackToHome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_BackToHomeActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -232,8 +224,7 @@ public class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_BackToHome)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btn_Share)))
                 .addContainerGap())
         );
@@ -241,9 +232,7 @@ public class Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Share)
-                    .addComponent(btn_BackToHome))
+                .addComponent(btn_Share)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(styledTextEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
@@ -263,7 +252,7 @@ public class Main extends javax.swing.JFrame {
         if (username != null) {
             ShareTask shareTask = new ShareTask(Global._currentAccount.getID(), docCode, username, this);
             shareTask.execute();
-            Global.ShowLoading(this);
+           
         }
 
 
@@ -308,26 +297,8 @@ public class Main extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        Global.HideLoading();
+      
     }//GEN-LAST:event_formWindowOpened
-
-    private void btn_BackToHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BackToHomeActionPerformed
-        // TODO add your handling code here:
-        
-       // receiveThread.stopThread();
-       closeConnectionDocument();
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }//GEN-LAST:event_btn_BackToHomeActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -363,7 +334,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_BackToHome;
     private javax.swing.JButton btn_Send;
     private javax.swing.JButton btn_Share;
     private javax.swing.JPanel jPanel3;

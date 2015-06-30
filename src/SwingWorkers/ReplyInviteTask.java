@@ -70,7 +70,7 @@ public class ReplyInviteTask extends SwingWorker<Object, Object>{
                 }
             }
         });
-        Global.HideLoading();
+      
     }
     
     

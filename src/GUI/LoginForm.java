@@ -196,7 +196,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         LoginTask loginTask = new LoginTask(username, password, this, jButton1);
         loginTask.execute();
-        Global.ShowLoading(this);
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -210,7 +210,7 @@ public class LoginForm extends javax.swing.JFrame {
         this.setEnabled(false);
         ForgotPasswordTask forgotPasswordTask = new ForgotPasswordTask(username, this);
         forgotPasswordTask.execute();
-        Global.ShowLoading(this);
+    
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txt_userNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_userNameKeyReleased

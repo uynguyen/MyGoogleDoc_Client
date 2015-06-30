@@ -276,9 +276,9 @@ public class MyDocsForm extends javax.swing.JFrame {
         if (title != null) {
            
             CreateDocTask createDoc = new CreateDocTask(Global._currentAccount.getID(),Global._currentAccount.getUsername() , title, this);
-            Global.HideLoading();
+           
             createDoc.execute();
-            Global.ShowLoading(this);
+          
         }
 
     }//GEN-LAST:event_btn_createDocActionPerformed

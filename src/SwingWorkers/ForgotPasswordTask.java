@@ -41,7 +41,7 @@ public class ForgotPasswordTask extends SwingWorker<Object, Object>{
                 JOptionPane.showMessageDialog(loginForm, result);
             }
         });
-        Global.HideLoading();
+      
     }
        
 }

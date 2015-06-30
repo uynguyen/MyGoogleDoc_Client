@@ -78,7 +78,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
                 }
             }
         });
-        Global.HideLoading();
+  
 
     }
 

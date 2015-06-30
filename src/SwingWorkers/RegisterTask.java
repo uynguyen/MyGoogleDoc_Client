@@ -60,7 +60,7 @@ public class RegisterTask extends SwingWorker<Object, Object>{
             }
         }
         );
-        Global.HideLoading();
+      
     }
 
     @Override
