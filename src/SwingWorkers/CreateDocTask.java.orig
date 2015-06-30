@@ -79,7 +79,11 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
                 }
             }
         });
+<<<<<<< HEAD
   
+=======
+        
+>>>>>>> 3fb632e60e7d5ffcc7b95c13eafac0c77c6a6da7
 
     }
 

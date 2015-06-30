@@ -7,6 +7,7 @@ package SwingWorkers;
 
 import Bus.Global;
 import GUI.Main;
+import GUI.MyDocsForm;
 import java.awt.Dimension;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -56,18 +57,12 @@ public class OpenDocTask extends SwingWorker<Object, Object> {
                    
                 } else {
 
-                   Global._MyDocForm.setVisible(false);
-                 //  myDocForm.dispose();
+                    myDocForm.setVisible(false);
+                    myDocForm.dispose();
                     Bus.Business.Working(username);
-//                    
-//                    
-//                    Main main = new Main(result, docCode);
-//                    main.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//                    frame.getContentPane().add(main.getContentPane());
-//                  
-//                    frame.pack();
-//                    frame.setVisible(true);
-                    new Main(result, docCode).setVisible(true);
+
+                    LoadMainFormTask loadMainFormTask = new LoadMainFormTask(result, docCode);
+                    loadMainFormTask.execute();
 
                 }
             }

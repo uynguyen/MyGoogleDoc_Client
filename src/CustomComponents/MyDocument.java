@@ -25,33 +25,34 @@ import javax.swing.border.Border;
  * @author UyNguyen.ITUS
  */
 public class MyDocument extends javax.swing.JPanel {
- private int _ID;
+
+    private int _ID;
     private String _Name;
     private String _Path;
     private Date _DateCreate;
     private int _IDOwner;
-  
+
     private String _Code;
+
     /**
      * Creates new form MyDocument
      */
-    public MyDocument(int id,String name, String path, Date date, int idOwner, String code) {
-       initComponents();
-       initControl();
-       this._ID = id;
-       this._Name = name;
-       this._Path = path;
-       this._DateCreate = date;
-       this._IDOwner = idOwner;
-      
-       this._Code = code;
-       txt_Name.setText(name);
-       txt_CreatedDate.setText(date.toLocaleString());
-       ImageIcon icon = new ImageIcon("Resources\\Icon-Document.png"); 
-     
-       image.setIcon(icon); 
-      
-       
+    public MyDocument(int id, String name, String path, Date date, int idOwner, String code) {
+        initComponents();
+        initControl();
+        this._ID = id;
+        this._Name = name;
+        this._Path = path;
+        this._DateCreate = date;
+        this._IDOwner = idOwner;
+
+        this._Code = code;
+        txt_Name.setText(name);
+        txt_CreatedDate.setText(date.toLocaleString());
+        ImageIcon icon = new ImageIcon("Resources\\Icon-Document.png");
+
+        image.setIcon(icon);
+
     }
 
     /**
@@ -185,34 +186,24 @@ public class MyDocument extends javax.swing.JPanel {
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         // TODO add your handling code here:
-        
-        
-      //  System.out.println(this._Name +  "Hover");
+
+        //  System.out.println(this._Name +  "Hover");
         this.setBorder(BorderFactory.createMatteBorder(
-                                    2, 2, 2, 2, Color.GREEN));
-        
-       txt_Name.setFont(new Font("Serif", Font.BOLD, 14));
-       txt_CreatedDate.setFont(new Font("Serif", Font.BOLD, 14));
-       
-       if(isOwner(Global._currentAccount.getID()))
-       {
-           btn_Delete.setVisible(true);
-           btn_Leave.setVisible(false);
-       }
-       else
-       {
-           btn_Delete.setVisible(false);
-           btn_Leave.setVisible(true);
-       }
-                   
-   
+                2, 2, 2, 2, Color.GREEN));
+
+        txt_Name.setFont(new Font("Serif", Font.BOLD, 14));
+        txt_CreatedDate.setFont(new Font("Serif", Font.BOLD, 14));
+
+        if (isOwner(Global._currentAccount.getID())) {
+            btn_Delete.setVisible(true);
+            btn_Leave.setVisible(false);
+        } else {
+            btn_Delete.setVisible(false);
+            btn_Leave.setVisible(true);
+        }
 
      // System.out.print(this._IDOwner);
-      
-      
-      
-       
-       
+
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
@@ -222,75 +213,73 @@ public class MyDocument extends javax.swing.JPanel {
 
     private void btn_DeleteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DeleteMouseEntered
         // TODO add your handling code here:
-        
+
         formMouseEntered(evt);
-        
+
     }//GEN-LAST:event_btn_DeleteMouseEntered
 
     private void btn_DeleteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DeleteMouseExited
         // TODO add your handling code here:
-        
+
         formMouseExited(evt);
     }//GEN-LAST:event_btn_DeleteMouseExited
 
 
     private void imageMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseEntered
         // TODO add your handling code here:
-     
+
         image.setToolTipText("<html>" + this._Name + "<br>" + this._DateCreate.toLocaleString() + "</html>");
         formMouseEntered(evt);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+
     }//GEN-LAST:event_imageMouseEntered
 
     private void imageMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseExited
         // TODO add your handling code here:
-          formMouseExited(evt);
-         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        formMouseExited(evt);
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_imageMouseExited
 
     private void imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseClicked
         // TODO add your handling code here:
         image.setEnabled(false); //Khỏi click nhiều lần
-        OpenDocTask openDocTask = new OpenDocTask(_Code,Global._currentAccount.getUsername(),(JFrame) SwingUtilities.getWindowAncestor(this), image);
-        openDocTask.execute();    
-      //  Global.ShowLoading((JFrame) SwingUtilities.getWindowAncestor(this));       
-        
+        OpenDocTask openDocTask = new OpenDocTask(_Code, Global._currentAccount.getUsername(), (JFrame) SwingUtilities.getWindowAncestor(this), image);
+        openDocTask.execute();
+        Global.ShowLoading((JFrame) SwingUtilities.getWindowAncestor(this));
+
     }//GEN-LAST:event_imageMouseClicked
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-       
+
     }//GEN-LAST:event_formMouseClicked
 
     private void btn_LeaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LeaveMouseEntered
         // TODO add your handling code here:
-          formMouseEntered(evt);
+        formMouseEntered(evt);
     }//GEN-LAST:event_btn_LeaveMouseEntered
 
     private void btn_LeaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LeaveMouseExited
         // TODO add your handling code here:
-            formMouseExited(evt);
+        formMouseExited(evt);
     }//GEN-LAST:event_btn_LeaveMouseExited
 
     private void btn_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteActionPerformed
         int result = JOptionPane.showConfirmDialog(this.getRootPane(), "Are you sure you want to delete this document?");
-        if(result == 0){
+        if (result == 0) {
             DeleteTask deleteTask = new DeleteTask(_Code, this);
-            deleteTask.execute();    
+            deleteTask.execute();
         }
-        
+
     }//GEN-LAST:event_btn_DeleteActionPerformed
 
     private void btn_LeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LeaveActionPerformed
         int result = JOptionPane.showConfirmDialog(this.getRootPane(), "Are you sure you want to leave this document?");
-        if(result == 0){
-            LeaveTask  leaveTask = new LeaveTask(_Code, Global._currentAccount.getID(), this);
+        if (result == 0) {
+            LeaveTask leaveTask = new LeaveTask(_Code, Global._currentAccount.getID(), this);
             leaveTask.execute();
         }
     }//GEN-LAST:event_btn_LeaveActionPerformed
 
-
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Delete;
@@ -371,20 +360,17 @@ public class MyDocument extends javax.swing.JPanel {
         this._IDOwner = _IDOwner;
     }
 
-
-
     private void initControl() {
-       this.setBorder(BorderFactory.createMatteBorder(
-                                    2, 2, 2, 2, Color.WHITE));
-       txt_Name.setFont(new Font("Serif", Font.PLAIN, 14));
-       txt_CreatedDate.setFont(new Font("Serif", Font.PLAIN, 14));
-      
-       btn_Delete.setVisible(false);
-       btn_Leave.setVisible(false);
+        this.setBorder(BorderFactory.createMatteBorder(
+                2, 2, 2, 2, Color.WHITE));
+        txt_Name.setFont(new Font("Serif", Font.PLAIN, 14));
+        txt_CreatedDate.setFont(new Font("Serif", Font.PLAIN, 14));
+
+        btn_Delete.setVisible(false);
+        btn_Leave.setVisible(false);
     }
-    
-    
-    public boolean isOwner(int idOwner){
+
+    public boolean isOwner(int idOwner) {
         return this._IDOwner == idOwner;
     }
 }

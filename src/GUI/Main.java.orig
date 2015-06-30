@@ -297,8 +297,11 @@ public class Main extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        //Global.HideLoading();
+<<<<<<< HEAD
       
+=======
+        //Global.HideLoading();
+>>>>>>> 3fb632e60e7d5ffcc7b95c13eafac0c77c6a6da7
     }//GEN-LAST:event_formWindowOpened
 
     public static void main(String args[]) {
