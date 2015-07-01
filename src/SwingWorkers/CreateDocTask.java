@@ -69,8 +69,7 @@ public class CreateDocTask extends SwingWorker<Object, Object> {
                 notiDialog.dispose();
                 if (result.port == -1) {
                     System.out.print("fail");
-                    JOptionPane.showMessageDialog(myDocForm, "Fail to create document");                    
-                    Global.HideLoading();
+                    JOptionPane.showMessageDialog(myDocForm, "Fail to create document");  
                 } else {
                     myDocForm.setVisible(false);
                     myDocForm.dispose();
