@@ -55,7 +55,7 @@ public class ReceivePushNotificationThread implements Runnable {
             //send signal
             oos.writeInt(EnumUserAction.REGISTER_PUSH_SERVICE.getValue());
             oos.flush();
-            
+
             oos.writeUTF(username);
             oos.flush();
 
@@ -69,23 +69,25 @@ public class ReceivePushNotificationThread implements Runnable {
                 SwingUtilities.invokeLater(() -> {
                     int rs = JOptionPane.showConfirmDialog(myDocForm, invitePackage.senderName
                             + " want to invite you to working with him/her on document " + invitePackage.document.getName());
-                    
+
                     Document doc = invitePackage.document;
                     try {
                         if (rs == 0) {
                             oos.writeBoolean(true);
                             oos.flush();
+
                             panel_Docs.add(new MyDocument(doc.getID(), doc.getName(), doc.getPath(),
                                     doc.getDateCreate(), doc.getIDOwner(), doc.getCode()));
                             panel_Docs.revalidate();
                             panel_Docs.repaint();
+
                         } else {
                             oos.writeBoolean(false);
                             oos.flush();
                         }
-                        
-                    }catch (IOException ex) {
-                        Logger.getLogger(ReceivePushNotificationThread.class.getName()).log(Level.SEVERE, null, ex);                        
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(ReceivePushNotificationThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
             }
