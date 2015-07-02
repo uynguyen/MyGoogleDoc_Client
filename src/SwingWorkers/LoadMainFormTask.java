@@ -31,7 +31,7 @@ public class LoadMainFormTask extends SwingWorker<Void, Void>{
 
     @Override
     protected void done() {
-        Global.HideLoading();
+        
     }
     
     

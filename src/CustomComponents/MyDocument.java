@@ -245,7 +245,7 @@ public class MyDocument extends javax.swing.JPanel {
         image.setEnabled(false); //Khỏi click nhiều lần
         OpenDocTask openDocTask = new OpenDocTask(_Code, Global._currentAccount.getUsername(), (JFrame) SwingUtilities.getWindowAncestor(this), image);
         openDocTask.execute();
-        Global.ShowLoading((JFrame) SwingUtilities.getWindowAncestor(this));
+     
 
     }//GEN-LAST:event_imageMouseClicked
 

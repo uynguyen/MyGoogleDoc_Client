@@ -31,7 +31,7 @@ public  class Global {
     public static ArrayList<Invite> _currentListInvite;
     public static String password = "";
    // public static boolean flag = true;
-    public static String _IPServer = "112.197.89.46";
+    public static String _IPServer = "localhost";
     public static int _ServerPort = 51399;
     public static int _DocsPort = 13599;
     
