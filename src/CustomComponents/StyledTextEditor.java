@@ -8,7 +8,7 @@ package CustomComponents;
 import Actions.ActionDelete;
 import Actions.ActionFormat;
 import Actions.ActionInsert;
-import Actions.ActionSelect;
+
 import Bus.Global;
 import EditorKits.AdvancedHTMLEditorKit;
 import EditorKits.DocumentExporter;
@@ -232,27 +232,27 @@ public final class StyledTextEditor extends javax.swing.JPanel {
         }
 
         protected void sendActionCaretUpdate(final int dot, final int mark) {
-            SwingUtilities.invokeLater(() -> {
-                try {
-                    ActionSelect action = new ActionSelect(textPane.getCharacterAttributes());
-                    if (dot == mark) {  // no selection
-                        action.setStartPosition(dot);
-                        action.setEndPosition(dot);
-                    } else {
-
-                        if (dot < mark) {
-                            action.setStartPosition(dot);
-                            action.setEndPosition(mark);
-                        } else {
-                            action.setStartPosition(mark);
-                            action.setEndPosition(dot);
-                        }
-                    }
-                    sendAction(action);
-                } catch (Exception ex) {
-                    Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
+//            SwingUtilities.invokeLater(() -> {
+//                try {
+//                    ActionSelect action = new ActionSelect(textPane.getCharacterAttributes());
+//                    if (dot == mark) {  // no selection
+//                        action.setStartPosition(dot);
+//                        action.setEndPosition(dot);
+//                    } else {
+//
+//                        if (dot < mark) {
+//                            action.setStartPosition(dot);
+//                            action.setEndPosition(mark);
+//                        } else {
+//                            action.setStartPosition(mark);
+//                            action.setEndPosition(dot);
+//                        }
+//                    }
+//                    sendAction(action);
+//                } catch (Exception ex) {
+//                    Logger.getLogger(ActionSelect.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            });
 
         }
 

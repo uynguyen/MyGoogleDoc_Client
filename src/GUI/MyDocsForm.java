@@ -55,7 +55,7 @@ public class MyDocsForm extends javax.swing.JFrame {
 
         ArrayList<Pojo.Document> returnListDocument = new ArrayList<Pojo.Document>();
 
-        panel_MyDocs.setLayout(new WrapLayout(java.awt.FlowLayout.LEFT, 10, 10));
+        panel_MyDocs.setLayout(new WrapLayout(java.awt.FlowLayout.LEFT, 5, 5));
         for (int i = 0; i < lstDocSize; i++) {
             String name = result.documentList[i].getName();
             Date date = result.documentList[i].getDateCreate();
@@ -66,9 +66,9 @@ public class MyDocsForm extends javax.swing.JFrame {
             String code = result.documentList[i].getCode();
             panel_MyDocs.add(new MyDocument(id, name, path, date, idOwner, code));
             returnListDocument.add(result.documentList[i]);
-            // jScrollPane.add(panel_MyDocs);
+           
         }
-
+    
         ImageIcon icon = new ImageIcon("Resources\\avatar_default.png");
         lb_avatar.setLocation(150, 5);
         lb_avatar.setIcon(icon);
@@ -114,13 +114,14 @@ public class MyDocsForm extends javax.swing.JFrame {
         btn_createDoc = new javax.swing.JButton();
         btn_Collaboration = new javax.swing.JButton();
         lbl_countNoti = new javax.swing.JLabel();
+        txt_UserName1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         panel_MyDocs = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
 
-        jPanel1.setBackground(new java.awt.Color(255, 153, 51));
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
 
         lb_avatar.setText("23");
 
@@ -128,6 +129,7 @@ public class MyDocsForm extends javax.swing.JFrame {
         txt_UserName.setForeground(new java.awt.Color(255, 255, 255));
         txt_UserName.setText("Nguyễn Long Uy");
 
+        jList1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Uynguyen1212505", "VinLe1212513", "ThanhTung499", "MyUsername", " " };
             public int getSize() { return strings.length; }
@@ -135,8 +137,10 @@ public class MyDocsForm extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
+        btn_logout.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_logout.setText("Find people");
 
+        btn_logout1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_logout1.setText("Log out");
         btn_logout1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,13 +148,15 @@ public class MyDocsForm extends javax.swing.JFrame {
             }
         });
 
-        btn_logout2.setText("Change password");
+        btn_logout2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_logout2.setText("Change pass");
         btn_logout2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_logout2ActionPerformed(evt);
             }
         });
 
+        btn_logout3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_logout3.setText("Activity log");
         btn_logout3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,6 +164,7 @@ public class MyDocsForm extends javax.swing.JFrame {
             }
         });
 
+        btn_createDoc.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_createDoc.setText("Create Doc");
         btn_createDoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,6 +172,7 @@ public class MyDocsForm extends javax.swing.JFrame {
             }
         });
 
+        btn_Collaboration.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_Collaboration.setText("Collaboration");
         btn_Collaboration.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +184,10 @@ public class MyDocsForm extends javax.swing.JFrame {
         lbl_countNoti.setForeground(new java.awt.Color(255, 255, 255));
         lbl_countNoti.setText("jLabel1");
 
+        txt_UserName1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txt_UserName1.setForeground(new java.awt.Color(255, 255, 255));
+        txt_UserName1.setText("Your friends:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -185,31 +197,33 @@ public class MyDocsForm extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(43, 43, 43)
+                                .addComponent(txt_UserName))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
+                                .addContainerGap()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_UserName1)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(txt_UserName))
-                                    .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(btn_logout2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn_createDoc))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btn_Collaboration)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(lbl_countNoti)))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_logout1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_logout3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_logout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btn_logout2)
-                                    .addComponent(btn_Collaboration))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_countNoti)
-                                    .addComponent(btn_createDoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                            .addComponent(btn_logout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,13 +232,15 @@ public class MyDocsForm extends javax.swing.JFrame {
                 .addComponent(lb_avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_UserName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(txt_UserName1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_logout2)
                     .addComponent(btn_createDoc))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGap(58, 58, 58)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Collaboration)
                     .addComponent(lbl_countNoti))
@@ -251,8 +267,8 @@ public class MyDocsForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -356,5 +372,6 @@ public class MyDocsForm extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_countNoti;
     private javax.swing.JPanel panel_MyDocs;
     private javax.swing.JLabel txt_UserName;
+    private javax.swing.JLabel txt_UserName1;
     // End of variables declaration//GEN-END:variables
 }
